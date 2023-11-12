@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "version": "independent",
+  "packages": [
+    "packages/**/*"
+  ],
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+        "**/*.md",
+        "**/__tests__/**",
+        "**/scripts/**",
+        "**/dist/**",
+        "**/tsconfig.json"
+      ],
+      "message": "chore: publish %s"
+    },
+    "version": {
+      "allowBranch": [
+        "master",
+        "feature/v2.x"
+      ]
+    }
+  }
+}
