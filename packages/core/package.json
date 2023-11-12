@@ -1,0 +1,19 @@
+{
+  "name": "@ambilight-taro/core",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "homepage": "",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "files": ["/dist"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pesce-salato/ambilight-taro-ui"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
