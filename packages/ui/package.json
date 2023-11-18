@@ -6,14 +6,16 @@
   "homepage": "",
   "license": "MIT",
   "main": "./dist/index.js",
-  "files": ["/dist", "/core/assets"],
+  "files": ["/dist"],
   "repository": {
     "type": "git",
     "url": "https://github.com/pesce-salato/ambilight-taro-ui"
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build:core:scss": "sass --style=compressed ./core/assets/atomic.scss ./core/assets/atomic.css"
+    "build:core:scss": "sass --style=compressed ./core/assets/atomic.scss ./core/assets/atomic.css",
+    "build": "tsc",
+    "compile": "tsc --watch"
   },
   "dependencies": {},
   "devDependencies": {}

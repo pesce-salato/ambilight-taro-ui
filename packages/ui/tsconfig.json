@@ -16,9 +16,11 @@
     "declaration": true,
     "allowJs": true,
     "resolveJsonModule": true,
-    "outDir": "./dist"
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "skipLibCheck": true,
   },
-  "include": ["./index.ts"],
-  "exclude": ["node_modules/"],
+  "include": ["./src/index.ts"],
+  "exclude": ["node_modules", "dist"],
   "compileOnSave": false
 }
