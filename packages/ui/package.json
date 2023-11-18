@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build:core:scss": "sass ./core/assets/atomic.scss ./core/assets/atomic.css"
+    "build:core:scss": "sass --style=compressed ./core/assets/atomic.scss ./core/assets/atomic.css"
   },
   "dependencies": {},
   "devDependencies": {}

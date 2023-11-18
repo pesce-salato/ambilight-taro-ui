@@ -1,6 +1,12 @@
 // copy from chakra theme
 // https://chakra-ui.com/docs/styled-system/theme
 
+// extreme
+$_extreme-color-map: (
+  'white': #FFFFFF,
+  'black': #000000,
+);
+
 // white
 $_white-gradation-map: (
   '50': rgb(255 255 255 / 4%),
@@ -12,7 +18,7 @@ $_white-gradation-map: (
   '600': rgb(255 255 255 / 48%),
   '700': rgb(255 255 255 / 64%),
   '800': rgb(255 255 255 / 80%),
-  '900': rgb(255 255 255 / 92%),
+  '900': rgb(255 255 255 / 92%)
 );
 
 // black
@@ -83,6 +89,20 @@ $_orange-gradation-map: (
   '700': #9C4221,
   '800': #7B341E,
   '900': #652B19
+);
+
+// yellow
+$_yellow-gradation-map: (
+  '50': #FFFFF0,
+  '100': #FEFCBF,
+  '200': #FAF089,
+  '300': #F6E05E,
+  '400': #ECC94B,
+  '500': #D69E2E,
+  '600': #B7791F,
+  '700': #975A16,
+  '800': #744210,
+  '900': #5F370E
 );
 
 // green

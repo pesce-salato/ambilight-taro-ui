@@ -3,8 +3,19 @@
 @import './color-palette.scss';
 
 $_colors-map: (
+  'extreme': $_extreme-color-map,
+  'white': $_white-gradation-map,
+  'black': $_black-gradation-map,
+  'gray': $_gray-gradation-map,
   'red': $_red-gradation-map,
+  'orange': $_orange-gradation-map,
+  'yellow': $_yellow-gradation-map,
+  'green': $_green-gradation-map,
+  'teal': $_teal-gradation-map,
+  'blue': $_blue-gradation-map,
+  'cyan': $_cyan-gradation-map,
   'purple': $_purple-gradation-map,
+  'pink': $_pink-gradation-map,
 );
 
 @function color-palette($color, $gradation) {
