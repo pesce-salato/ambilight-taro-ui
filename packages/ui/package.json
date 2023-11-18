@@ -1,12 +1,12 @@
 {
-  "name": "@ambilight-taro/core",
+  "name": "@ambilight-taro/ui",
   "version": "0.0.1",
   "description": "",
   "author": "",
   "homepage": "",
   "license": "MIT",
   "main": "./dist/index.js",
-  "files": ["/dist"],
+  "files": ["/dist", "/core/assets"],
   "repository": {
     "type": "git",
     "url": "https://github.com/pesce-salato/ambilight-taro-ui"

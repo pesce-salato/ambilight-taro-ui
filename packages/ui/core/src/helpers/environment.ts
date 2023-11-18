@@ -6,8 +6,8 @@ import Taro from '@tarojs/taro'
 export const getUserDesign = () => {
   // 从taro中获取之前已经设置的配置，存留待恢复
   const { designWidth, deviceRatio } =
-    // eslint-disable-next-line
-  (Taro as any).config || {}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (Taro as any).config || {}
 
   return {
     designWidth,

@@ -1,0 +1,23 @@
+@function _get-safe-map-value($data-map, $data-key) {
+  // 查询对应key
+  $result: map-get(
+    $map: $data-map,
+    $key: $data-key
+  );
+
+  // 如果没有寻找到对应key，则抛出错误信息
+  @if ($result==null) {
+    // 自动组合提示信息
+    $valid-keys-string: '[';
+
+    @each $key, $value in $data-map {
+      $valid-keys-string: $valid-keys-string + $key + ' ';
+    }
+
+    $valid-keys-string: $valid-keys-string + ']';
+
+    @error 'Use key is not valid,it should be in range : '+ $valid-keys-string;
+  }
+
+  @return $result;
+}

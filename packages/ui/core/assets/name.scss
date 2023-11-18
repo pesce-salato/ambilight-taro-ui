@@ -1,0 +1,18 @@
+// ambilight css variable 前缀
+$_css-var-prefix: '--al';
+
+/// 让变量名携带上版本号（举例：--hi-color-font-primary-v1）
+/// @group name
+/// @access private
+@function _with-prefix($name) {
+  @return #{$_css-var-prefix}-#{$name};
+}
+
+
+// 缩放比例（根据用户taro中设定的designWidth计算而来）
+$_scale-ratio: _with-prefix('scale-ratio');
+
+/// 获取属性对应设定值css variable name
+@function _get-property-css-var-name($property, $value) {
+  @return _with-prefix('#{$property}-#{$value}');
+}
