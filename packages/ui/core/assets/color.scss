@@ -2,13 +2,14 @@
 @import './helper.scss';
 @import './color-palette.scss';
 
-@function color-palette($key, $gradation) {
-  $color-map: (
-    'purple': $_purple-gradation-map,
-  );
+$_colors-map: (
+  'red': $_red-gradation-map,
+  'purple': $_purple-gradation-map,
+);
 
-  $match-gradation-map: _get-safe-map-value($color-map, $key);
+@function color-palette($color, $gradation) {
+  $match-gradation-map: _get-safe-map-value($_colors-map, $color);
   $match-color: _get-safe-map-value($match-gradation-map, '#{$gradation}');
 
-  @return var(#{_get-property-css-var-name('color', '#{$key}-#{$gradation}')}, #{$match-color});
+  @return var(#{_get-property-css-var-name('color', '#{$color}-#{$gradation}')}, #{$match-color});
 }

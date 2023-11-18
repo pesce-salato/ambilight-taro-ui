@@ -1,3 +1,5 @@
-export * from './src/helpers/size'
-export * from './src/helpers/bem'
-export * from './src/helpers/env'
+export * from './helpers/size'
+export * from './helpers/bem'
+export * from './helpers/environment'
+
+export * as AlTheme from './theme'

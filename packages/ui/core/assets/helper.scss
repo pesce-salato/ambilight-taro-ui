@@ -1,12 +1,16 @@
+@use 'sass:map';
+@use 'sass:list';
+@import './name.scss';
+
 @function _get-safe-map-value($data-map, $data-key) {
   // 查询对应key
-  $result: map-get(
+  $result: map.get(
     $map: $data-map,
     $key: $data-key
   );
 
   // 如果没有寻找到对应key，则抛出错误信息
-  @if ($result==null) {
+  @if not $result {
     // 自动组合提示信息
     $valid-keys-string: '[';
 
@@ -16,8 +20,35 @@
 
     $valid-keys-string: $valid-keys-string + ']';
 
-    @error 'Use key is not valid,it should be in range : '+ $valid-keys-string;
+    @error 'Use key is not valid,it should be in range : ' + $valid-keys-string;
   }
 
   @return $result;
+}
+
+@mixin mix-map-atomic-class($map, $property, $css-var-getter, $paths: []) {
+  @each $key in map.keys($map){
+    $value: map.get($map, $key);
+    $current-paths: append($paths, $key);
+
+    @if type-of($value) == 'map' {
+      @include mix-map-atomic-class(
+          $value,
+          $property,
+          $css-var-getter,
+          $current-paths
+      )
+    }
+    @else {
+      $class-name: $property;
+
+      @each $path in $current-paths {
+        $class-name: '#{$class-name}-#{$path}',
+      }
+
+      .#{_get-property-atomic-class-name($class-name)} {
+        #{$property}: call(get-function($css-var-getter), $current-paths...)
+      }
+    }
+  }
 }

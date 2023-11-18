@@ -12,7 +12,8 @@
     "url": "https://github.com/pesce-salato/ambilight-taro-ui"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build:core:scss": "sass ./core/assets/atomic.scss ./core/assets/atomic.css"
   },
   "dependencies": {},
   "devDependencies": {}

@@ -1,18 +1,21 @@
-// ambilight css variable 前缀
-$_css-var-prefix: '--al';
+//  前缀
+$_system-prefix: 'al';
 
-/// 让变量名携带上版本号（举例：--hi-color-font-primary-v1）
-/// @group name
-/// @access private
 @function _with-prefix($name) {
-  @return #{$_css-var-prefix}-#{$name};
+  @return '#{$_system-prefix}-#{$name}';
 }
 
-
-// 缩放比例（根据用户taro中设定的designWidth计算而来）
-$_scale-ratio: _with-prefix('scale-ratio');
+// css var name formatter
+@function _css-var-name($name) {
+  @return '--#{_with-prefix($name)}';
+}
 
 /// 获取属性对应设定值css variable name
 @function _get-property-css-var-name($property, $value) {
-  @return _with-prefix('#{$property}-#{$value}');
+  @return  _css-var-name('#{$property}-#{$value}');
+}
+
+/// 获取属性对应设定值 atomic class name
+@function _get-property-atomic-class-name($class-name) {
+  @return _with-prefix($class-name);
 }
