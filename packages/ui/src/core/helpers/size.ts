@@ -1,11 +1,11 @@
 import Taro from '@tarojs/taro'
 import { getUserDesign } from './environment'
-import { Setting } from '../setting'
+import { System } from '../setting'
 
 export const getRatio = () => {
   const { designWidth: userDesignWidth } = getUserDesign()
 
-  return userDesignWidth / Setting.system.size.width
+  return userDesignWidth / System.size.width
 }
 
 export const sizeOf = (size: number): string => {
@@ -16,9 +16,9 @@ export const sizeOf = (size: number): string => {
   console.error(reserveDesignWidth, reserveDeviceRatio)
   // 切换到系统设计宽度
   Taro.initPxTransform({
-    designWidth: Setting.system.size.width,
+    designWidth: System.size.width,
     deviceRatio: {
-      [Setting.system.size.width]: 750 / Setting.system.size.width,
+      [System.size.width]: 750 / System.size.width,
     },
   })
   const result = Taro.pxTransform(size)

@@ -6,17 +6,21 @@
   "homepage": "",
   "license": "MIT",
   "main": "./dist/index.js",
-  "files": ["/dist"],
+  "files": [
+    "/dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/pesce-salato/ambilight-taro-ui"
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build:core:scss": "sass --style=compressed ./core/assets/atomic.scss ./core/assets/atomic.css",
-    "build": "tsc",
-    "compile": "tsc --watch"
+    "build:core:scss": "sass --style=compressed .src//core/assets/index.scss ./dist/index.css",
+    "compile:core:scss": "sass --watch ./src/core/assets/index.scss ./dist/index.css",
+    "build": "tsc && tsc-alias && npm run build:core:scss",
+    "compile": "concurrently \"tsc --watch\" \"tsc-alias --watch\" \"npm run compile:core:scss\""
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "tsc-alias": "^1.8.8"
+  }
 }

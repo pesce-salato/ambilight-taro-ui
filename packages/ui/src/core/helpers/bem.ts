@@ -1,4 +1,4 @@
-import { Setting } from '../setting'
+import { Abbr } from '../setting'
 
 export class Bem {
   private cache = {
@@ -56,7 +56,7 @@ export class Bem {
     this.checkHierarchiesValid()
     // 添加统一组件库前缀
     return `${[
-      `${Setting.abbr}-${this.cache.namespace}`,
+      `${Abbr}-${this.cache.namespace}`,
       ...this.cache.hierarchies,
     ].join('__')}${this.cache.status && '--' + this.cache.status}`
   }

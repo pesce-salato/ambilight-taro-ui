@@ -1,8 +1,9 @@
-export const Setting = Object.freeze({
-  abbr: 'al',
-  system: {
-    size: {
-      width: 750,
-    },
+import { cssVar } from './helpers/css-var'
+
+export const Abbr = 'al'
+export const System = {
+  size: {
+    width: 750,
+    scaleRatioCssVar: cssVar('scale-ratio'),
   },
-})
+}
