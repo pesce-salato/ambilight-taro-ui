@@ -1,5 +1,5 @@
 {
-  "name": "@ambilight-taro/core",
+  "name": "@ambilight-taro/context",
   "version": "0.0.1",
   "description": "",
   "main": "./lib/index.js",
@@ -9,11 +9,8 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:theme": "sass --style=compressed ./src/assets/theme.scss ./lib/theme.css",
-    "build:watch:theme": "sass --watch ./src/assets/theme.scss ./lib/theme.css",
-    "build:js": "rollup -c",
-    "build:js:watch": "rollup -cw",
-    "build": "npm run build:js && npm run build:theme"
+    "build": "rollup -c",
+    "build:watch": "rollup -cw"
   },
   "repository": {
     "type": "git",
@@ -25,6 +22,10 @@
     "url": "https://github.com/pesce-salato/ambilight-taro-ui/issues"
   },
   "homepage": "https://github.com/pesce-salato/ambilight-taro-ui#readme",
+  "dependencies": {
+    "@ambilight-taro/core": "^0.0.1",
+    "lodash.defaultsdeep": "^4.6.1"
+  },
   "devDependencies": {
     "@ambilight-taro/rollup-config": "*",
     "@ambilight-taro/tsconfig": "*",
@@ -33,7 +34,6 @@
     "@types/react": "^18.2.38",
     "react": "^18.0.0",
     "rollup": "^4.5.1",
-    "rollup-plugin-copy": "^3.5.0",
     "typescript": "^5.3.2"
   }
 }

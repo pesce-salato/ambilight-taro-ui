@@ -6,7 +6,7 @@ export const useTheme = <T extends WithThemeProps>(props: T) => {
   const { colorScheme } = props
   const { colorScheme: globalColorScheme } = useAlContext()
 
-  return useMemo<WithThemeProps>(
+  return useMemo<Required<WithThemeProps>>(
     () => ({
       colorScheme: colorScheme || globalColorScheme,
     }),

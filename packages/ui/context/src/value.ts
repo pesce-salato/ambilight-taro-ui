@@ -1,5 +1,6 @@
-import { createContext, useContext } from 'react'
-import { Color } from '@/core'
+import { createContext, useContext, useMemo } from 'react'
+import { Color } from '@ambilight-taro/core'
+import defaultsDeep from 'lodash.defaultsdeep'
 import { AlContextValue } from './types'
 
 const DefaultValue: AlContextValue = {
@@ -9,5 +10,8 @@ const DefaultValue: AlContextValue = {
 export const AlContext = createContext<AlContextValue>(DefaultValue)
 
 export const useAlContext = () => {
-  return useContext(AlContext) || (DefaultValue as Required<AlContextValue>)
+  const context = useContext(AlContext)
+  return useMemo<Required<AlContextValue>>(() => {
+    return defaultsDeep(context, DefaultValue)
+  }, [context])
 }

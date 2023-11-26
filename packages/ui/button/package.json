@@ -31,5 +31,9 @@
     "react": "^18.0.0",
     "rollup": "^4.5.1",
     "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "@ambilight-taro/context": "^0.0.1",
+    "@ambilight-taro/core": "^0.0.1"
   }
 }
