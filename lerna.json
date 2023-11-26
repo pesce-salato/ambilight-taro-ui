@@ -10,7 +10,7 @@
         "**/*.md",
         "**/__tests__/**",
         "**/scripts/**",
-        "**/dist/**",
+        "**/lib/**",
         "**/tsconfig.json"
       ],
       "message": "chore: publish %s"

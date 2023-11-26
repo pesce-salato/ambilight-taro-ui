@@ -53,6 +53,8 @@ module.exports = {
     'selector-combinator-space-before': [null],
     'selector-combinator-space-after': [null],
     'color-hex-length': [null],
-    'no-eol-whitespace': [null]
+    'no-eol-whitespace': [null],
+    'import-notation': ['string'],
+    'scss/at-import-partial-extension': ['always']
   }
 }

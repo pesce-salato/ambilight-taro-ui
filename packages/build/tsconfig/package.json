@@ -1,0 +1,15 @@
+{
+  "name": "@ambilight-taro/tsconfig",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "cpy src/**/* lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "cpy-cli": "^5.0.0"
+  }
+}

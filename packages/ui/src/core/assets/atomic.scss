@@ -1,5 +1,0 @@
-@use 'sass:map';
-@import './color.scss';
-
-
-@include mix-map-atomic-class($_colors-map, 'color', color-palette);

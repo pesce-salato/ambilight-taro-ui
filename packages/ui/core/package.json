@@ -1,0 +1,23 @@
+{
+  "name": "@ambilight-taro/core",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pesce-salato/ambilight-taro-ui.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pesce-salato/ambilight-taro-ui/issues"
+  },
+  "homepage": "https://github.com/pesce-salato/ambilight-taro-ui#readme"
+}

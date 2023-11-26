@@ -10,8 +10,9 @@
     "plugin:unicorn/recommended"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["prettier", "react-hooks","simple-import-sort", "sort-keys-fix"],
+  "plugins": ["prettier", "react-hooks", "simple-import-sort", "sort-keys-fix"],
   "rules": {
+    "quotes": ["error", "single"],
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "unicorn/prevent-abbreviations": [
@@ -19,7 +20,7 @@
       {
         "replacements": {
           "props": false,
-          "var": false,
+          "var": false
         }
       }
     ],

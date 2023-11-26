@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "workspaces": [
-    "./packages/*"
+    "./packages/build/*",
+    "./packages/ui/*",
+    "./packages/demo"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,40 +22,12 @@
     "url": "https://github.com/pesce-salato/ambilight-taro-ui/issues"
   },
   "homepage": "https://github.com/pesce-salato/ambilight-taro-ui#readme",
-  "dependencies": {
-    "@babel/runtime": "^7.21.5",
-    "@tarojs/components": "3.6.19",
-    "@tarojs/helper": "3.6.19",
-    "@tarojs/plugin-framework-react": "3.6.19",
-    "@tarojs/plugin-platform-alipay": "3.6.19",
-    "@tarojs/plugin-platform-h5": "3.6.19",
-    "@tarojs/plugin-platform-jd": "3.6.19",
-    "@tarojs/plugin-platform-qq": "3.6.19",
-    "@tarojs/plugin-platform-swan": "3.6.19",
-    "@tarojs/plugin-platform-tt": "3.6.19",
-    "@tarojs/plugin-platform-weapp": "3.6.19",
-    "@tarojs/react": "3.6.19",
-    "@tarojs/runtime": "3.6.19",
-    "@tarojs/shared": "3.6.19",
-    "@tarojs/taro": "3.6.19",
-    "concurrently": "^8.2.2",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.8.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
-    "@tarojs/cli": "3.6.19",
-    "@tarojs/taro-loader": "3.6.19",
     "@tarojs/test-utils-react": "^0.1.1",
-    "@tarojs/webpack5-runner": "3.6.19",
     "@types/jest": "^29.3.1",
-    "@types/node": "^18.15.11",
-    "@types/react": "^18.2.37",
-    "@types/webpack-env": "^1.13.6",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
-    "babel-preset-taro": "3.6.19",
     "chalk": "^5.3.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^9.0.0",
@@ -71,14 +45,9 @@
     "lerna": "^7.4.2",
     "postcss": "^8.4.18",
     "prettier": "^3.0.3",
-    "react-refresh": "^0.11.0",
     "stylelint": "^15.11.0",
     "stylelint-config-recommended-scss": "^13.1.0",
     "stylelint-config-standard": "^34.0.0",
-    "stylelint-scss": "^5.3.1",
-    "ts-node": "^10.9.1",
-    "tsconfig-paths-webpack-plugin": "^4.0.1",
-    "typescript": "^5.1.0",
-    "webpack": "5.78.0"
+    "stylelint-scss": "^5.3.1"
   }
 }
