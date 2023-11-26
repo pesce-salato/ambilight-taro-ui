@@ -1,25 +1,32 @@
 # @ambilight-taro
 
+## commands
 
-## dependency
+### dependency
 
 use npm workspace
 
-### add to scope
+#### add to scope
 
 ```shell
 npm install node-sass -w @ambilight-taro/rollup-plugin-separate-scss
 ```
 
-## build
+### create
 
-### all
+```shell
+npm run create
+```
+
+### build
+
+#### all
 
 ```shell
 npx lerna run build --stream
 ```
 
-### scope
+#### scope
 
 ```shell
 npx lerna run build --scope=@ambilight-taro/button --include-dependencies

@@ -1,5 +1,5 @@
 {
-  "name": "<<PACKAGE-NAME>>",
+  "name": "<<AL-PACKAGE-NAME>>",
   "version": "0.0.1",
   "description": "",
   "main": "./lib/index.js",

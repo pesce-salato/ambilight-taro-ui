@@ -1,16 +1,26 @@
 import Inquirer from 'inquirer'
-import { log, withIcon } from '../console.js'
+import { commandSync } from 'execa'
+import Fs from 'node:fs'
+import Process from 'node:process'
+import Path from 'node:path'
+import { log, withIcon, success } from '../console.js'
 
 const GroupMap = {
   hook: 'hook',
   ui: 'ui',
 }
 
+const PackageNamePlaceholder = '<<AL-PACKAGE-NAME>>'
 const PackageGroupPrefix = '@ambilight-taro'
 
 const TargetDirectory = {
   [GroupMap.ui]: './packages/ui',
   [GroupMap.hook]: './packages/hook',
+}
+
+const TemplateDirectory = {
+  [GroupMap.ui]: Path.join(Process.cwd(), './scripts/create/templates/ui'),
+  [GroupMap.hook]: Path.join(Process.cwd(), './scripts/create/templates/ui'),
 }
 
 await (async () => {
@@ -49,8 +59,24 @@ await (async () => {
   })
 
   if (sure) {
-    console.log('\n' + withIcon(`create dir ${log(createDirectory)}`))
+    console.log('\n' + withIcon(`${log('create')} dir ${log(createDirectory)}`))
+    Fs.mkdirSync(createDirectory)
 
-    console.log(withIcon('copy template files'))
+    console.log(withIcon(`${log('copy')} template files`))
+    const templateDirectory = TemplateDirectory[group]
+    commandSync(`npx cpy ${templateDirectory + '/**/*'} ${createDirectory}`)
+
+    const packageFilePath = Path.join(createDirectory, 'package.json')
+    Fs.writeFileSync(
+      packageFilePath,
+      Fs.readFileSync(packageFilePath)
+        .toString()
+        .replace(PackageNamePlaceholder, fullPackageName),
+    )
+
+    console.log(withIcon(log('npm i')))
+    commandSync('npm i')
+
+    console.log(withIcon(success('succeed')))
   }
 })()
