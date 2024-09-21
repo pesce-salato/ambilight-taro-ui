@@ -1,5 +1,11 @@
 # @ambilight-taro
 
+## intro
+
+Inspired by [chakra](https://v2.chakra-ui.com/docs/components/button/usage), but limited by mini program and simplicity, only `colorSchema` props is implemented(😢).
+
+All theme atomic is implemented by css variables, that means you can design your own theme and easy to replace the default.
+
 ## commands
 
 ### dependency

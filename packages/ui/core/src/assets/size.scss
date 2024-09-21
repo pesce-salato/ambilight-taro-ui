@@ -1,0 +1,5 @@
+@import './name.scss';
+
+@function size($size) {
+  @return calc(#{$size} * var(#{_css-var-name('app-width')}, 750px) / 750);
+}

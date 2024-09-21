@@ -13,7 +13,6 @@ export const sizeOf = (size: number): string => {
   const { designWidth: reserveDesignWidth, deviceRatio: reserveDeviceRatio } =
     getUserDesign()
 
-  console.error(reserveDesignWidth, reserveDeviceRatio)
   // 切换到系统设计宽度
   Taro.initPxTransform({
     designWidth: System.size.width,

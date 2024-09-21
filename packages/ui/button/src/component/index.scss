@@ -3,5 +3,5 @@
 $root: with-prefix('button');
 
 .#{$root} {
-
+  border-radius: border-radius('md');
 }

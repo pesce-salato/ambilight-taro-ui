@@ -1,0 +1,11 @@
+@import './size.scss';
+@import './helper.scss';
+
+$_border-radius-map: (
+  'md': size(12),
+  'full': 100%,
+);
+
+@function border-radius($key) {
+  @return var(#{_get-property-css-var-name('border-radius', '#{$key}')}, #{_get-safe-map-value($_border-radius-map, $key)});
+}
