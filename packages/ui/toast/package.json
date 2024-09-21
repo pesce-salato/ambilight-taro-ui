@@ -1,0 +1,35 @@
+{
+  "name": "@ambilight-taro/toast",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "build:watch": "rollup -cw"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pesce-salato/ambilight-taro-ui.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pesce-salato/ambilight-taro-ui/issues"
+  },
+  "homepage": "https://github.com/pesce-salato/ambilight-taro-ui#readme",
+  "devDependencies": {
+    "@ambilight-taro/rollup-config": "*",
+    "@ambilight-taro/tsconfig": "*",
+    "@tarojs/components": "3.6.19",
+    "@tarojs/taro": "3.6.19",
+    "@types/react": "^18.2.38",
+    "react": "^18.0.0",
+    "rollup": "^4.5.1",
+    "typescript": "^5.3.2"
+  }
+}
