@@ -1,5 +1,5 @@
 {
-  "name": "@ambilight-taro/page",
+  "name": "@ambilight-taro/page-view",
   "version": "0.0.1",
   "description": "",
   "main": "./lib/index.js",
