@@ -35,5 +35,9 @@
     "rollup": "^4.5.1",
     "rollup-plugin-copy": "^3.5.0",
     "typescript": "^5.3.2"
-  }
+  },
+  "dependencies": {
+    "classnames": "^2.5.1"
+  },
+  "sass": "./lib/assets/index.scss"
 }

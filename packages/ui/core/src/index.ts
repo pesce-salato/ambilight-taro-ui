@@ -5,3 +5,5 @@ export * as AlSetting from './setting'
 
 export * from './theme'
 export * from './types'
+
+export { default as classnames } from 'classnames'

@@ -1,3 +1,7 @@
-.al-test {
-  color: aqua;
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('button');
+
+.#{$root} {
+
 }

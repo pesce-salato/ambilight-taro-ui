@@ -1,5 +1,3 @@
-import { getAtomicClassName } from './get-atomic-class-name'
-
 export enum Color {
   white = 'white',
   black = 'black',
@@ -31,12 +29,4 @@ export enum ColorGradation {
 export enum ExtremeColor {
   white = 'white',
   black = 'black',
-}
-
-export const getGradationColor = (color: Color, gradation: ColorGradation) => {
-  return getAtomicClassName('color', [color, gradation])
-}
-
-export const getExtremeColor = (color: ExtremeColor) => {
-  return getAtomicClassName('color', ['extreme', color])
 }

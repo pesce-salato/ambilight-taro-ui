@@ -1,18 +1,6 @@
 import { type Plugin } from 'rollup'
-import nodeSass, { type Options, type Result } from 'node-sass'
+import { compileAsync, NodePackageImporter } from 'sass'
 import Path from 'node:path'
-
-const NodeSassPromise = (options: Options) => {
-  return new Promise<Result>((resolve, reject) => {
-    nodeSass.render(options, (error, result) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(result)
-      }
-    })
-  })
-}
 
 export const SeparateScssPlugin = (): Plugin => {
   const Prefix = '@ambilight-taro/rollup-plugin-separate-scss/temp/'
@@ -30,16 +18,13 @@ export const SeparateScssPlugin = (): Plugin => {
     },
     async transform(_code, id: string) {
       if (id.endsWith('.scss')) {
-        const {
-          css,
-          stats: { includedFiles },
-        } = await NodeSassPromise({
-          file: id,
+        const { css, loadedUrls } = await compileAsync(id, {
+          importers: [new NodePackageImporter()],
         })
 
         // add scss dependency to watch file list
-        for (const file of includedFiles) {
-          this.addWatchFile(file)
+        for (const file of loadedUrls) {
+          this.addWatchFile(file.toString())
         }
 
         const relative = Path.relative(

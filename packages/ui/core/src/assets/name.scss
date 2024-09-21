@@ -1,13 +1,13 @@
 //  前缀
-$_system-prefix: 'al';
+$_system-prefix: 'al-v1';
 
-@function _with-prefix($name) {
+@function with-prefix($name) {
   @return '#{$_system-prefix}-#{$name}';
 }
 
 // css var name formatter
 @function _css-var-name($name) {
-  @return '--#{_with-prefix($name)}';
+  @return '--#{with-prefix($name)}';
 }
 
 /// 获取属性对应设定值css variable name
@@ -17,5 +17,5 @@ $_system-prefix: 'al';
 
 /// 获取属性对应设定值 atomic class name
 @function _get-property-atomic-class-name($class-name) {
-  @return _with-prefix($class-name);
+  @return with-prefix($class-name);
 }

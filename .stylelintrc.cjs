@@ -55,6 +55,6 @@ module.exports = {
     'color-hex-length': [null],
     'no-eol-whitespace': [null],
     'import-notation': ['string'],
-    'scss/at-import-partial-extension': ['always']
+    'scss/at-import-partial-extension': [null]
   }
 }

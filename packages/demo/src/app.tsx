@@ -5,7 +5,7 @@ import '@ambilight-taro/core/lib/theme.css'
 import { Color } from '@ambilight-taro/core'
 import './app.scss'
 
-function App({ children }: PropsWithChildren<any>) {
+function App({ children }: PropsWithChildren) {
   useLaunch(() => {
     console.log('App launched.')
   })

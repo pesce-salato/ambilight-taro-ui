@@ -1,5 +1,7 @@
 @use 'sass:map';
 @use 'sass:list';
+@use 'sass:meta';
+
 @import './name.scss';
 
 @function _get-safe-map-value($data-map, $data-key) {
@@ -29,7 +31,7 @@
 @mixin mix-map-atomic-class($map, $property, $css-var-getter, $paths: []) {
   @each $key in map.keys($map){
     $value: map.get($map, $key);
-    $current-paths: append($paths, $key);
+    $current-paths: list.append($paths, $key);
 
     @if type-of($value) == 'map' {
       @include mix-map-atomic-class(
@@ -39,6 +41,7 @@
           $current-paths
       )
     }
+
     @else {
       $class-name: $property;
 
@@ -47,7 +50,7 @@
       }
 
       .#{_get-property-atomic-class-name($class-name)} {
-        #{$property}: call(get-function($css-var-getter), $current-paths...)
+        #{$property}: meta.call(meta.get-function($css-var-getter), $current-paths...)
       }
     }
   }

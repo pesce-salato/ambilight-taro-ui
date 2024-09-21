@@ -9,7 +9,7 @@ use npm workspace
 #### add to scope
 
 ```shell
-npm install node-sass -w @ambilight-taro/rollup-plugin-separate-scss
+npm install node-sass -w @ambilight-taro/rollup-plugin-ignore
 ```
 
 ### create
