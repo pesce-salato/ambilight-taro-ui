@@ -1,0 +1,13 @@
+@import './size.scss';
+@import './helper.scss';
+
+$_z-index-map: (
+  'base': 0,
+  'auto': 'auto',
+  'hide': -100,
+  'interact': 100
+);
+
+@function z-index($key) {
+  @return var(#{_get-property-css-var-name('z-index', '#{$key}')}, #{_get-safe-map-value($_z-index-map, $key)});
+}
