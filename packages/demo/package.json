@@ -37,6 +37,7 @@
   "author": "",
   "dependencies": {
     "@ambilight-taro/button": "^0.0.1",
+    "@ambilight-taro/icon": "^0.0.1",
     "@babel/runtime": "^7.21.5",
     "@tarojs/components": "3.6.19",
     "@tarojs/helper": "3.6.19",
