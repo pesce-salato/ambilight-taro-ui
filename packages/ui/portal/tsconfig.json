@@ -1,0 +1,8 @@
+{
+  "extends": "@ambilight-taro/tsconfig/lib/tsconfig.ui.json",
+  "compilerOptions": {
+    "declarationDir": "lib"
+  },
+  "include": ["src/index.ts"],
+  "exclude": ["node_modules", "lib"]
+}
