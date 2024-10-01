@@ -9,7 +9,7 @@ export interface LoadingIconProps extends Omit<ImageProps, 'src'> {
   color?: string
 }
 
-export const LoadingIcon = (props: LoadingIconProps) => {
+export const AlLoadingIcon = (props: LoadingIconProps) => {
   const { color, className, ...others } = props
 
   const base64Image = useMemo(() => {
