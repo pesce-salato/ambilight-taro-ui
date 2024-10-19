@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 
-export const useShadowState = <T>(init?: T) => {
+export const useShadowState = <T>(init: T) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [state, setState] = useState<T>(init as any)
   const shadow = useRef<T>(state)
@@ -25,5 +25,5 @@ export const useShadowState = <T>(init?: T) => {
     setState(result)
   }, [])
 
-  return [state, setStateWrapper, shadow]
+  return [state, setStateWrapper, shadow] as const
 }
