@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use 'sass:list';
+
 @import './name.scss';
 @import './helper.scss';
 @import './color-palette.scss';
@@ -24,3 +27,19 @@ $_colors-map: (
 
   @return var(#{_get-property-css-var-name('color', '#{$color}-#{$gradation}')}, #{$match-color});
 }
+
+@function color-schemas() {
+  $schemas: ();
+
+  @each $schema in map.keys($map: $_colors-map) {
+    // remove extreme
+    @if $schema != 'extreme' {
+      $schemas: list.append($schemas, $schema);
+    }
+  }
+
+  @return $schemas;
+}
+
+$shadow-color: color-palette('black', '200');
+$font-primary-color: color-palette('gray', '700');

@@ -1,5 +1,5 @@
-export * from './component'
-export * from './component/type'
+export * from './components/view'
+export * from './components/view/type'
 export * from './utils/context'
 export {
   safeRenderToController,

@@ -1,0 +1,61 @@
+@import './size.scss';
+@import './helper.scss';
+@import './name.scss';
+
+$_font-setting-map: (
+  'super-headline':
+    (
+      'size': transform-size(44),
+      'line-height': transform-size(68)
+    ),
+  'headline':
+    (
+      'size': transform-size(36),
+      'line-height': transform-size(56)
+    ),
+  'sub-headline':
+    (
+      'size': transform-size(32),
+      'line-height': transform-size(48)
+    ),
+  'form':
+    (
+      'size': transform-size(30),
+      'line-height': transform-size(44)
+    ),
+  'text':
+    (
+      'size': transform-size(28),
+      'line-height': transform-size(40)
+    ),
+  'comment':
+    (
+      'size': transform-size(24),
+      'line-height': transform-size(32)
+    ),
+  'assist':
+    (
+      'size': transform-size(20),
+      'line-height': transform-size(28)
+    )
+);
+
+
+@function font-size($key) {
+  @return var(
+    #{_get-property-css-var-name('font-size', '#{$key}')},
+    #{_get-safe-map-value(_get-safe-map-value($_font-setting-map, $key), 'size')}
+  );
+}
+
+@function line-height($key) {
+  @return var(
+    #{_get-property-css-var-name('line-height', '#{$key}')},
+    #{_get-safe-map-value(_get-safe-map-value($_font-setting-map, $key), 'line-height')}
+  );
+}
+
+@mixin mix-font($key) {
+  font-size: font-size($key);
+  line-height: line-height($key);
+}

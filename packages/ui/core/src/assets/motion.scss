@@ -1,0 +1,20 @@
+@import './size.scss';
+@import './helper.scss';
+@import './name.scss';
+
+@function timing-function() {
+  @return var(
+    #{_css-var-name('timing-function')},
+    cubic-bezier(0.24, 0.02, 0.2, 1)
+  );
+}
+
+@function animation-time($key: 'normal') {
+  $_setting-map: (
+    'quick': 150ms,
+    'normal': 300ms,
+    'slow': 400ms
+  );
+
+  @return var(#{_get-property-css-var-name('animation-time', '#{$key}')}, #{_get-safe-map-value($_setting-map, $key)});
+}

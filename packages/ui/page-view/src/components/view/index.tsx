@@ -4,12 +4,11 @@ import { View } from '@tarojs/components'
 import {
   AlPageViewContextProvider,
   AlPageViewContextValue,
-} from '../utils/context'
-import { useEvent } from '../utils/use-event'
+} from '../../utils/context'
+import { useEvent } from '../../utils/use-event'
 import { AlPageViewProps } from './type'
-import { root } from './bem'
-import { useInteractController } from '../utils/use-interact-controller'
-import './index.scss'
+import { root } from '../bem'
+import { useInteractController } from '../../utils/use-interact-controller'
 
 export const AlPageView = (props: AlPageViewProps) => {
   const { className, children } = props

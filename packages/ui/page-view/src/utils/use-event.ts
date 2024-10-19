@@ -1,8 +1,8 @@
 import { uuid } from '@ambilight-taro/core'
 import { useCallback, useMemo, useRef } from 'react'
 import { AlPageViewListenerType } from './context'
-import { AlPageViewProps } from '../component/type'
-import { root } from '../component/bem'
+import { AlPageViewProps } from '../components/view/type'
+import { root } from '../components/bem'
 
 // generate default listener map
 const generateDefaultListenerMap = () => {

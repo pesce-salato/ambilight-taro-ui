@@ -1,8 +1,5 @@
 import { PropsWithChildren } from 'react'
 import { useLaunch } from '@tarojs/taro'
-import { AlContext } from '@ambilight-taro/context'
-import '@ambilight-taro/core/lib/theme.css'
-import { Color } from '@ambilight-taro/core'
 import './app.scss'
 
 function App({ children }: PropsWithChildren) {
@@ -10,16 +7,7 @@ function App({ children }: PropsWithChildren) {
     console.log('App launched.')
   })
 
-  // children 是将要会渲染的页面
-  return (
-    <AlContext.Provider
-      value={{
-        colorScheme: Color.orange,
-      }}
-    >
-      {children}
-    </AlContext.Provider>
-  )
+  return children
 }
 
 export default App

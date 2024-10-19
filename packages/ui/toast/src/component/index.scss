@@ -1,0 +1,105 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('toast');
+$content: '#{$root}__content';
+
+.#{$root} {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: z-index('interact');
+
+  $appear-animation-name: #{$root}-appear-keyframe;
+  $appear-diff: 64;
+
+  @keyframes #{$appear-animation-name}-from-bottom {
+    0% {
+      transform: translateX(-50%) translateY(#{size($appear-diff)});
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes #{$appear-animation-name}-from-top {
+    0% {
+      transform: translateX(-50%) translateY(#{size(-$appear-diff)});
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .#{$content} {
+    position: absolute;
+    left: 50%;
+    width: fit-content;
+    padding: 0 size(32);
+    min-width: size(80);
+    box-sizing: border-box;
+    height: size(80);
+    border-radius: size(40);
+    box-shadow: 0 size(4) size(16) 0 $shadow-color;
+    display: flex;
+    align-items: center;
+    background: color-palette('extreme', 'white');
+    animation: #{$appear-animation-name}-from-bottom animation-time() timing-function() forwards;
+  }
+
+  &--bottom {
+    .#{$content} {
+      @each $var in safe-area-inset-bottom-vars() {
+        bottom: calc(#{size(128)} + #{$var});
+      }
+    }
+  }
+
+  &--top {
+    .#{$content} {
+      animation-name: #{$appear-animation-name}-from-top;
+
+      @each $var in safe-area-inset-top-vars() {
+        top: calc(#{size(64)} + #{$var});
+      }
+    }
+  }
+
+  &--center {
+    .#{$content} {
+      top: 50%;
+    }
+  }
+
+  &__label {
+    @include mix-overflow-ellipsis(1);
+
+    max-width: size(480);
+    font-weight: bold;
+    color: $font-primary-color;
+    font-size: font-size('text');
+  }
+
+  &__icon {
+    width: size(40);
+    height: size(40);
+    margin-right: size(14);
+
+    .#{with-prefix('icon')} {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &--blocking {
+    pointer-events: auto;
+  }
+}

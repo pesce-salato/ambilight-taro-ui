@@ -54,11 +54,13 @@
     "@tarojs/shared": "3.6.19",
     "@tarojs/taro": "3.6.19",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "@ambilight-taro/core": "^0.0.1",
+    "@ambilight-taro/page-view": "^0.0.1",
+    "@ambilight-taro/portal": "^0.0.1",
+    "@ambilight-taro/toast": "^0.0.1"
   },
   "devDependencies": {
-    "@ambilight-taro/context": "^0.0.1",
-    "@ambilight-taro/core": "^0.0.1",
     "@babel/core": "^7.8.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@tarojs/cli": "3.6.19",

@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { uuid as getUuid } from '@ambilight-taro/core'
-import { root } from '../component/bem'
-import { AlPageViewProps } from '../component/type'
+import { Cache, uuid as getUuid } from '@ambilight-taro/core'
+import { root } from '../components/bem'
+import { AlPageViewProps } from '../components/view/type'
 
 export interface AlInteractControllerRenderDetail {
   /**
    * render react element
    */
-  component: React.FunctionComponent | React.ComponentClass
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: React.FunctionComponent<any> | React.ComponentClass<any>
   /**
    * component props
    */
@@ -68,16 +69,21 @@ interface ErrorRender {
   sort: number
 }
 
-const controllerCache: Controller[] = []
-const errorRenderMap = new Map<string, ErrorRender>()
-let errorRenderSortCounter = 0
+const PageShareCacheKey = `${root.className}/exist`
+const AppShareCacheKey = root.className
+
+const cache = Cache.app.getOrCreate(AppShareCacheKey, {
+  controller: [] as Controller[],
+  errorRender: new Map<string, ErrorRender>(),
+  errorRenderSortCounter: 0,
+})
 
 export const getControllerByUuid = (uuid: string) => {
-  return controllerCache.find((item) => item.uuid === uuid)!
+  return cache.controller.find((item) => item.uuid === uuid)!
 }
 
 export const getControllerById = (id: string) => {
-  return controllerCache.find((item) => item.id === id)!
+  return cache.controller.find((item) => item.id === id)!
 }
 
 export const changeControllerId = (uuid: string, id: string) => {
@@ -88,9 +94,9 @@ export const changeControllerId = (uuid: string, id: string) => {
 }
 
 const removeController = (uuid: string) => {
-  const matchIndex = controllerCache.findIndex((item) => item.uuid === uuid)
+  const matchIndex = cache.controller.findIndex((item) => item.uuid === uuid)
   if (matchIndex >= 0) {
-    controllerCache.splice(matchIndex, 1)
+    cache.controller.splice(matchIndex, 1)
   }
 }
 
@@ -98,7 +104,7 @@ const resolveErrorRender = (id?: string) => {
   const resolvedKeys: string[] = []
   const renderList: ErrorRender[] = []
 
-  for (const [key, value] of errorRenderMap.entries()) {
+  for (const [key, value] of cache.errorRender.entries()) {
     // if targetId is empty, it should be rendered in the latest controller
     // or it should be rendered in the specific controller
     if (!value.detail.targetId || (id && value.detail.targetId === id)) {
@@ -113,15 +119,19 @@ const resolveErrorRender = (id?: string) => {
     value.removeRef.current = action.remove
   }
 
-  for (const item of resolvedKeys) errorRenderMap.delete(item)
+  for (const item of resolvedKeys) cache.errorRender.delete(item)
 }
 
 export const createController = (uuid: string, observer: Observer) => {
-  controllerCache.push({
+  cache.controller.push({
     uuid,
     observer,
     queue: [],
   })
+
+  // set cache flag to true
+  // represent current page env is valid
+  Cache.page.set(PageShareCacheKey, true)
 
   resolveErrorRender()
 
@@ -150,13 +160,21 @@ export const renderToController: AlInteractControllerRenderFunction = (
 ) => {
   const { targetId } = detail
   // at least, it should have one controller
-  if (controllerCache.length === 0) {
+  if (cache.controller.length === 0) {
     throw new Error('please use <AlPageView /> to wrap page')
+  }
+
+  // render to current page
+  // check env valid
+  if (!targetId && !Cache.page.get(PageShareCacheKey)) {
+    throw new Error(
+      'current page has not wrapped by <AlPageView /> or component has not mounted',
+    )
   }
 
   const controller = targetId
     ? getControllerById(targetId)
-    : controllerCache.at(-1)
+    : cache.controller.at(-1)
 
   if (!controller) {
     throw new Error(`targetId ${targetId} not exist`)
@@ -196,26 +214,26 @@ export const safeRenderToController: AlInteractControllerRenderFunction = (
     const id = getUuid(root.className)
     const removeReference = {
       current: () => {
-        errorRenderMap.delete(id)
+        cache.errorRender.delete(id)
       },
     }
     const changePropsReference = {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       current: (newProps: any) => {
-        if (errorRenderMap.has(id)) {
-          const cacheInfo = errorRenderMap.get(id)!.detail
+        if (cache.errorRender.has(id)) {
+          const cacheInfo = cache.errorRender.get(id)!.detail
           cacheInfo.props = { ...cacheInfo.props, ...newProps }
         }
       },
     }
 
     // keep the render sort
-    errorRenderSortCounter++
-    errorRenderMap.set(id, {
+    cache.errorRenderSortCounter++
+    cache.errorRender.set(id, {
       changePropsRef: changePropsReference,
       detail,
       removeRef: removeReference,
-      sort: errorRenderSortCounter,
+      sort: cache.errorRenderSortCounter,
     })
 
     return {
