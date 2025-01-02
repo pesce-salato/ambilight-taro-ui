@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from '@tarojs/components'
 import { classnames, withDefaultProps, sizeOf } from '@ambilight-taro/core'
+import { AlBasicView } from '@ambilight-taro/basic-view'
 import { AlToastPosition, AlToastProps } from './type'
 import { root } from './bem'
 import './index.scss'
@@ -47,7 +48,7 @@ export const AlToast = (originalProps: AlToastProps) => {
   if (!visible) return <></>
 
   return (
-    <View
+    <AlBasicView
       className={classnames(
         root.className,
         className,
@@ -74,7 +75,7 @@ export const AlToast = (originalProps: AlToastProps) => {
           <View className={root.hierarchies(['label']).className}>{label}</View>
         )}
       </View>
-    </View>
+    </AlBasicView>
   )
 }
 

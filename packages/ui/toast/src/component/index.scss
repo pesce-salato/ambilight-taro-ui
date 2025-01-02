@@ -48,10 +48,11 @@ $content: '#{$root}__content';
     box-sizing: border-box;
     height: size(80);
     border-radius: size(40);
-    box-shadow: 0 size(4) size(16) 0 $shadow-color;
+    box-shadow: 0 size(4) size(16) 0 semantic-color('shadow');
     display: flex;
     align-items: center;
-    background: color-palette('extreme', 'white');
+    background: semantic-color('bg-reverse-with-opacity');
+    backdrop-filter: blur(size(12));
     animation: #{$appear-animation-name}-from-bottom animation-time() timing-function() forwards;
   }
 
@@ -84,7 +85,7 @@ $content: '#{$root}__content';
 
     max-width: size(480);
     font-weight: bold;
-    color: $font-primary-color;
+    color: semantic-color('font-primary-reverse');
     font-size: font-size('text');
   }
 

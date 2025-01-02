@@ -13,7 +13,7 @@ export const AlLoadingIcon = (props: LoadingIconProps) => {
   const { color, className, ...others } = props
 
   const base64Image = useMemo(() => {
-    return toBase64Svg(template(color || '#718096cc', uuid(basic.className)))
+    return toBase64Svg(template(color || '#ffffff', uuid(basic.className)))
   }, [color])
 
   return (

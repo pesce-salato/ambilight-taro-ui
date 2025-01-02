@@ -28,18 +28,17 @@ $_colors-map: (
   @return var(#{_get-property-css-var-name('color', '#{$color}-#{$gradation}')}, #{$match-color});
 }
 
-@function color-schemas() {
-  $schemas: ();
+$_semantic_color_map: (
+  'primary': color-palette('purple', '500'),
+  'shadow': color-palette('black', '200'),
+  'font-primary': color-palette('gray', '700'),
+  'font-primary-reverse': color-palette('extreme', 'white'),
+  'mask': color-palette('black', '300'),
+  'bg': color-palette('extreme', 'white'),
+  'bg-reverse': color-palette('extreme', 'black'),
+  'bg-reverse-with-opacity': color-palette('black', '800'),
+);
 
-  @each $schema in map.keys($map: $_colors-map) {
-    // remove extreme
-    @if $schema != 'extreme' {
-      $schemas: list.append($schemas, $schema);
-    }
-  }
-
-  @return $schemas;
+@function semantic-color($key) {
+  @return var(#{_get-property-css-var-name('semantic-color', '#{$key}')}, #{_get-safe-map-value($_semantic_color_map, $key)});
 }
-
-$shadow-color: color-palette('black', '200');
-$font-primary-color: color-palette('gray', '700');
