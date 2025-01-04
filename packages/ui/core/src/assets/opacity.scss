@@ -1,0 +1,11 @@
+@import './helper.scss';
+@import './name.scss';
+
+@function opacity($key) {
+  $_setting-map: (
+    'disabled': 0.24,
+    'mask': 0.48
+  );
+
+  @return var(#{_get-property-css-var-name('opacity', '#{$key}')}, #{_get-safe-map-value($_setting-map, $key)});
+}

@@ -3,6 +3,7 @@
 
 $_border-radius-map: (
   'md': size(12),
+  'lg': size(32),
 );
 
 @function border-radius($key) {

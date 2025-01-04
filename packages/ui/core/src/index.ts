@@ -4,7 +4,9 @@ export * from './helpers/environment'
 export * from './helpers/uuid'
 export * from './helpers/with-default-props'
 export * from './helpers/cache'
-export * as AlSetting from './setting'
+export * from './helpers/css-var'
+
+export * as AlSettings from './setting'
 
 export * from './types'
 
