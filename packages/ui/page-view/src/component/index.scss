@@ -1,0 +1,7 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('page-view');
+
+.#{$root} {
+  height: 100vh;
+}

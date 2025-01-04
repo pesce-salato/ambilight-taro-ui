@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Cache, uuid as getUuid } from '@ambilight-taro/core'
-import { root } from '../components/bem'
-import { AlPageViewProps } from '../components/view/type'
+import { root } from '../component/bem'
+import { AlPageViewProps } from '../component/type'
 
 export interface AlInteractControllerRenderDetail {
   /**

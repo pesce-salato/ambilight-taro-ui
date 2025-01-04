@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react'
 import { classnames } from '@ambilight-taro/core'
+import { AlBasicView } from '@ambilight-taro/basic-view'
 import { View } from '@tarojs/components'
 import {
   AlPageViewContextProvider,
   AlPageViewContextValue,
-} from '../../utils/context'
-import { useEvent } from '../../utils/use-event'
+} from '../utils/context'
+import { useEvent } from '../utils/use-event'
 import { AlPageViewProps } from './type'
-import { root } from '../bem'
-import { useInteractController } from '../../utils/use-interact-controller'
+import { root } from './bem'
+import { useInteractController } from '../utils/use-interact-controller'
 
 export const AlPageView = (props: AlPageViewProps) => {
   const { className, children } = props
@@ -24,7 +25,7 @@ export const AlPageView = (props: AlPageViewProps) => {
 
   return (
     <AlPageViewContextProvider value={contextData}>
-      <View
+      <AlBasicView
         className={classnames(className, root.className)}
         {...rootEventProps}
       >
@@ -35,7 +36,7 @@ export const AlPageView = (props: AlPageViewProps) => {
             return <Component {...item.props} key={item.id} />
           })}
         </View>
-      </View>
+      </AlBasicView>
     </AlPageViewContextProvider>
   )
 }

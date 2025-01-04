@@ -33,6 +33,7 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
-    "@ambilight-taro/core": "^0.0.1"
+    "@ambilight-taro/core": "^0.0.1",
+    "@ambilight-taro/basic-view": "^0.0.1"
   }
 }
