@@ -1,6 +1,6 @@
-import { ValueOf } from '@ambilight-taro/core'
+import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
 
-export interface AlToastProps {
+export interface AlToastProps extends AlBaseFcProps {
   visible: boolean
   icon?: React.ReactNode
   label?: React.ReactNode
@@ -21,8 +21,6 @@ export interface AlToastProps {
    * @default false
    */
   mask?: boolean
-  className?: string
-  style?: React.CSSProperties
   /**
    * offset in vertical (base in 750px width design)
    */
