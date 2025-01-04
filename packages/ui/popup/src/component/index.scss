@@ -66,9 +66,7 @@ $position-transform-diff: 100%;
   .#{$content} {
     position: fixed;
     opacity: 0;
-    background: semantic-color('bg');
     height: fit-content;
-    overflow: hidden;
   }
 
   &--top,
@@ -85,18 +83,6 @@ $position-transform-diff: 100%;
       height: 100%;
       width: fit-content;
     }
-  }
-
-  &--center.#{$root}--round .#{$content} {
-    border-radius: $content-border-radius;
-  }
-
-  &--bottom.#{$root}--round .#{$content} {
-    border-radius: $content-border-radius $content-border-radius 0 0;
-  }
-
-  &--top.#{$root}--round .#{$content} {
-    border-radius: 0 0 $content-border-radius $content-border-radius;
   }
 
   @mixin mix-animation($position, $hide, $appear, $hide-opacity: 1) {

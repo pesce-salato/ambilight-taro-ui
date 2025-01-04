@@ -32,12 +32,6 @@ export interface AlPopupProps extends AlBaseFcProps {
    * mask touch event
    */
   onMaskTouch?: CommonEventFunction
-  /**
-   * whether content wrapper is rounded
-   * @default true
-   */
-  round?: boolean
-
   children: React.ReactNode
   /**
    * whether to catch move, forbidden the rolling penetration of mask touch move

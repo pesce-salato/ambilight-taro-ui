@@ -12,7 +12,6 @@ const defaultProps = {
   visible: false,
   position: AlPopupPosition.bottom as AlPopupPosition,
   safePadding: true,
-  round: true,
   catchMove: true,
 }
 
@@ -28,7 +27,6 @@ export const AlPopup = (originalProps: AlPopupProps) => {
   )
   const {
     className,
-    round,
     catchMove,
     children,
     position,
@@ -110,7 +108,6 @@ export const AlPopup = (originalProps: AlPopupProps) => {
         bem.root.className,
         bem.root.status(position).className,
         {
-          [bem.root.status('round').className]: round,
           [bem.root.status('visible').className]: visible,
           [bem.root.status('use-animation').className]: useAnimation,
         },
