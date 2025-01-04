@@ -35,5 +35,15 @@ npx lerna run build --stream
 #### scope
 
 ```shell
+npx lerna run build --scope=@ambilight-taro/button
+```
+
+```shell
+# include dependencies
 npx lerna run build --scope=@ambilight-taro/button --include-dependencies
+```
+
+```shell
+# watch mode
+npx lerna run build:watch --scope=@ambilight-taro/button --include-dependencies
 ```
