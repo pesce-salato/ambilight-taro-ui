@@ -27,14 +27,15 @@ export interface InQueueRenderDetail extends AlInteractControllerRenderDetail {
   id: string
 }
 
-export type AlInteractControllerRenderFunction = (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AlInteractControllerRenderFunction = <P = any>(
   detail: AlInteractControllerRenderDetail,
 ) => {
   /**
    * change props（shallow coverage merge）
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  changeProps: (newProps: any) => void
+  changeProps: (newProps: Partial<P>) => void
   /**
    * remove current node
    * @returns void
