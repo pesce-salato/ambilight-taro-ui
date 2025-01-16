@@ -1,0 +1,16 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('nav-bar');
+
+.#{$root} {
+  &--basic {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+
+    .#{$root}__content {
+      height: size(88);
+    }
+  }
+}
