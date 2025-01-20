@@ -9,7 +9,7 @@ import { useStatusHeight } from '../../utils/use-status-height'
 import './index.scss'
 
 export const AlNavBarBasic = (props: AlNavBarBasicProps) => {
-  const { className, style, children, safePaddingForMenuButton } = props
+  const { className, style, children, safePaddingForMenuButton, id } = props
 
   const safePaddingForMenuButtonDistance = useMemo(() => {
     let rect = { left: 0, right: 0 }
@@ -68,8 +68,9 @@ export const AlNavBarBasic = (props: AlNavBarBasicProps) => {
 
   return (
     <AlBasicView
-      className={classnames(className, root.status('basic').className)}
+      className={classnames(className, root.className)}
       style={rootStyle}
+      id={id}
     >
       <View className={root.hierarchies('content').className}>{children}</View>
     </AlBasicView>

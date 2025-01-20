@@ -1,8 +1,8 @@
-import { getSystemInfoSync } from '@tarojs/taro'
+import { getWindowInfo } from '@tarojs/taro'
 import { useMemo } from 'react'
 
 /**
  * get mobile status bar height
  */
 export const useStatusHeight = () =>
-  useMemo(() => getSystemInfoSync().statusBarHeight || 0, [])
+  useMemo(() => getWindowInfo().statusBarHeight || 0, [])
