@@ -54,10 +54,7 @@ export const AlPopup = (originalProps: AlPopupProps) => {
   )
 
   const bottomSafePadding = useBottomSafePadding()
-  const topSafePadding = useMemo(
-    () => Taro.getSystemInfoSync().statusBarHeight,
-    [],
-  )
+  const topSafePadding = useMemo(() => Taro.getWindowInfo().statusBarHeight, [])
 
   const contentWrapperStyle = useMemo(() => {
     let paddingTop: string = ''
