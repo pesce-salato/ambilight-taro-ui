@@ -1,4 +1,4 @@
-export class CustomAbortSignal {
+export class AlAbortSignal {
   private _v = false
   private listeners: (() => void)[] = []
 
@@ -23,10 +23,10 @@ export class CustomAbortSignal {
   }
 }
 
-export class CustomAbortError extends Error {}
+export class AlAbortError extends Error {}
 
-export class CustomAbortController {
-  public signal = new CustomAbortSignal()
+export class AlAbortController {
+  public signal = new AlAbortSignal()
 
   public abort = () => {
     this.signal.trigger()

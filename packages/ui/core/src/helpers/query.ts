@@ -1,9 +1,9 @@
 import { createSelectorQuery, NodesRef } from '@tarojs/taro'
-import { CustomAbortError, CustomAbortSignal } from './custom-abort-controller'
+import { AlAbortError, AlAbortSignal } from './abort-controller'
 import { formatMessage } from './format-message'
 
 export interface QueryOptions {
-  signal?: CustomAbortSignal
+  signal?: AlAbortSignal
   /**
    * 重试周期
    * @default 120ms
@@ -28,9 +28,7 @@ export const query = (id: string, options: QueryOptions = {}) => {
 
       signal?.addTriggerEventListener(() => {
         clearTimeout(nextSearchTimeoutHandler)
-        reject(
-          new CustomAbortError(formatMessage(`query for ${id} is aborted`)),
-        )
+        reject(new AlAbortError(formatMessage(`query for ${id} is aborted`)))
       })
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,7 +37,6 @@ export const query = (id: string, options: QueryOptions = {}) => {
           .select(`#${id}`)
           .boundingClientRect()
           .exec((result) => {
-            // TODO: abort 记得走报错体系报错
             if (!signal?.value) {
               if (result[0]) {
                 resolve(result[0])
@@ -68,6 +65,8 @@ export const query = (id: string, options: QueryOptions = {}) => {
             }
           })
       }
+
+      search()
     },
   )
 }
