@@ -1,9 +1,11 @@
 import { useCallback, useRef, useState } from 'react'
 
-export const useShadowState = <T>(init: T) => {
+export const useShadowState = <T>(
+  init?: T,
+): [T, React.Dispatch<React.SetStateAction<T>>, () => T] => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [state, setState] = useState<T>(init as any)
-  const shadow = useRef<T>(state)
+  const stateReference = useRef<T>(state)
 
   const setStateWrapper = useCallback<typeof setState>((update) => {
     let result = update
@@ -15,15 +17,17 @@ export const useShadowState = <T>(init: T) => {
       // use shadow to follow
       result = (pre: T) => {
         const next = updateFunction(pre)
-        shadow.current = next
+        stateReference.current = next
         return next
       }
     } else {
-      shadow.current = update
+      stateReference.current = update
     }
 
     setState(result)
   }, [])
 
-  return [state, setStateWrapper, shadow] as const
+  const getSyncState = useCallback(() => stateReference.current, [])
+
+  return [state, setStateWrapper, getSyncState] as const
 }
