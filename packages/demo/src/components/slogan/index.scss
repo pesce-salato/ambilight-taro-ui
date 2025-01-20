@@ -1,0 +1,19 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+.slogan {
+  font-family: al-slogan, 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 20px;
+
+  @each $index, $color in ('1': 'purple', '2': 'pink', '3': 'red', '4': 'orange', '5': 'yellow', '6': 'green', '7': 'teal', '8': 'blue', '9': 'cyan') {
+    &__char:nth-child(#{$index}) {
+      color: color-palette($color, 500);
+    }
+  }
+
+
+  &__char:nth-child(1) {
+    font-size: 32px;
+    margin-right: -2px;
+  }
+}

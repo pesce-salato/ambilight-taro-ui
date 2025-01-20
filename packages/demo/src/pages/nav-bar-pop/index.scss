@@ -1,0 +1,44 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-nav-bar-pop {
+  color: semantic-color('font-primary');
+
+  &__wrapper {
+    height: 100vh;
+  }
+
+  &__nav-bar {
+    background: linear-gradient(0deg, color-palette('extreme', 'white'), color-palette('purple', '50'))
+  }
+
+  &__header {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  &__before {
+    height: 240px;
+    background: color-palette('black', '100');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  &__after {
+    height: 1080px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  &__image {
+    width: 300px;
+    margin-top: -44px;
+    transform: rotate(180deg);
+  }
+}

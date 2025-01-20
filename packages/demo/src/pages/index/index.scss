@@ -1,4 +1,53 @@
-.test {
-  width: 48px;
-  height: 48px;
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-index {
+  color: semantic-color('font-primary');
+
+  &__wrapper {
+    height: 100vh;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__nav-bar {
+    position: sticky;
+    top: 0;
+    background: semantic-color('bg-with-opacity');
+    backdrop-filter: blur(16px);
+  }
+
+  &__content {
+    padding: 8px;
+  }
+
+  &__card {
+    border-radius: 8px;
+    padding: 2px 8px;
+    box-shadow: size(2) size(2) size(12) 0 semantic-color('shadow'), size(0) size(0) size(2) 0 semantic-color('shadow');
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, color-palette('black', '50'), color-palette('purple', '50'));
+
+    &__title {
+      font-size: 16px;
+      font-weight: bold;
+      color: semantic-color('primary');
+      line-height: 36px;
+      border-bottom: 1PX dashed color-palette('purple', '300');
+    }
+
+    &__item {
+      font-size: 16px;
+      line-height: 36px;
+      font-weight: bold;
+
+      &:not(:last-child) {
+        border-bottom: 1PX dashed color-palette('black', '100');
+      }
+    }
+  }
 }
