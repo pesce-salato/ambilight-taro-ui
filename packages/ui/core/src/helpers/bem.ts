@@ -10,6 +10,9 @@ export class Bem {
    * 最大层级数目，默认为2
    */
   private static MaxHierarchiesNum = 2
+
+  private autoSystemPrefix: boolean
+
   /**
    * className 辅助计算类
    * @param namespace 命名域，必填
@@ -20,10 +23,12 @@ export class Bem {
     namespace: string,
     hierarchies: string[] = [],
     status: string = '',
+    autoSystemPrefix = true,
   ) {
     this.cache.namespace = namespace
     this.cache.hierarchies = hierarchies
     this.cache.status = status
+    this.autoSystemPrefix = autoSystemPrefix
     // 检查层级数目是否符合要求
     this.checkHierarchiesValid()
   }
@@ -37,6 +42,7 @@ export class Bem {
       this.cache.namespace,
       [...this.cache.hierarchies, ...(typeof add === 'string' ? [add] : add)],
       this.cache.status,
+      this.autoSystemPrefix,
     )
   }
 
@@ -45,7 +51,12 @@ export class Bem {
    * @param newStatus 新的状态
    */
   public status = (newStatus: string) => {
-    return new Bem(this.cache.namespace, [...this.cache.hierarchies], newStatus)
+    return new Bem(
+      this.cache.namespace,
+      [...this.cache.hierarchies],
+      newStatus,
+      this.autoSystemPrefix,
+    )
   }
 
   /**
@@ -56,7 +67,7 @@ export class Bem {
     this.checkHierarchiesValid()
     // 添加统一组件库前缀
     return `${[
-      `${Abbr}-${this.cache.namespace}`,
+      `${this.autoSystemPrefix ? `${Abbr}-` : ''}${this.cache.namespace}`,
       ...this.cache.hierarchies,
     ].join('__')}${this.cache.status && '--' + this.cache.status}`
   }

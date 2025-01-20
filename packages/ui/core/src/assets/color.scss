@@ -35,6 +35,7 @@ $_semantic_color_map: (
   'font-primary-reverse': color-palette('extreme', 'white'),
   'mask': color-palette('black', '300'),
   'bg': color-palette('extreme', 'white'),
+  'bg-with-opacity': color-palette('white', '800'),
   'bg-reverse': color-palette('extreme', 'black'),
   'bg-reverse-with-opacity': color-palette('black', '800'),
 );
