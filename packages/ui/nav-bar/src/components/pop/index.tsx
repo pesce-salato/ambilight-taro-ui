@@ -25,6 +25,7 @@ export const AlNavBarPop = forwardRef(
       className,
       style,
       children,
+      id,
       basicProps = {},
     } = props
 
@@ -142,6 +143,7 @@ export const AlNavBarPop = forwardRef(
           [popRoot.status('visible').className]: isPopped,
         })}
         style={style}
+        id={id}
       >
         <View
           className={popRoot.hierarchies('gager').className}

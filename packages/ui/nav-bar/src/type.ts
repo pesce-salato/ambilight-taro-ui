@@ -52,6 +52,8 @@ export interface AlNavBarPopProps extends AlBaseFcProps {
    * @default 240
    */
   period?: number
+
+  id?: string
 }
 
 export interface AlNavBarPopReference {
