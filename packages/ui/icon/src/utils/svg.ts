@@ -1,17 +1,23 @@
 import { encode } from 'js-base64'
+import { Cache } from '@ambilight-taro/core'
+import { basic } from './bem'
 
-const CacheMap = new Map<string, string>()
+const cache = Cache.app.getOrCreate(basic.className, new Map<string, string>())
 
 /**
- * transform svg string to base64
- * @warning avoid using large images, it will spend too much time encode
- * @param content svg string content
- * @param cache whether to enable caching, trade memory for performance
- * @returns base64 encode svg string, it can be used to image src
+ * 转换 svg 文本到 base64
+ *
+ * 主要用在展示 小 svg 动画图片上
+ * @warning 不要使用此方法处理大图片，会造成卡顿
+ * @warning 如果可以，尽可能使用 url
+ * @warning 如果内容一致，小程序中 svg 动画将会沿用之前的动画进度
+ * @param content svg 字符串文本
+ * @param cacheKey 缓存 key，如果存在值，则会 base64 结果会自动存储到全局缓存中，以空间换取性能
+ * @returns base64 编码图片
  */
-export const toBase64Svg = (content: string, cache?: boolean) => {
-  if (cache) {
-    const cacheBase64 = CacheMap.get(content)
+export const toBase64Svg = (content: string, cacheKey?: string) => {
+  if (cacheKey) {
+    const cacheBase64 = cache.get(cacheKey)
 
     if (cacheBase64) {
       return cacheBase64
@@ -20,8 +26,8 @@ export const toBase64Svg = (content: string, cache?: boolean) => {
 
   const base64 = 'data:image/svg+xml;base64,' + encode(content)
 
-  if (cache) {
-    CacheMap.set(content, base64)
+  if (cacheKey) {
+    cache.set(cacheKey, base64)
   }
 
   return base64
