@@ -1,17 +1,16 @@
-import { Bem, classnames } from '@ambilight-taro/core'
 import { createPortal } from '@tarojs/react'
 import React, { useMemo } from 'react'
-import { View, ViewProps } from '@tarojs/components'
 import { useRootElement } from '@ambilight-taro/use-root-element'
 
-export interface AlPortalProps extends ViewProps {
+export interface AlPortalProps {
+  disabled?: boolean
   containerId?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children?: any
 }
 
-const root = new Bem('portal')
-
 export const AlPortal = (props: AlPortalProps) => {
-  const { className, containerId, ...others } = props
+  const { containerId, disabled, children } = props
 
   const rootElement = useRootElement()
 
@@ -19,12 +18,9 @@ export const AlPortal = (props: AlPortalProps) => {
     return containerId ? document.querySelector(`#${containerId}`) : rootElement
   }, [containerId, rootElement])
 
-  if (containerElement) {
-    return createPortal(
-      <View {...others} className={classnames(root.className, className)} />,
-      containerElement,
-    ) as unknown as React.ReactNode
+  if (containerElement && !disabled) {
+    return createPortal(<>{children}</>, containerElement)
   }
 
-  return <></>
+  return <>{children}</>
 }

@@ -34,7 +34,6 @@
     "@tarojs/react": "3.6.19"
   },
   "dependencies": {
-    "@ambilight-taro/core": "^0.0.1",
     "@ambilight-taro/use-root-element": "^0.0.1"
   }
 }
