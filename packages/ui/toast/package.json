@@ -35,7 +35,8 @@
   },
   "dependencies": {
     "@ambilight-taro/core": "^0.0.1",
-    "@ambilight-taro/basic-view": "^0.0.1"
+    "@ambilight-taro/basic-view": "^0.0.1",
+    "@ambilight-taro/portal": "^0.0.1"
   },
   "peerDependencies": {
     "@ambilight-taro/page-view": "^0.0.1"

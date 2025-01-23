@@ -1,4 +1,5 @@
 import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
+import { AlPortalProps } from '@ambilight-taro/portal'
 
 export interface AlToastProps extends AlBaseFcProps {
   visible: boolean
@@ -25,6 +26,8 @@ export interface AlToastProps extends AlBaseFcProps {
    * offset in vertical (base in 750px width design)
    */
   offset?: number
+
+  portalProps?: Omit<AlPortalProps, 'children'>
 }
 
 export const AlToastPosition = {

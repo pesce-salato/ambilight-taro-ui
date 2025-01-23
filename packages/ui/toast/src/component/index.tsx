@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { View } from '@tarojs/components'
+import { AlPortal } from '@ambilight-taro/portal'
 import { classnames, withDefaultProps, sizeOf } from '@ambilight-taro/core'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { AlToastPosition, AlToastProps } from './type'
@@ -11,6 +12,7 @@ const defaultProps = {
   mask: false,
   visible: false,
   position: AlToastPosition.bottom as AlToastPosition,
+  portalProps: {},
 }
 
 export const AlToast = (originalProps: AlToastProps) => {
@@ -29,6 +31,7 @@ export const AlToast = (originalProps: AlToastProps) => {
     icon,
     position,
     offset,
+    portalProps,
   } = props
 
   useEffect(() => {
@@ -48,34 +51,38 @@ export const AlToast = (originalProps: AlToastProps) => {
   if (!visible) return <></>
 
   return (
-    <AlBasicView
-      className={classnames(
-        root.className,
-        className,
-        root.status(position).className,
-        {
-          [root.status('blocking').className]: mask,
-        },
-      )}
-      style={style}
-      // open mask, catch all touch event, and forbidden scroll
-      catchMove={mask}
-      onTouchMove={mask ? onTouchMove : undefined}
-    >
-      <View
-        className={root.hierarchies(['content']).className}
-        style={{
-          marginTop: sizeOf(offset || 0),
-        }}
+    <AlPortal {...portalProps}>
+      <AlBasicView
+        className={classnames(
+          root.className,
+          className,
+          root.status(position).className,
+          {
+            [root.status('blocking').className]: mask,
+          },
+        )}
+        style={style}
+        // open mask, catch all touch event, and forbidden scroll
+        catchMove={mask}
+        onTouchMove={mask ? onTouchMove : undefined}
       >
-        {!!icon && (
-          <View className={root.hierarchies(['icon']).className}>{icon}</View>
-        )}
-        {!!label && (
-          <View className={root.hierarchies(['label']).className}>{label}</View>
-        )}
-      </View>
-    </AlBasicView>
+        <View
+          className={root.hierarchies(['content']).className}
+          style={{
+            marginTop: sizeOf(offset || 0),
+          }}
+        >
+          {!!icon && (
+            <View className={root.hierarchies(['icon']).className}>{icon}</View>
+          )}
+          {!!label && (
+            <View className={root.hierarchies(['label']).className}>
+              {label}
+            </View>
+          )}
+        </View>
+      </AlBasicView>
+    </AlPortal>
   )
 }
 
