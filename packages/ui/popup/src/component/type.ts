@@ -1,4 +1,5 @@
 import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
+import { AlPortalProps } from '@ambilight-taro/portal'
 import { CommonEventFunction, ITouchEvent } from '@tarojs/components'
 
 export const AlPopupPosition = {
@@ -33,6 +34,8 @@ export interface AlPopupProps extends AlBaseFcProps {
    */
   onMaskTouch?: CommonEventFunction
   children: React.ReactNode
+
+  portalProps?: Omit<AlPortalProps, 'children'>
   /**
    * whether to catch move, forbidden the rolling penetration of mask touch move
    * - it should be set during component initialization, and not suppose to be changed

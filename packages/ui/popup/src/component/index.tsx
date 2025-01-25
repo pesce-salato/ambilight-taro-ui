@@ -7,12 +7,14 @@ import { useBottomSafePadding } from '@ambilight-taro/use-bottom-safe-padding'
 import { AlPopupPosition, AlPopupProps } from './type'
 import { bem } from './bem'
 import './index.scss'
+import { AlPortal } from '@ambilight-taro/portal'
 
 const defaultProps = {
   visible: false,
   position: AlPopupPosition.bottom as AlPopupPosition,
   safePadding: true,
   catchMove: true,
+  portalProps: {},
 }
 
 /**
@@ -37,6 +39,7 @@ export const AlPopup = (originalProps: AlPopupProps) => {
     onHide,
     onMaskClick,
     onMaskTouch,
+    portalProps,
   } = props
 
   const [hasAppearedOnce, setHasAppearedOnce] = useState(false)
@@ -99,32 +102,34 @@ export const AlPopup = (originalProps: AlPopupProps) => {
   }, [onAppear, onHide, visible])
 
   return (
-    <AlBasicView
-      className={classnames(
-        className,
-        bem.root.className,
-        bem.root.status(position).className,
-        {
-          [bem.root.status('visible').className]: visible,
-          [bem.root.status('use-animation').className]: useAnimation,
-        },
-      )}
-      catchMove={catchMove || undefined}
-    >
-      <View
-        className={bem.mask.className}
-        onTouchStart={onMaskTouch}
-        onClick={onMaskClick}
-      />
-      <View
-        style={contentWrapperStyle}
-        onAnimationStart={onAnimationStart}
-        onAnimationEnd={onAnimationEnd}
-        className={bem.content.className}
+    <AlPortal {...portalProps}>
+      <AlBasicView
+        className={classnames(
+          className,
+          bem.root.className,
+          bem.root.status(position).className,
+          {
+            [bem.root.status('visible').className]: visible,
+            [bem.root.status('use-animation').className]: useAnimation,
+          },
+        )}
+        catchMove={catchMove || undefined}
       >
-        {children}
-      </View>
-    </AlBasicView>
+        <View
+          className={bem.mask.className}
+          onTouchStart={onMaskTouch}
+          onClick={onMaskClick}
+        />
+        <View
+          style={contentWrapperStyle}
+          onAnimationStart={onAnimationStart}
+          onAnimationEnd={onAnimationEnd}
+          className={bem.content.className}
+        >
+          {children}
+        </View>
+      </AlBasicView>
+    </AlPortal>
   )
 }
 
