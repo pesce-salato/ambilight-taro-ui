@@ -32,6 +32,7 @@ export const AlModal = (originalProps: AlModalProps) => {
     showCloseButton,
     _onAnimationEnd,
     _functionCall,
+    portalProps,
   } = props
 
   return (
@@ -41,9 +42,7 @@ export const AlModal = (originalProps: AlModalProps) => {
       safePadding={safePadding}
       catchMove={catchMove}
       position={AlPopupPosition.bottom}
-      contentWrapperProps={{
-        className: root.hierarchies('content-wrapper').className,
-      }}
+      portalProps={portalProps}
       className={classnames(root.className, className)}
       onMaskClick={() => {
         if (maskClosable) {

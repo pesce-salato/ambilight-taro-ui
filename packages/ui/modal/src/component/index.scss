@@ -3,11 +3,9 @@
 $root: with-prefix('modal');
 
 .#{$root} {
-  &__content-wrapper {
+  .#{with-prefix('popup')}__content {
     background: semantic-color('bg');
     border-radius: border-radius('lg');
-    position: relative;
-    z-index: z-index('base');
   }
 
   &__close-button {

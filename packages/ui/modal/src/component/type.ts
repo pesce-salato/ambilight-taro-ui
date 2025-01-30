@@ -1,4 +1,5 @@
 import { AlBaseFcProps } from '@ambilight-taro/core'
+import { type AlPortalProps } from '@ambilight-taro/portal'
 
 export interface AlModalProps extends AlBaseFcProps {
   title?: React.ReactNode
@@ -33,4 +34,6 @@ export interface AlModalProps extends AlBaseFcProps {
   _functionCall?: boolean
 
   children?: React.ReactNode
+
+  portalProps?: AlPortalProps
 }
