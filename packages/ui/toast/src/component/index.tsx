@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { View } from '@tarojs/components'
 import { AlPortal } from '@ambilight-taro/portal'
 import { classnames, withDefaultProps, sizeOf } from '@ambilight-taro/core'
@@ -44,10 +44,6 @@ export const AlToast = (originalProps: AlToastProps) => {
     return () => clearTimeout(durationTimer)
   }, [duration, visible, onClose])
 
-  const onTouchMove = useCallback(() => {
-    return
-  }, [])
-
   if (!visible) return <></>
 
   return (
@@ -62,9 +58,7 @@ export const AlToast = (originalProps: AlToastProps) => {
           },
         )}
         style={style}
-        // open mask, catch all touch event, and forbidden scroll
-        catchMove={mask}
-        onTouchMove={mask ? onTouchMove : undefined}
+        catchMove={mask || undefined}
       >
         <View
           className={root.hierarchies(['content']).className}
