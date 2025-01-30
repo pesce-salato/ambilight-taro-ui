@@ -33,6 +33,7 @@ export interface AlPopupProps extends AlBaseFcProps {
    * mask touch event
    */
   onMaskTouch?: CommonEventFunction
+
   children: React.ReactNode
 
   portalProps?: Omit<AlPortalProps, 'children'>

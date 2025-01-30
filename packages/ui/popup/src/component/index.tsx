@@ -4,10 +4,10 @@ import Taro from '@tarojs/taro'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { withDefaultProps, classnames } from '@ambilight-taro/core'
 import { useBottomSafePadding } from '@ambilight-taro/use-bottom-safe-padding'
+import { AlPortal } from '@ambilight-taro/portal'
 import { AlPopupPosition, AlPopupProps } from './type'
 import { bem } from './bem'
 import './index.scss'
-import { AlPortal } from '@ambilight-taro/portal'
 
 const defaultProps = {
   visible: false,
