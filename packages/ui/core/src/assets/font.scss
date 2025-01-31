@@ -5,38 +5,38 @@
 $_font-setting-map: (
   'super-headline':
     (
-      'size': transform-size(44),
-      'line-height': transform-size(68)
+      'size': size(44),
+      'line-height': size(68)
     ),
   'headline':
     (
-      'size': transform-size(36),
-      'line-height': transform-size(56)
+      'size': size(36),
+      'line-height': size(56)
     ),
   'sub-headline':
     (
-      'size': transform-size(32),
-      'line-height': transform-size(48)
+      'size': size(32),
+      'line-height': size(48)
     ),
   'form':
     (
-      'size': transform-size(30),
-      'line-height': transform-size(44)
+      'size': size(30),
+      'line-height': size(44)
     ),
   'text':
     (
-      'size': transform-size(28),
-      'line-height': transform-size(40)
+      'size': size(28),
+      'line-height': size(40)
     ),
   'comment':
     (
-      'size': transform-size(24),
-      'line-height': transform-size(32)
+      'size': size(24),
+      'line-height': size(32)
     ),
   'assist':
     (
-      'size': transform-size(20),
-      'line-height': transform-size(28)
+      'size': size(20),
+      'line-height': size(28)
     )
 );
 
