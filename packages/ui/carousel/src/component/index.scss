@@ -1,0 +1,186 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('carousel');
+$wrapper: #{$root}__wrapper;
+
+.#{$root} {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  z-index: z-index('base');
+
+  &--vertical {
+    .#{$wrapper} {
+      flex-direction: column;
+    }
+  }
+
+  &--horizontal {
+    .#{$wrapper} {
+      flex-direction: row;
+    }
+  }
+
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: all animation-time() linear;
+    z-index: z-index('base');
+  }
+
+  &__item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  &__indicator {
+    $item: '#{&}-item';
+    $wrapper: '#{&}-wrapper';
+    $slider: '#{&}-slider';
+    $line-width: 32;
+    $item-height: 8;
+    $h-diff: 36;
+    $v-diff: 24;
+
+    pointer-events: none;
+    position: absolute;
+    z-index: z-index('interact');
+
+    #{$slider} {
+      transition: all animation-time() timing-function();
+      height: size($item-height);
+      width: size($line-width);
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: size($item-height / 2);
+      background: semantic-color('bg');
+      z-index: z-index('interact');
+    }
+
+    #{$wrapper} {
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: z-index('interact');
+    }
+
+    &--position-top {
+      top: size($v-diff);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &--position-bottom {
+      bottom: size($v-diff);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &--position-bottom-start {
+      bottom: size($v-diff);
+      left: size($h-diff);
+    }
+
+    &--position-bottom-end {
+      bottom: size($v-diff);
+      right: size($h-diff);
+    }
+
+    &--position-left,
+    &--position-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+    }
+
+    &--position-left {
+      left: size($h-diff);
+    }
+
+    &--position-right {
+      right: size($h-diff);
+    }
+
+    #{$item} {
+      transition: all animation-time() timing-function();
+      opacity: opacity('mask');
+      height: size($item-height);
+      background: semantic-color('bg-with-opacity');
+      backdrop-filter: blur(size(12));
+      border-radius: size($item-height / 2);
+      margin-right: size(12);
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &--active {
+        opacity: 1;
+      }
+    }
+
+    &--variant-dot {
+      #{$item} {
+        width: size($item-height);
+        border-radius: 100%;
+      }
+    }
+
+    &--variant-line {
+      #{$item} {
+        width: size($line-width);
+      }
+    }
+
+    &--variant-slider {
+      #{$wrapper} {
+        &::before {
+          content: '';
+          left: 0;
+          top: 0;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: size($item-height / 2);
+          background: semantic-color('bg');
+          opacity: opacity('mask');
+          backdrop-filter: blur(size(12));
+        }
+      }
+
+      #{$item} {
+        margin-right: 0;
+        opacity: 0;
+        width: size($line-width);
+      }
+    }
+
+    &--variant-combine {
+      #{$item} {
+        width: size($item-height);
+
+        &--active {
+          width: size($line-width);
+        }
+      }
+    }
+
+
+  }
+}

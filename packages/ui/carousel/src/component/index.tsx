@@ -1,0 +1,359 @@
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  Bem,
+  withDefaultProps,
+  classnames,
+  uuid,
+  query,
+  AlAbortController,
+  AlAbortError,
+  formatMessage,
+} from '@ambilight-taro/core'
+import { AlBasicView } from '@ambilight-taro/basic-view'
+import { NodesRef } from '@tarojs/taro'
+import { ITouchEvent, View } from '@tarojs/components'
+import { useCompatibleUncontrolledValue } from '@ambilight-taro/use-compatible-uncontrolled-value'
+import {
+  AlCarouselDirection,
+  AlCarouselIndicatorPosition,
+  AlCarouselIndicatorVariant,
+  AlCarouselProps,
+} from '../type'
+import './index.scss'
+
+const root = new Bem('carousel')
+
+const defaultProps = {
+  direction: AlCarouselDirection.horizontal as AlCarouselDirection,
+  indicatorVariant:
+    AlCarouselIndicatorVariant.dot as AlCarouselIndicatorVariant,
+  indicatorPosition:
+    AlCarouselIndicatorPosition.bottom as AlCarouselIndicatorPosition,
+  indicatorDisabled: false as boolean,
+  duration: 0 as number,
+  defaultValue: 0 as number,
+} as const
+
+export const AlCarousel = (originalProps: AlCarouselProps) => {
+  const props = withDefaultProps<AlCarouselProps, typeof defaultProps>(
+    originalProps,
+  )
+  const {
+    className,
+    style,
+    direction,
+    value,
+    defaultValue,
+    onChange,
+    children,
+    duration,
+    indicatorDisabled,
+    indicatorPosition,
+    indicatorVariant,
+  } = props
+
+  const [compatibleValue, onChangeWrapper] = useCompatibleUncontrolledValue(
+    defaultValue,
+    value,
+    onChange,
+  )
+  const realIndexReference = useRef(compatibleValue)
+  const [isInTouching, setIsInTouching] = useState(false)
+  const count = useMemo(() => React.Children.count(children), [children])
+  const translateFunction = useMemo(
+    () =>
+      direction === AlCarouselDirection.horizontal
+        ? 'translateX'
+        : 'translateY',
+    [direction],
+  )
+
+  const [wrapperStyle, setWrapperStyle] = useState<React.CSSProperties>({
+    transform: `${translateFunction}(${-compatibleValue * 100}%)`,
+    transition: 'none',
+  })
+
+  const isHorizontal = useMemo(
+    () => direction === AlCarouselDirection.horizontal,
+    [direction],
+  )
+  const rootId = useMemo(() => uuid(root.className), [])
+  const wrapperId = useMemo(() => uuid(root.className), [])
+
+  const rootRectReference = useRef<NodesRef.BoundingClientRectCallbackResult>()
+  const queryAbortControllerReference = useRef<AlAbortController>()
+  const cancelTransitionEndAutoResetCallbackReference = useRef(() => {})
+  const moveStartFrom = useRef<number>()
+  const moveStartOffset = useRef<number>()
+
+  // 计算跳转到对应下标索引所需百分比位移
+  const calcMoveToIndexNeedPercentage = useCallback(
+    (targetIndex: number) => `${-targetIndex * 100}%`,
+    [],
+  )
+
+  /**
+   * 计算偏移量对应倍数
+   * 必须要在 touch start 查询了组件 rect 信息之后调用
+   */
+  const calcMultiple = useCallback(
+    (diff: number) => {
+      if (rootRectReference.current) {
+        return (
+          diff /
+          (isHorizontal
+            ? rootRectReference.current.width
+            : rootRectReference.current.height)
+        )
+      }
+
+      return 0
+    },
+    [isHorizontal],
+  )
+
+  const onTouchStart = useCallback(
+    (event: ITouchEvent) => {
+      moveStartFrom.current = isHorizontal
+        ? event.touches[0].clientX
+        : event.touches[0].clientY
+      moveStartOffset.current = undefined
+      realIndexReference.current = -1
+
+      cancelTransitionEndAutoResetCallbackReference.current()
+
+      queryAbortControllerReference.current?.abort()
+      ;(async () => {
+        queryAbortControllerReference.current = new AlAbortController()
+
+        try {
+          const rects = await query([wrapperId, rootId], {
+            signal: queryAbortControllerReference.current!.signal,
+          })
+
+          rootRectReference.current = rects.find((item) => item.id === rootId)
+          const wrapperRect = rects.find((item) => item.id === wrapperId)
+
+          if (rootRectReference.current && wrapperRect) {
+            moveStartOffset.current = isHorizontal
+              ? rootRectReference.current.left - wrapperRect.left
+              : rootRectReference.current.top - wrapperRect.top
+          }
+        } catch (error) {
+          if (!(error instanceof AlAbortError)) {
+            throw new TypeError(
+              formatMessage(
+                `触摸开始查询组件和容器尺寸失败，${error.toString()}`,
+              ),
+            )
+          }
+        }
+      })()
+
+      setIsInTouching(true)
+    },
+    [rootId, isHorizontal, wrapperId],
+  )
+
+  const onTouchMove = useCallback(
+    (event: ITouchEvent) => {
+      cancelTransitionEndAutoResetCallbackReference.current()
+
+      if (
+        moveStartFrom.current !== undefined &&
+        moveStartOffset.current !== undefined &&
+        rootRectReference.current?.width &&
+        rootRectReference.current?.height
+      ) {
+        // 计算位移相对于整个元素的倍数
+        const multiple = calcMultiple(
+          moveStartOffset.current -
+            (isHorizontal
+              ? event.touches[0].clientX
+              : event.touches[0].clientY) +
+            moveStartFrom.current,
+        )
+
+        // 处理在第一个元素左滑的case，直接将其置换到最后一个在末尾多渲染的“第一个元素”
+        const toPositiveMultiple = multiple < 0 ? count + multiple : multiple
+        // 处理突然出现的极大滑动距离的极限情况，将位移约束在安全范围内
+        const safeMultiple =
+          toPositiveMultiple - Math.floor(toPositiveMultiple / count) * count
+
+        realIndexReference.current = Math.round(safeMultiple)
+
+        onChangeWrapper(
+          realIndexReference.current >= count
+            ? realIndexReference.current - count
+            : realIndexReference.current,
+        )
+
+        setWrapperStyle({
+          transform: `${translateFunction}(${
+            -safeMultiple *
+            (isHorizontal
+              ? rootRectReference.current.width
+              : rootRectReference.current.height)
+          }px)`,
+          transition: 'none',
+        })
+      }
+    },
+    [calcMultiple, count, isHorizontal, translateFunction, onChangeWrapper],
+  )
+
+  const onTouchEnd = useCallback(() => {
+    queryAbortControllerReference.current?.abort()
+    cancelTransitionEndAutoResetCallbackReference.current()
+
+    if (realIndexReference.current >= 0) {
+      setWrapperStyle({
+        transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`,
+      })
+    }
+
+    setIsInTouching(false)
+  }, [calcMoveToIndexNeedPercentage, translateFunction])
+
+  const onTransitionEnd = useCallback(() => {
+    if (realIndexReference.current === count) {
+      const handler = setTimeout(() => {
+        setWrapperStyle({
+          transform: `${translateFunction}(0px)`,
+          transition: 'none',
+        })
+      }, 0)
+
+      cancelTransitionEndAutoResetCallbackReference.current = () => {
+        clearTimeout(handler)
+      }
+    }
+  }, [count, translateFunction])
+
+  // 自动定时轮播
+  useEffect(() => {
+    let handler = -1
+    if (duration && !isInTouching) {
+      handler = setTimeout(() => {
+        const newIndex = compatibleValue === count - 1 ? 0 : compatibleValue + 1
+        if (newIndex !== compatibleValue) {
+          // 实现无缝轮博效果
+          realIndexReference.current = compatibleValue + 1
+          setWrapperStyle({
+            transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`,
+          })
+          onChangeWrapper(newIndex)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      }, duration) as any
+    }
+    return () => clearTimeout(handler)
+  }, [
+    compatibleValue,
+    calcMoveToIndexNeedPercentage,
+    count,
+    duration,
+    isInTouching,
+    translateFunction,
+    onChangeWrapper,
+  ])
+
+  const items = useMemo(() => {
+    const childArray = React.Children.toArray(children)
+    // 第一个元素在末尾多渲染一个，以实现无缝轮播效果
+    return [...childArray, childArray[0]].map(
+      (item: React.ReactNode, index: number) => {
+        return (
+          <View key={index} className={root.hierarchies(['item']).className}>
+            {item}
+          </View>
+        )
+      },
+    )
+  }, [children])
+
+  const indicator = useMemo(() => {
+    if (indicatorDisabled) {
+      return
+    } else {
+      const result: React.ReactNode[] = []
+      for (let counter = 0; counter < count; counter++) {
+        result.push(
+          <View
+            key={counter}
+            className={classnames(
+              root.hierarchies('indicator-item').className,
+              {
+                [root.hierarchies('indicator-item').status('active').className]:
+                  counter === compatibleValue,
+              },
+            )}
+          />,
+        )
+      }
+
+      return (
+        <View
+          className={classnames(
+            root.hierarchies('indicator').className,
+            root
+              .hierarchies('indicator')
+              .status(`position-${indicatorPosition}`).className,
+            root.hierarchies('indicator').status(`variant-${indicatorVariant}`)
+              .className,
+          )}
+        >
+          <View className={root.hierarchies(['indicator-wrapper']).className}>
+            {indicatorVariant === AlCarouselIndicatorVariant.slider && (
+              <View
+                className={root.hierarchies(['indicator-slider']).className}
+                style={{
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  transform: `${[AlCarouselIndicatorPosition.left, AlCarouselIndicatorPosition.right].includes(indicatorPosition as any) ? 'translateY' : 'translateX'}(${compatibleValue * 100}%)`,
+                }}
+              />
+            )}
+            {result}
+          </View>
+        </View>
+      )
+    }
+  }, [
+    compatibleValue,
+    count,
+    indicatorVariant,
+    indicatorDisabled,
+    indicatorPosition,
+  ])
+
+  return (
+    <AlBasicView
+      className={classnames(
+        className,
+        root.className,
+        root.status(direction).className,
+      )}
+      style={style}
+      id={rootId}
+      // eslint-disable-next-line react/jsx-boolean-value
+      catchMove={true}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onTouchStart={onTouchStart as any}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onTouchMove={onTouchMove as any}
+      onTouchEnd={onTouchEnd}
+    >
+      <View
+        className={root.hierarchies('wrapper').className}
+        id={wrapperId}
+        onTransitionEnd={onTransitionEnd}
+        style={wrapperStyle}
+      >
+        {items}
+      </View>
+      {indicator}
+    </AlBasicView>
+  )
+}
+
+AlCarousel.defaultProps = defaultProps
