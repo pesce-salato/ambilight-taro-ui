@@ -45,7 +45,8 @@ export const AlNavBarPop = forwardRef(
       setNavBarRect(undefined)
 
       try {
-        setNavBarRect(await query(rectGagerId))
+        // eslint-disable-next-line unicorn/no-await-expression-member
+        setNavBarRect((await query(rectGagerId))[0])
       } catch (error) {
         throw new Error(
           formatMessage(`无法查询到 nav bar rect 信息，${error.toString()}`),
@@ -70,7 +71,7 @@ export const AlNavBarPop = forwardRef(
 
         const loopQuery = async () => {
           try {
-            const rect = await query(observeElementId)
+            const [rect] = await query(observeElementId)
 
             const realtimeNavBarRect = getSyncNavBarRect()
 
@@ -120,7 +121,7 @@ export const AlNavBarPop = forwardRef(
       reference,
       () => ({
         requeryComponent: async () => {
-          const rect = await query(observeElementId)
+          const [rect] = await query(observeElementId)
 
           const realtimeNavBarRect = getSyncNavBarRect()
 
