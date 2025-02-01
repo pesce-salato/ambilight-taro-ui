@@ -18,27 +18,36 @@ export interface QueryOptions {
 
 export class QueryMaxRetryError extends Error {}
 
-export const query = (id: string, options: QueryOptions = {}) => {
+export const query = (
+  filter: string | string[],
+  options: QueryOptions = {},
+) => {
   const { retryPeriod = 120, signal, maxRetryTimes = 6 } = options
 
-  return new Promise<NodesRef.BoundingClientRectCallbackResult>(
+  return new Promise<NodesRef.BoundingClientRectCallbackResult[]>(
     (resolve, reject) => {
       let nextSearchTimeoutHandler = 0
       let retryCounter = 0
 
       signal?.addTriggerEventListener(() => {
         clearTimeout(nextSearchTimeoutHandler)
-        reject(new AlAbortError(formatMessage(`query for ${id} is aborted`)))
+        reject(
+          new AlAbortError(formatMessage(`query for ${filter} is aborted`)),
+        )
       })
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const search = () => {
         createSelectorQuery()
-          .select(`#${id}`)
+          .selectAll(
+            (typeof filter === 'string' ? [filter] : filter)
+              .map((item) => `#${item}`)
+              .join(','),
+          )
           .boundingClientRect()
           .exec((result) => {
             if (!signal?.value) {
-              if (result[0]) {
+              if (result?.[0]?.[0]) {
                 resolve(result[0])
               }
               // 查询失败，存在以下可能
