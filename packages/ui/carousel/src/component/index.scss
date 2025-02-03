@@ -29,7 +29,7 @@ $wrapper: #{$root}__wrapper;
     height: 100%;
     display: flex;
     align-items: center;
-    transition: all animation-time() linear;
+    transition: all animation-time('quick') linear;
     z-index: z-index('base');
   }
 
@@ -122,7 +122,6 @@ $wrapper: #{$root}__wrapper;
       opacity: opacity('mask');
       height: size($item-height);
       background: semantic-color('bg-with-opacity');
-      backdrop-filter: blur(size(12));
       border-radius: size($item-height / 2);
       margin-right: size(12);
 
@@ -160,7 +159,6 @@ $wrapper: #{$root}__wrapper;
           border-radius: size($item-height / 2);
           background: semantic-color('bg');
           opacity: opacity('mask');
-          backdrop-filter: blur(size(12));
         }
       }
 
@@ -180,7 +178,5 @@ $wrapper: #{$root}__wrapper;
         }
       }
     }
-
-
   }
 }

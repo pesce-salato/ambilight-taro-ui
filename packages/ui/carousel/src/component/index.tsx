@@ -5,9 +5,6 @@ import {
   classnames,
   uuid,
   query,
-  AlAbortController,
-  AlAbortError,
-  formatMessage,
 } from '@ambilight-taro/core'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { NodesRef } from '@tarojs/taro'
@@ -29,10 +26,10 @@ const defaultProps = {
     AlCarouselIndicatorVariant.dot as AlCarouselIndicatorVariant,
   indicatorPosition:
     AlCarouselIndicatorPosition.bottom as AlCarouselIndicatorPosition,
-  indicatorDisabled: false as boolean,
-  duration: 0 as number,
-  defaultValue: 0 as number,
-} as const
+  indicatorDisabled: false,
+  duration: 0,
+  defaultValue: 0,
+}
 
 export const AlCarousel = (originalProps: AlCarouselProps) => {
   const props = withDefaultProps<AlCarouselProps, typeof defaultProps>(
@@ -68,6 +65,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
     [direction],
   )
 
+  const isInTranslatingReference = useRef(false)
+
   const [wrapperStyle, setWrapperStyle] = useState<React.CSSProperties>({
     transform: `${translateFunction}(${-compatibleValue * 100}%)`,
     transition: 'none',
@@ -80,11 +79,20 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
   const rootId = useMemo(() => uuid(root.className), [])
   const wrapperId = useMemo(() => uuid(root.className), [])
 
-  const rootRectReference = useRef<NodesRef.BoundingClientRectCallbackResult>()
-  const queryAbortControllerReference = useRef<AlAbortController>()
+  const [rootRect, setRootRect] =
+    useState<NodesRef.BoundingClientRectCallbackResult>()
   const cancelTransitionEndAutoResetCallbackReference = useRef(() => {})
   const moveStartFrom = useRef<number>()
   const moveStartOffset = useRef<number>()
+
+  const updateRootRect = useCallback(async () => {
+    const [rect] = await query(rootId)
+    setRootRect(rect)
+  }, [rootId])
+
+  useEffect(() => {
+    updateRootRect()
+  }, [updateRootRect])
 
   // 计算跳转到对应下标索引所需百分比位移
   const calcMoveToIndexNeedPercentage = useCallback(
@@ -98,61 +106,33 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
    */
   const calcMultiple = useCallback(
     (diff: number) => {
-      if (rootRectReference.current) {
-        return (
-          diff /
-          (isHorizontal
-            ? rootRectReference.current.width
-            : rootRectReference.current.height)
-        )
+      if (rootRect) {
+        return diff / (isHorizontal ? rootRect.width : rootRect.height)
       }
 
       return 0
     },
-    [isHorizontal],
+    [isHorizontal, rootRect],
   )
 
   const onTouchStart = useCallback(
     (event: ITouchEvent) => {
+      if (!rootRect) {
+        return
+      }
+
       moveStartFrom.current = isHorizontal
         ? event.touches[0].clientX
         : event.touches[0].clientY
-      moveStartOffset.current = undefined
+      moveStartOffset.current =
+        compatibleValue * (isHorizontal ? rootRect.width : rootRect.height)
+
       realIndexReference.current = -1
 
       cancelTransitionEndAutoResetCallbackReference.current()
-
-      queryAbortControllerReference.current?.abort()
-      ;(async () => {
-        queryAbortControllerReference.current = new AlAbortController()
-
-        try {
-          const rects = await query([wrapperId, rootId], {
-            signal: queryAbortControllerReference.current!.signal,
-          })
-
-          rootRectReference.current = rects.find((item) => item.id === rootId)
-          const wrapperRect = rects.find((item) => item.id === wrapperId)
-
-          if (rootRectReference.current && wrapperRect) {
-            moveStartOffset.current = isHorizontal
-              ? rootRectReference.current.left - wrapperRect.left
-              : rootRectReference.current.top - wrapperRect.top
-          }
-        } catch (error) {
-          if (!(error instanceof AlAbortError)) {
-            throw new TypeError(
-              formatMessage(
-                `触摸开始查询组件和容器尺寸失败，${error.toString()}`,
-              ),
-            )
-          }
-        }
-      })()
-
       setIsInTouching(true)
     },
-    [rootId, isHorizontal, wrapperId],
+    [rootRect, isHorizontal, compatibleValue],
   )
 
   const onTouchMove = useCallback(
@@ -162,8 +142,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
       if (
         moveStartFrom.current !== undefined &&
         moveStartOffset.current !== undefined &&
-        rootRectReference.current?.width &&
-        rootRectReference.current?.height
+        rootRect &&
+        !isInTranslatingReference.current
       ) {
         // 计算位移相对于整个元素的倍数
         const multiple = calcMultiple(
@@ -173,7 +153,6 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
               : event.touches[0].clientY) +
             moveStartFrom.current,
         )
-
         // 处理在第一个元素左滑的case，直接将其置换到最后一个在末尾多渲染的“第一个元素”
         const toPositiveMultiple = multiple < 0 ? count + multiple : multiple
         // 处理突然出现的极大滑动距离的极限情况，将位移约束在安全范围内
@@ -190,21 +169,26 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
 
         setWrapperStyle({
           transform: `${translateFunction}(${
-            -safeMultiple *
-            (isHorizontal
-              ? rootRectReference.current.width
-              : rootRectReference.current.height)
+            -safeMultiple * (isHorizontal ? rootRect.width : rootRect.height)
           }px)`,
           transition: 'none',
         })
       }
     },
-    [calcMultiple, count, isHorizontal, translateFunction, onChangeWrapper],
+    [
+      calcMultiple,
+      count,
+      rootRect,
+      isHorizontal,
+      translateFunction,
+      onChangeWrapper,
+    ],
   )
 
   const onTouchEnd = useCallback(() => {
-    queryAbortControllerReference.current?.abort()
     cancelTransitionEndAutoResetCallbackReference.current()
+
+    isInTranslatingReference.current = true
 
     if (realIndexReference.current >= 0) {
       setWrapperStyle({
@@ -216,6 +200,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
   }, [calcMoveToIndexNeedPercentage, translateFunction])
 
   const onTransitionEnd = useCallback(() => {
+    isInTranslatingReference.current = false
+
     if (realIndexReference.current === count) {
       const handler = setTimeout(() => {
         setWrapperStyle({
@@ -309,7 +295,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
                 className={root.hierarchies(['indicator-slider']).className}
                 style={{
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  transform: `${[AlCarouselIndicatorPosition.left, AlCarouselIndicatorPosition.right].includes(indicatorPosition as any) ? 'translateY' : 'translateX'}(${compatibleValue * 100}%)`,
+                  transform: `translateX(${compatibleValue * 100}%)`,
                 }}
               />
             )}
