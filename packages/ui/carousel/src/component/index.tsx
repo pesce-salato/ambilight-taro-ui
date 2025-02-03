@@ -81,7 +81,6 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
 
   const [rootRect, setRootRect] =
     useState<NodesRef.BoundingClientRectCallbackResult>()
-  const cancelTransitionEndAutoResetCallbackReference = useRef(() => {})
   const moveStartFrom = useRef<number>()
   const moveStartOffset = useRef<number>()
   const latestMultipleReference = useRef<number>()
@@ -122,17 +121,15 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         return
       }
 
-      latestMultipleReference.current = undefined
-
       moveStartFrom.current = isHorizontal
         ? event.touches[0].clientX
         : event.touches[0].clientY
       moveStartOffset.current =
         compatibleValue * (isHorizontal ? rootRect.width : rootRect.height)
+      latestMultipleReference.current = undefined
 
       realIndexReference.current = -1
 
-      cancelTransitionEndAutoResetCallbackReference.current()
       setIsInTouching(true)
     },
     [rootRect, isHorizontal, compatibleValue],
@@ -140,8 +137,6 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
 
   const onTouchMove = useCallback(
     (event: ITouchEvent) => {
-      cancelTransitionEndAutoResetCallbackReference.current()
-
       if (
         moveStartFrom.current !== undefined &&
         moveStartOffset.current !== undefined &&
@@ -191,9 +186,10 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
   )
 
   const onTouchEnd = useCallback(() => {
-    cancelTransitionEndAutoResetCallbackReference.current()
-
-    if (latestMultipleReference.current) {
+    if (
+      !isInTranslatingReference.current &&
+      latestMultipleReference.current !== undefined
+    ) {
       // 超过 5% 的位移，则视作会触发动画
       // 阻止后续 move 响应，直至动画结束，位置正确
       // 小于 5%，则视作不触发动画
@@ -214,16 +210,10 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
 
   const onTransitionEnd = useCallback(() => {
     if (realIndexReference.current === count) {
-      const handler = setTimeout(() => {
-        setWrapperStyle({
-          transform: `${translateFunction}(0px)`,
-          transition: 'none',
-        })
-      }, 0)
-
-      cancelTransitionEndAutoResetCallbackReference.current = () => {
-        clearTimeout(handler)
-      }
+      setWrapperStyle({
+        transform: `${translateFunction}(0px)`,
+        transition: 'none',
+      })
     }
 
     isInTranslatingReference.current = false
@@ -334,13 +324,13 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
       )}
       style={style}
       id={rootId}
-      // eslint-disable-next-line react/jsx-boolean-value
-      catchMove={true}
+      catchMove
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onTouchStart={onTouchStart as any}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onTouchMove={onTouchMove as any}
       onTouchEnd={onTouchEnd}
+      onTouchCancel={onTouchEnd}
     >
       <View
         className={root.hierarchies('wrapper').className}
