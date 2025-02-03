@@ -84,6 +84,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
   const cancelTransitionEndAutoResetCallbackReference = useRef(() => {})
   const moveStartFrom = useRef<number>()
   const moveStartOffset = useRef<number>()
+  const latestMultipleReference = useRef<number>()
 
   const updateRootRect = useCallback(async () => {
     const [rect] = await query(rootId)
@@ -120,6 +121,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
       if (!rootRect) {
         return
       }
+
+      latestMultipleReference.current = undefined
 
       moveStartFrom.current = isHorizontal
         ? event.touches[0].clientX
@@ -167,6 +170,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
             : realIndexReference.current,
         )
 
+        latestMultipleReference.current = safeMultiple
+
         setWrapperStyle({
           transform: `${translateFunction}(${
             -safeMultiple * (isHorizontal ? rootRect.width : rootRect.height)
@@ -188,20 +193,26 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
   const onTouchEnd = useCallback(() => {
     cancelTransitionEndAutoResetCallbackReference.current()
 
-    isInTranslatingReference.current = true
+    if (latestMultipleReference.current) {
+      // 超过 5% 的位移，则视作会触发动画
+      // 阻止后续 move 响应，直至动画结束，位置正确
+      // 小于 5%，则视作不触发动画
+      // 后续 move 直接位移到对应位置，用户无较大感知
+      isInTranslatingReference.current =
+        Math.abs(latestMultipleReference.current - realIndexReference.current) >
+        0.05
 
-    if (realIndexReference.current >= 0) {
-      setWrapperStyle({
-        transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`,
-      })
+      if (realIndexReference.current >= 0) {
+        setWrapperStyle({
+          transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`,
+        })
+      }
     }
 
     setIsInTouching(false)
   }, [calcMoveToIndexNeedPercentage, translateFunction])
 
   const onTransitionEnd = useCallback(() => {
-    isInTranslatingReference.current = false
-
     if (realIndexReference.current === count) {
       const handler = setTimeout(() => {
         setWrapperStyle({
@@ -214,6 +225,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         clearTimeout(handler)
       }
     }
+
+    isInTranslatingReference.current = false
   }, [count, translateFunction])
 
   // 自动定时轮播
