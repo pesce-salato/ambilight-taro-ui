@@ -1,0 +1,71 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('picker');
+
+
+.#{$root} {
+  position: relative;
+  z-index: z-index('base');
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  &__wrapper {
+    position: relative;
+    z-index: z-index('base');
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  &__option-wrapper {
+    transition: all animation-time('quick') linear;
+  }
+
+  &__option-height-gager {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: z-index('bg');
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__option {
+    height: size(96);
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: z-index('base');
+  }
+
+  &__mask {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: z-index('interact');
+
+    &--top {
+      top: 0;
+      background: linear-gradient(180deg, #{semantic-color('bg')} 0%, transparent 100%);
+    }
+
+    &--bottom {
+      bottom: 0;
+      background: linear-gradient(0deg, #{semantic-color('bg')} 0%, transparent 100%);
+    }
+  }
+
+  &__indicator {
+    position: absolute;
+    z-index: z-index('interact');
+    pointer-events: none;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    box-sizing: border-box;
+    border-top: size(1) solid semantic-color('divider');
+    border-bottom: size(1) solid semantic-color('divider');
+  }
+}

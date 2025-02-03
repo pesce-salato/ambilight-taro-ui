@@ -35,11 +35,11 @@ $_semantic_color_map: (
   'font-primary-reverse': color-palette('extreme', 'white'),
   'font-secondary': color-palette('gray', '500'),
   'mask': color-palette('black', '500'),
-  'border': color-palette('black', '200'),
+  'divider': color-palette('black', '200'),
   'bg': color-palette('extreme', 'white'),
-  'bg-with-opacity': color-palette('white', '800'),
+  'bg-with-opacity': color-palette('white', '700'),
   'bg-reverse': color-palette('extreme', 'black'),
-  'bg-reverse-with-opacity': color-palette('black', '800'),
+  'bg-reverse-with-opacity': color-palette('black', '700'),
 );
 
 @function semantic-color($key) {

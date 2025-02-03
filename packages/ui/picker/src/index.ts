@@ -1,1 +1,2 @@
-console.log('export things')
+export * from './component'
+export * from './type'
