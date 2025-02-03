@@ -53,11 +53,12 @@ $content: '#{$root}__content';
     align-items: center;
     background: semantic-color('bg-reverse-with-opacity');
     backdrop-filter: blur(size(12));
-    animation: #{$appear-animation-name}-from-bottom animation-time() timing-function() forwards;
   }
 
   &--bottom {
     .#{$content} {
+      animation: #{$appear-animation-name}-from-bottom animation-time() timing-function() forwards;
+
       @each $var in safe-area-inset-bottom-vars() {
         bottom: calc(#{size(128)} + #{$var});
       }
@@ -84,7 +85,6 @@ $content: '#{$root}__content';
     @include mix-overflow-ellipsis(1);
 
     max-width: size(480);
-    font-weight: bold;
     color: semantic-color('font-primary-reverse');
     font-size: font-size('text');
   }
