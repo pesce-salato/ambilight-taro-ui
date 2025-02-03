@@ -11,7 +11,7 @@ $iconWrapper: #{$root}__icon-wrapper;
   }
 
   background-color: semantic-color('bg');
-  border-top: size(1) solid semantic-color('border');
+  border-top: size(1) solid semantic-color('divider');
   position: fixed;
   bottom: 0;
   left: 0;
