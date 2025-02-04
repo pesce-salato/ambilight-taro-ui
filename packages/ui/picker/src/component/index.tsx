@@ -51,6 +51,15 @@ export const AlPicker = (props: AlPickerProps) => {
 
   const optionCount = useMemo(() => options.length, [options.length])
 
+  useEffect(() => {
+    if (optionRect) {
+      setWrapperStyle((pre) => ({
+        ...pre,
+        transform: `translateY(${-currentIndex * optionRect.height}px)`,
+      }))
+    }
+  }, [currentIndex, optionRect])
+
   const onTouchStart = useCallback(
     (event: ITouchEvent) => {
       moveStartFromReference.current = event.touches[0].clientY
@@ -120,7 +129,6 @@ export const AlPicker = (props: AlPickerProps) => {
       isInTranslatingReference.current = false
       setWrapperStyle({
         transform: `translateY(${-optionRect!.height * index}px)`,
-        transition: 'none',
       })
     },
     [onChangeWrapper, setWrapperStyle, optionRect],
