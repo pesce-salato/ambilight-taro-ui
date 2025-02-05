@@ -9,6 +9,7 @@ import {
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { NodesRef } from '@tarojs/taro'
 import { ITouchEvent, View } from '@tarojs/components'
+import { useShadowState } from '@ambilight-taro/use-shadow-state'
 import { useCompatibleUncontrolledValue } from '@ambilight-taro/use-compatible-uncontrolled-value'
 import {
   AlCarouselDirection,
@@ -49,11 +50,9 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
     indicatorVariant,
   } = props
 
-  const [compatibleValue, onChangeWrapper] = useCompatibleUncontrolledValue(
-    defaultValue,
-    value,
-    onChange,
-  )
+  const [compatibleValue, onChangeWrapperOriginal] =
+    useCompatibleUncontrolledValue(defaultValue, value, onChange)
+  const systemSetValueReference = useRef<number>(compatibleValue)
   const realIndexReference = useRef(compatibleValue)
   const [isInTouching, setIsInTouching] = useState(false)
   const count = useMemo(() => React.Children.count(children), [children])
@@ -65,7 +64,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
     [direction],
   )
 
-  const isInTranslatingReference = useRef(false)
+  const [isInTranslating, setIsInTranslating, getSyncIsInTranslating] =
+    useShadowState(false)
 
   const [wrapperStyle, setWrapperStyle] = useState<React.CSSProperties>({
     transform: `${translateFunction}(${-compatibleValue * 100}%)`,
@@ -84,6 +84,14 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
   const moveStartFrom = useRef<number>()
   const moveStartOffset = useRef<number>()
   const latestMultipleReference = useRef<number>()
+
+  const onChangeWrapper = useCallback(
+    (v: number) => {
+      systemSetValueReference.current = v
+      onChangeWrapperOriginal(v)
+    },
+    [onChangeWrapperOriginal],
+  )
 
   const updateRootRect = useCallback(async () => {
     const [rect] = await query(rootId)
@@ -141,7 +149,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         moveStartFrom.current !== undefined &&
         moveStartOffset.current !== undefined &&
         rootRect &&
-        !isInTranslatingReference.current
+        !getSyncIsInTranslating()
       ) {
         // 计算位移相对于整个元素的倍数
         const multiple = calcMultiple(
@@ -182,21 +190,23 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
       isHorizontal,
       translateFunction,
       onChangeWrapper,
+      getSyncIsInTranslating,
     ],
   )
 
   const onTouchEnd = useCallback(() => {
     if (
-      !isInTranslatingReference.current &&
+      !getSyncIsInTranslating() &&
       latestMultipleReference.current !== undefined
     ) {
       // 超过 5% 的位移，则视作会触发动画
       // 阻止后续 move 响应，直至动画结束，位置正确
       // 小于 5%，则视作不触发动画
       // 后续 move 直接位移到对应位置，用户无较大感知
-      isInTranslatingReference.current =
+      setIsInTranslating(
         Math.abs(latestMultipleReference.current - realIndexReference.current) >
-        0.05
+          0.05,
+      )
 
       if (realIndexReference.current >= 0) {
         setWrapperStyle({
@@ -206,28 +216,58 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
     }
 
     setIsInTouching(false)
-  }, [calcMoveToIndexNeedPercentage, translateFunction])
+  }, [
+    calcMoveToIndexNeedPercentage,
+    translateFunction,
+    getSyncIsInTranslating,
+    setIsInTranslating,
+  ])
 
   const onTransitionEnd = useCallback(() => {
-    if (realIndexReference.current === count) {
+    if (
+      realIndexReference.current === count &&
+      systemSetValueReference.current == 0
+    ) {
       setWrapperStyle({
         transform: `${translateFunction}(0px)`,
         transition: 'none',
       })
     }
 
-    isInTranslatingReference.current = false
-  }, [count, translateFunction])
+    setIsInTranslating(false)
+  }, [count, translateFunction, setIsInTranslating])
+
+  useEffect(() => {
+    // 没有在任何动作态中
+    // 并且 当前值 与 系统内部设置值没有对齐，则代表需要更新位移
+    if (!isInTouching && systemSetValueReference.current !== compatibleValue) {
+      // 避免在刚刚同步完状态之后，onTransitionEnd 随即响应，导致 isInTranslating 错误
+      setTimeout(() => {
+        setIsInTranslating(true)
+        systemSetValueReference.current = compatibleValue
+        setWrapperStyle({
+          transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(compatibleValue)})`,
+        })
+      }, 0)
+    }
+  }, [
+    isInTouching,
+    compatibleValue,
+    calcMoveToIndexNeedPercentage,
+    translateFunction,
+    setIsInTranslating,
+  ])
 
   // 自动定时轮播
   useEffect(() => {
     let handler = -1
-    if (duration && !isInTouching) {
+    if (duration && !isInTouching && !isInTranslating) {
       handler = setTimeout(() => {
         const newIndex = compatibleValue === count - 1 ? 0 : compatibleValue + 1
         if (newIndex !== compatibleValue) {
           // 实现无缝轮博效果
           realIndexReference.current = compatibleValue + 1
+          setIsInTranslating(true)
           setWrapperStyle({
             transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`,
           })
@@ -245,6 +285,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
     isInTouching,
     translateFunction,
     onChangeWrapper,
+    setIsInTranslating,
+    isInTranslating,
   ])
 
   const items = useMemo(() => {

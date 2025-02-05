@@ -35,6 +35,7 @@
   "dependencies": {
     "@ambilight-taro/core": "^0.0.1",
     "@ambilight-taro/basic-view": "^0.0.1",
-    "@ambilight-taro/use-compatible-uncontrolled-value": "^0.0.1"
+    "@ambilight-taro/use-compatible-uncontrolled-value": "^0.0.1",
+    "@ambilight-taro/use-shadow-state": "^0.0.1"
   }
 }
