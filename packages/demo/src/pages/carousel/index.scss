@@ -1,0 +1,24 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-carousel {
+  color: semantic-color('font-primary');
+  min-height: 100vh;
+  &__container {
+    margin: size(256) size(64);
+    height: size(256);
+  }
+
+  &__carousel {
+    color: semantic-color('font-primary-reverse');
+    border-radius: border-radius('lg');
+  }
+
+  &__item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

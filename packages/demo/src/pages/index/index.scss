@@ -3,9 +3,26 @@
 
 .page-index {
   color: semantic-color('font-primary');
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 
-  &__wrapper {
-    height: 100vh;
+  &__sub-page-area {
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__sub-page-scroll {
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  &__sub-page {
+    padding: 8px;
+  }
+
+  &__tab-bar {
+    position: relative;
   }
 
   &__header {
@@ -15,14 +32,7 @@
   }
 
   &__nav-bar {
-    position: sticky;
-    top: 0;
-    background: semantic-color('bg-with-opacity');
-    backdrop-filter: blur(16px);
-  }
-
-  &__content {
-    padding: 8px;
+    background: semantic-color('bg');
   }
 
   &__card {
@@ -48,6 +58,21 @@
       &:not(:last-child) {
         border-bottom: 1PX dashed color-palette('black', '100');
       }
+    }
+  }
+
+  &__about-icon {
+    font-size: size(52);
+    font-weight: bold;
+    padding-top: size(8);
+    font-family: al-slogan, 'Courier New', Courier, monospace;
+
+    &--active {
+      color: semantic-color('primary');
+    }
+
+    &--inactive {
+      color: semantic-color('font-secondary');
     }
   }
 }

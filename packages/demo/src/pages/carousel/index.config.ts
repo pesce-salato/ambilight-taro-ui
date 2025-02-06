@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '弹出提示',
+  navigationBarTitleText: '轮播图',
   navigationStyle: 'custom',
   disableScroll: true,
 })

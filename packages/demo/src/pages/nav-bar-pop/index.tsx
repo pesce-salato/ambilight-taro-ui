@@ -37,7 +37,7 @@ export default () => {
         <View className={root.hierarchies('after').className}>
           <Image
             className={root.hierarchies('image').className}
-            src="https://cdn.salted-fish.org/rain.svg"
+            src="https://cdn.salted-fish.org/al-mini-demo/rain.svg"
           />
         </View>
       </ScrollView>

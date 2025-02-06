@@ -61,7 +61,10 @@
     "@ambilight-taro/toast": "^0.0.1",
     "@ambilight-taro/popup": "^0.0.1",
     "@ambilight-taro/modal": "^0.0.1",
-    "@ambilight-taro/nav-bar": "^0.0.1"
+    "@ambilight-taro/nav-bar": "^0.0.1",
+    "@ambilight-taro/tab-bar": "^0.0.1",
+    "@ambilight-taro/carousel": "^0.0.1",
+    "@ambilight-taro/picker": "^0.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
