@@ -5,7 +5,7 @@ import { SeparateScssPlugin } from '@ambilight-taro/rollup-plugin-separate-scss'
 import { ClearPlugin } from '@ambilight-taro/rollup-plugin-clear'
 import { ExternalPlugin } from '@ambilight-taro/rollup-plugin-external'
 
-export const generateBaseUiConfig = () => ({
+export const generateBaseUiConfig = (options) => ({
   input: './src/index.ts',
   output: [
     {
@@ -15,6 +15,7 @@ export const generateBaseUiConfig = () => ({
       preserveModules: true,
     },
   ],
+  external: options?.external || [],
   plugins: [
     commonjs(),
     nodeResolve(),
