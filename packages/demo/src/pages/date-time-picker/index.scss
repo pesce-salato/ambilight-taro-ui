@@ -1,0 +1,9 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-date-time-picker {
+  &__container {
+    margin: size(256) size(64);
+    height: size(256);
+  }
+}

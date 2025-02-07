@@ -1,0 +1,23 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('date-time-picker');
+
+.#{$root} {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+
+  &__column {
+    flex: 1;
+    height: 100%;
+  }
+
+  &__preset-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+}
