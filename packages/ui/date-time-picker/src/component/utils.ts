@@ -24,12 +24,12 @@ export const calcRenderColumns = (fineness: AlDateTimePickerFineness): AlDateTim
     !isOnlyNeedTime &&
     ![AlDateTimePickerFineness.year, AlDateTimePickerFineness.month].includes(fineness as any)
   ) {
-    result.push(AlDateTimePickerColumn.date)
+    result.push(AlDateTimePickerColumn.day)
   }
 
   if (
     isOnlyNeedTime ||
-    [AlDateTimePickerFineness.hourOfOneDay, AlDateTimePickerFineness.minuteOfOneDay].includes(
+    [AlDateTimePickerFineness.hourOfDay, AlDateTimePickerFineness.minuteOfDay].includes(
       fineness as any
     )
   ) {
@@ -37,7 +37,7 @@ export const calcRenderColumns = (fineness: AlDateTimePickerFineness): AlDateTim
   }
 
   if (
-    [AlDateTimePickerFineness.minute, AlDateTimePickerFineness.minuteOfOneDay].includes(
+    [AlDateTimePickerFineness.minute, AlDateTimePickerFineness.minuteOfDay].includes(
       fineness as any
     )
   ) {
@@ -89,20 +89,20 @@ export const calcValidColumnValues = (
 
       break
     }
-    case AlDateTimePickerColumn.date: {
+    case AlDateTimePickerColumn.day: {
       const belong = Dayjs()
         .set('year', currentSelectedValue[columnIndex - 2])
         .set('month', currentSelectedValue[columnIndex - 1])
 
-      for (let date = 1; date < belong.endOf('month').date(); date++) {
+      for (let day = 1; day < belong.endOf('month').date(); day++) {
         if (
           filter(column, columnIndex, {
-            rowValue: date,
+            rowValue: day,
             currentSelectedValue
           }) &&
-          belong.set('date', date).isBetween(range[0], range[1], 'date', '[]')
+          belong.set('date', day).isBetween(range[0], range[1], 'date', '[]')
         ) {
-          result.push(date)
+          result.push(day)
         }
       }
 

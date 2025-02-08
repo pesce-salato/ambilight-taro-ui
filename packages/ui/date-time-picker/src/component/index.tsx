@@ -26,7 +26,7 @@ const defaultFormatter: AlDateTimePickerFormatter = (column, _columnIndex, { row
 }
 
 const defaultProps = {
-  fineness: AlDateTimePickerFineness.date as AlDateTimePickerFineness,
+  fineness: AlDateTimePickerFineness.day as AlDateTimePickerFineness,
   defaultValue: [] as number[],
   filter: (() => true) as AlDateTimePickerFilter,
   formatter: defaultFormatter

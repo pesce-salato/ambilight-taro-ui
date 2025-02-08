@@ -3,17 +3,17 @@ import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
 export const AlDateTimePickerFineness = {
   year: 'year',
   month: 'month',
-  date: 'date',
+  day: 'day',
   hour: 'hour',
   minute: 'minute',
-  hourOfOneDay: 'hour-of-one-day',
-  minuteOfOneDay: 'minute-of-one-day'
+  hourOfDay: 'hour-of-day',
+  minuteOfDay: 'minute-of-day'
 } as const
 
 export type AlDateTimePickerFineness = ValueOf<typeof AlDateTimePickerFineness>
 
 export const AlDateTimePickerColumn = {
-  date: 'date',
+  day: 'day',
   hour: 'hour',
   minute: 'minute',
   month: 'month',
@@ -90,22 +90,22 @@ export interface AlDateTimePickerProps extends AlBaseFcProps {
    * 选中值，其长度和每一项代表的值与 `fineness` 有关
    * - 'year' -> [year]
    * - 'month' -> [year, month]
-   * - 'date' -> [year, month, date]
+   * - 'day' -> [year, month, day]
    * - 'hour' -> [hour]
    * - 'minute' -> [hour, minute]
-   * - 'hour-of-one-day' -> [year, month, date, hour]
-   * - 'minute-of-one-day' -> [year, month, date, hour, minute]
+   * - 'hour-of-day' -> [year, month, day, hour]
+   * - 'minute-of-day' -> [year, month, day, hour, minute]
    */
   value?: number[]
   /**
    * 默认选中值，其长度和每一项代表的值与 `fineness` 有关
    * - 'year' -> [year]
    * - 'month' -> [year, month]
-   * - 'date' -> [year, month, date]
+   * - 'day' -> [year, month, day]
    * - 'hour' -> [hour]
    * - 'minute' -> [hour, minute]
-   * - 'hour-of-one-day' -> [year, month, date, hour]
-   * - 'minute-of-one-day' -> [year, month, date, hour, minute]
+   * - 'hour-of-day' -> [year, month, day, hour]
+   * - 'minute-of-day' -> [year, month, day, hour, minute]
    */
   defaultValue?: number[]
   /**
