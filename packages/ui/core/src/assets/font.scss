@@ -1,3 +1,5 @@
+@use "sass:string";
+
 @import './size.scss';
 @import './helper.scss';
 @import './name.scss';
@@ -40,6 +42,13 @@ $_font-setting-map: (
     )
 );
 
+$_font-family-map: (
+  'monospace': (
+    'name': 'al-monospace',
+    'url': 'https://cdn.salted-fish.org/ambilight-taro/font/CourierPrime-Regular.ttf',
+    'value': 'CourierPrime, "Lucida Console", Monaco, monospace'
+  )
+);
 
 @function font-size($key) {
   @return var(
@@ -58,4 +67,17 @@ $_font-setting-map: (
 @mixin mix-font($key) {
   font-size: font-size($key);
   line-height: line-height($key);
+}
+
+@each $name, $detail in $_font-family-map {
+  @font-face {
+    font-family: _get-safe-map-value($detail, 'name');
+    src: url(_get-safe-map-value($detail, 'url')) format('truetype');
+    font-style: normal;
+    font-display: block;
+  }
+}
+
+@mixin mix-font-family($key) {
+  font-family: #{_get-safe-map-value(_get-safe-map-value($_font-family-map, $key), 'value')};
 }
