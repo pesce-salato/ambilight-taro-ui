@@ -3,6 +3,8 @@
 $root: with-prefix('date-time-picker');
 
 .#{$root} {
+  @include mix-font-family('monospace');
+
   width: 100%;
   height: 100%;
   display: flex;
@@ -14,8 +16,6 @@ $root: with-prefix('date-time-picker');
   }
 
   &__preset-row {
-    @include mix-font-family('monospace');
-
     display: flex;
     align-items: center;
     justify-content: center;
