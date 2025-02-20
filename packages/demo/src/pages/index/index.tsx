@@ -14,7 +14,7 @@ const card = root.hierarchies('card')
 
 const SubPage = {
   component: 'component',
-  about: 'about',
+  about: 'about'
 } as const
 
 const SubPageMap = {}
@@ -28,30 +28,19 @@ export default () => {
 
   return (
     <AlPageView id="page-index" className={root.className}>
-      <AlNavBar.Basic
-        safePaddingForMenuButton
-        className={root.hierarchies('nav-bar').className}
-      >
+      <AlNavBar.Basic safePaddingForMenuButton className={root.hierarchies('nav-bar').className}>
         <View className={root.hierarchies('header').className}>
           <Slogan />
         </View>
       </AlNavBar.Basic>
       <View className={root.hierarchies('sub-page-area').className}>
-        <ScrollView
-          scrollY
-          className={root.hierarchies('sub-page-scroll').className}
-        >
+        <ScrollView scrollY className={root.hierarchies('sub-page-scroll').className}>
           <View className={root.hierarchies('sub-page').className}>
             {Config.map((item, index) => (
               <View key={index} className={card.className}>
-                <View className={card.hierarchies('title').className}>
-                  {item.title}
-                </View>
+                <View className={card.hierarchies('title').className}>{item.title}</View>
                 {item.components.map((componentDetail, componentIndex) => (
-                  <View
-                    className={card.hierarchies('item').className}
-                    key={componentIndex}
-                  >
+                  <View className={card.hierarchies('item').className} key={componentIndex}>
                     {componentDetail.title}
                   </View>
                 ))}
@@ -70,11 +59,9 @@ export default () => {
             id: SubPage.component,
             title: '预览',
             iconSource: {
-              active:
-                'https://cdn.salted-fish.org/al-mini-demo/preview-active.svg?v=1',
-              inactive:
-                'https://cdn.salted-fish.org/al-mini-demo/preview-inactive.svg?v=1',
-            },
+              active: 'https://cdn.salted-fish.org/ambilight-taro/demo/preview-active.svg',
+              inactive: 'https://cdn.salted-fish.org/ambilight-taro/demo/preview-inactive.svg'
+            }
           },
           {
             id: SubPage.about,
@@ -84,7 +71,7 @@ export default () => {
                 <View
                   className={classnames(
                     root.hierarchies('about-icon').status('active').className,
-                    root.hierarchies('about-icon').className,
+                    root.hierarchies('about-icon').className
                   )}
                 >
                   A
@@ -94,14 +81,14 @@ export default () => {
                 <View
                   className={classnames(
                     root.hierarchies('about-icon').status('inactive').className,
-                    root.hierarchies('about-icon').className,
+                    root.hierarchies('about-icon').className
                   )}
                 >
                   A
                 </View>
-              ),
-            },
-          },
+              )
+            }
+          }
         ]}
       />
     </AlPageView>

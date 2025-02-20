@@ -23,7 +23,7 @@ export default () => {
           trigger={AlNavBarPopPresetTrigger.bottomIntersectBottom}
           basicProps={{
             safePaddingForMenuButton: true,
-            className: root.hierarchies('nav-bar').className,
+            className: root.hierarchies('nav-bar').className
           }}
           period={120}
         >
@@ -37,7 +37,7 @@ export default () => {
         <View className={root.hierarchies('after').className}>
           <Image
             className={root.hierarchies('image').className}
-            src="https://cdn.salted-fish.org/al-mini-demo/rain.svg"
+            src="https://cdn.salted-fish.org/ambilight-taro/demo/rain.svg"
           />
         </View>
       </ScrollView>

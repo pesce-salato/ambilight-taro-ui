@@ -1,0 +1,16 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('calendar');
+
+.#{$root} {
+  &__preset__cn {
+    &__bottom {
+
+    }
+
+    &__insert {
+
+    }
+  }
+}
+
