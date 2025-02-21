@@ -1,8 +1,9 @@
-import React, { Fragment, useCallback, useMemo, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { useCompatibleUncontrolledValue } from '@ambilight-taro/use-compatible-uncontrolled-value'
 import { withDefaultProps, classnames, uuid } from '@ambilight-taro/core'
 import Dayjs from 'dayjs'
+import Taro from '@tarojs/taro'
 import { ScrollView, View } from '@tarojs/components'
 import {
   AlCalendarDayRender,
@@ -16,8 +17,8 @@ import {
   AlCalendarPresetRenderStruct
 } from '../type'
 import { bem } from './bem'
-import './index.scss'
 import { DateStringFormat, toDateStringValue } from '../utils'
+import './index.scss'
 
 const defaultProps = {
   dayRender: ((date) => ({ main: date.day })) as AlCalendarDayRender,
@@ -31,6 +32,8 @@ const defaultProps = {
   max: Dayjs().add(3, 'month').format(DateStringFormat),
   defaultValue: [] as string[]
 }
+
+const InvalidAnchorId = uuid(bem.root.className)
 
 export const AlCalendar = (originalProps: AlCalendarProps) => {
   const props = withDefaultProps<AlCalendarProps, typeof defaultProps>(originalProps)
@@ -59,6 +62,15 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
   const [scrollToAnchorId, setScrollToAnchorId] = useState('')
 
   const guid = useMemo(() => uuid(bem.root.className), [])
+
+  const clearScrollToAnchor = useCallback(() => {
+    // 网页端不支持此功能
+    if (Taro.getEnv() === Taro.ENV_TYPE.WEB) {
+      return
+    }
+
+    setScrollToAnchorId(InvalidAnchorId)
+  }, [])
 
   // 根据类型约束正确值类型表达
   const toConstrainedValue = useCallback(
@@ -99,11 +111,22 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
     [guid]
   )
 
+  useEffect(() => {
+    // 初始状态
+    if (!scrollToAnchorId) {
+      const target = Dayjs(constrainedValue[0] || Date.now())
+
+      setScrollToAnchorId(getMonthCardId(target.year(), target.month()))
+    }
+  }, [scrollToAnchorId, constrainedValue, getMonthCardId])
+
   const dayOfWeekBarRender = useCallback(() => {
     return (
       <View className={bem.dayOfWeekBar.className}>
         {weekColumns.map((dayOfWeek) => (
-          <View key={dayOfWeek}>{dayOfWeekTitleRender(dayOfWeek)}</View>
+          <View key={dayOfWeek} className={bem.dayOfWeekTitle.className}>
+            {dayOfWeekTitleRender(dayOfWeek)}
+          </View>
         ))}
       </View>
     )
@@ -194,9 +217,14 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
 
       return (
         <View
-          className={classnames(bem.day.className, bem.day.status(status).className, {
-            [bem.day.status('invalid').className]: !isValid
-          })}
+          className={classnames(
+            bem.day.className,
+            structDay.className,
+            bem.day.status(status).className,
+            {
+              [bem.day.status('invalid').className]: !isValid
+            }
+          )}
           onClick={() => {
             if (isValid) {
               onSomedayClick(date)
@@ -205,11 +233,7 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
         >
           {structDay?.main ? (
             <>
-              <View
-                className={classnames(bem.day.hierarchies('main').className, structDay.className)}
-              >
-                {structDay.main}
-              </View>
+              <View className={bem.day.hierarchies('main').className}>{structDay.main}</View>
               {structDay.top && (
                 <View className={bem.day.hierarchies('top').className}>{structDay.top}</View>
               )}
@@ -246,18 +270,17 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
         grid[rowIndex][columnIndex] = dayRender({ year, month, day })
       }
 
-      console.error(year, month, grid)
-
       return (
-        <View id={getMonthCardId(year, month)}>
-          {monthTitleRender(year, month)}
-          <View>
+        <View id={getMonthCardId(year, month)} className={bem.monthCard.className}>
+          <View className={bem.monthTitle.className}>{monthTitleRender(year, month)}</View>
+          <View className={bem.monthGrid.className}>
             {grid.map((columns, rowIndex) => {
-              const emptyDayCount = columns.findIndex(Boolean) + 1
+              const emptyDayCount = columns.findIndex(Boolean)
 
               return (
                 <View
                   key={rowIndex}
+                  className={bem.monthRow.className}
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   style={{ ['--al-calendar-empty-day-count']: emptyDayCount } as any}
                 >
@@ -267,6 +290,7 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
                 </View>
               )
             })}
+            <View className={bem.monthTooltip.className}>{month}</View>
           </View>
         </View>
       )
@@ -291,7 +315,7 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
     }
 
     return (
-      <View>
+      <View className={bem.scrollContent.className}>
         {months.map(({ node, id }) => (
           <Fragment key={id}>{node}</Fragment>
         ))}
@@ -302,7 +326,12 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
   return (
     <AlBasicView className={classnames(className, bem.root.className)} style={style}>
       {dayOfWeekBarRender()}
-      <ScrollView scrollY scrollIntoView={scrollToAnchorId}>
+      <ScrollView
+        className={bem.scrollContainer.className}
+        scrollY
+        scrollIntoView={scrollToAnchorId}
+        onScroll={clearScrollToAnchor}
+      >
         {scrollContent}
       </ScrollView>
     </AlBasicView>

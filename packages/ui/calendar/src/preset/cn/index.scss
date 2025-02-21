@@ -4,12 +4,40 @@ $root: with-prefix('calendar');
 
 .#{$root} {
   &__preset__cn {
-    &__bottom {
+    $prefix: #{&};
 
+    &-day {
+      &--selected {
+        #{$prefix}-bottom,#{$prefix}-insert {
+          color: semantic-color('font-primary-reverse');
+        }
+      }
     }
 
-    &__insert {
+    &-bottom {
+      color: semantic-color('font-assist');
 
+      &--special-lunar,
+      &--special-solar {
+        color: semantic-color('brand');
+      }
+    }
+
+    &-insert {
+      position: absolute;
+      top: size(17);
+      right: size(17);
+      font-size: font-size('assist');
+      transform: scale(0.6, 0.6);
+      font-weight: bold;
+
+      &--work-day {
+        color: semantic-color('error');
+      }
+
+      &--off-day {
+        color: semantic-color('success');
+      }
     }
   }
 }

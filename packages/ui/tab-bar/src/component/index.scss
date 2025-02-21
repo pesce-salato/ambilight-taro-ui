@@ -68,7 +68,7 @@ $iconWrapper: #{$root}__icon-wrapper;
 
     &--active {
       .#{$titleWrapper} {
-        color: semantic-color('primary');
+        color: semantic-color('brand');
       }
 
       .#{$iconWrapper} {

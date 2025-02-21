@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "demo",
+  "projectname": "Ambilight demo",
   "description": "ambilight taro ui demo",
-  "appid": "touristappid",
+  "appid": "wx2bc531fcaf018114",
   "setting": {
     "urlCheck": true,
     "es6": false,

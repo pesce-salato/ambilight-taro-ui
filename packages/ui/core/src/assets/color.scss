@@ -29,15 +29,19 @@ $_colors-map: (
 }
 
 $_semantic_color_map: (
-  'primary': color-palette('purple', '500'),
+  'brand': color-palette('purple', '500'),
+  'success': color-palette('green', '500'),
+  'error': color-palette('pink', '500'),
   'shadow': color-palette('black', '200'),
   'font-primary': color-palette('gray', '700'),
   'font-primary-reverse': color-palette('extreme', 'white'),
   'font-secondary': color-palette('gray', '500'),
+  'font-assist': color-palette('gray', '400'),
   'mask': color-palette('black', '500'),
   'divider': color-palette('black', '200'),
   'bg': color-palette('extreme', 'white'),
   'bg-with-opacity': color-palette('white', '700'),
+  'bg-middle': color-palette('black', '100'),
   'bg-reverse': color-palette('extreme', 'black'),
   'bg-reverse-with-opacity': color-palette('black', '700'),
 );

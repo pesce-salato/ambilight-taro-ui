@@ -45,7 +45,7 @@
     &__title {
       font-size: 16px;
       font-weight: bold;
-      color: semantic-color('primary');
+      color: semantic-color('brand');
       line-height: 36px;
       border-bottom: 1PX dashed color-palette('purple', '300');
     }
@@ -68,7 +68,7 @@
     font-family: al-slogan, 'Courier New', Courier, monospace;
 
     &--active {
-      color: semantic-color('primary');
+      color: semantic-color('brand');
     }
 
     &--inactive {

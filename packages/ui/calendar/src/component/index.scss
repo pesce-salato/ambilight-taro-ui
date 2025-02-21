@@ -1,7 +1,150 @@
 @import 'pkg:@ambilight-taro/core';
 
 $root: with-prefix('calendar');
+$week-bar-height: size(78);
+$day-width: 14.28%;
+$grid-gap-base: size(4);
 
 .#{$root} {
+  @include mix-font-family('monospace');
 
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: z-index('base');
+  overflow: hidden;
+  color: semantic-color('font-primary');
+
+  &__scroll-container {
+    height: calc(100% - #{$week-bar-height});
+    width: 100%;
+    background: semantic-color('bg-middle');
+  }
+
+  &__scroll-content {
+
+  }
+
+  &__day-of-week-bar {
+    position: relative;
+    z-index: z-index('interact');
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: $week-bar-height;
+    font-size: font-size('text');
+    font-weight: bold;
+    background: semantic-color('bg');
+    padding: 0 $grid-gap-base;
+    box-shadow: 0 0 size(12) semantic-color('shadow');
+  }
+
+  &__day-of-week-title {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__month-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: font-size('headline');
+    font-weight: bold;
+    height: size(88);
+  }
+
+  &__month-grid {
+    background: semantic-color('bg');
+    padding: $grid-gap-base;
+    position: relative;
+  }
+
+  &__month-row {
+    display: flex;
+    align-items: center;
+  }
+
+  &__month-tooltip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0.036;
+    font-size: size(300);
+    color: semantic-color('font-secondary');
+    pointer-events: none;
+  }
+
+  &__day {
+    $day-main: #{&}__main;
+
+    width: $day-width;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: z-index('interact');
+
+    &--invalid {
+      pointer-events: none;
+      opacity: opacity('disabled');
+    }
+
+    &:first-child {
+      margin-left: calc(var(--al-calendar-empty-day-count, 0) * #{$day-width})
+    }
+
+    #{$day-main} {
+      font-size: font-size('sub-headline');
+      font-weight: bold;
+    }
+
+    &__top,
+    &__bottom {
+      transform: scale(0.6, 0.6);
+      font-size: font-size('assist');
+      font-weight: bold;
+      position: absolute;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__top {
+      top: size(8);
+    }
+
+    &__bottom {
+      bottom: size(8);
+    }
+
+    &--selected {
+      &::before {
+        position: absolute;
+        content: '';
+        width: calc(100% - 3 * $grid-gap-base);
+        height: calc(100% - 3 * $grid-gap-base);
+        left: 50%;
+        top: 50%;
+        background: semantic-color('brand');
+        border-radius: 100%;
+        z-index: z-index('bg');
+        transform: translateX(-50%) translateY(-50%);
+      }
+
+      #{$day-main}{
+        color: semantic-color('font-primary-reverse');
+      }
+    }
+  }
 }

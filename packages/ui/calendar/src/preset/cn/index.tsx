@@ -13,6 +13,7 @@ import {
 import { getLunarDetail, AlCalendarPresetCnLunarDetail } from './lunar'
 import { bem } from '../../component/bem'
 import { toDateStringValue } from '../../utils'
+import './index.scss'
 
 export interface AlCalendarPresetCnBuilderOptions {
   isLunarDisabled?: boolean
@@ -27,7 +28,7 @@ export interface AlCalendarPresetCnCellDetail {
 const getHolidayOfYearFromCdnUrl = (year: number) =>
   `https://cdn.salted-fish.org/ambilight-taro/holiday-cn/${year}.json`
 
-const usePresetCndayRender: ((
+const usePresetCnDayRender: ((
   options?: AlCalendarPresetCnBuilderOptions
 ) => AlCalendarDayRender) & {
   preload: (years: number[]) => Promise<Map<string, CnHoliday>[]>
@@ -61,7 +62,7 @@ const usePresetCndayRender: ((
         ? undefined
         : await getHolidayDetail(
             date,
-            (usePresetCndayRender.getHolidayOfYear || getHolidayOfYearFromCdnUrl)(date.year)
+            (usePresetCnDayRender.getHolidayOfYear || getHolidayOfYearFromCdnUrl)(date.year)
           )
 
       setDayDetailCache((pre) => {
@@ -86,9 +87,8 @@ const usePresetCndayRender: ((
       let bottomText = lunar?.dayCn
       let isLunarSpecialDay = false
 
-      const presetBem = bem.preset.hierarchies('cn')
-      const bottomBem = presetBem.hierarchies('bottom')
-      const insertBem = presetBem.hierarchies('insert')
+      const bottomBem = bem.preset.hierarchies('cn-bottom')
+      const insertBem = bem.preset.hierarchies('cn-insert')
 
       // 每个阴历月的第一天，底部展示月份
       if (lunar?.lDay === 1) {
@@ -114,7 +114,10 @@ const usePresetCndayRender: ((
 
       return {
         main: date.day,
-        className: classnames(presetBem.status(status).className, presetBem.className),
+        className: classnames(
+          bem.preset.hierarchies('cn-day').status(status).className,
+          bem.preset.hierarchies('cn-day').className
+        ),
         bottom: (
           <View
             className={classnames(bottomBem.className, {
@@ -129,7 +132,7 @@ const usePresetCndayRender: ((
           <View
             className={classnames(
               insertBem.className,
-              bottomBem.status(holiday.isOffDay ? 'off-day' : 'work-day').className
+              insertBem.status(holiday.isOffDay ? 'off-day' : 'work-day').className
             )}
           >
             {holiday.isOffDay ? '休' : '班'}
@@ -142,12 +145,14 @@ const usePresetCndayRender: ((
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) as (options?: AlCalendarPresetCnBuilderOptions) => AlCalendarDayRender as any
 
-usePresetCndayRender.preload = (years: number[]) =>
+usePresetCnDayRender.preload = (years: number[]) =>
   Promise.all(
     years.map((year) =>
       getHolidayOfYear(
         year,
-        (usePresetCndayRender.getHolidayOfYear || getHolidayOfYearFromCdnUrl)(year)
+        (usePresetCnDayRender.getHolidayOfYear || getHolidayOfYearFromCdnUrl)(year)
       )
     )
   )
+
+export { usePresetCnDayRender }

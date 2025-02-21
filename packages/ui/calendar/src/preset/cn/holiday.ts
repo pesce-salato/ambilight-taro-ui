@@ -1,5 +1,6 @@
 import { Cache, formatMessage } from '@ambilight-taro/core'
 import Taro from '@tarojs/taro'
+import Dayjs from 'dayjs'
 import { bem } from '../../component/bem'
 import { AlCalendarDate } from '../../type'
 
@@ -28,7 +29,11 @@ export interface AlCalendarPresetCnHolidayDetail extends CnHoliday {
 }
 
 const holidayCache = Cache.app.getOrCreate<
-  Map<number, Map<string, CnHoliday> | Promise<Map<string, CnHoliday>>>
+  Map<
+    number,
+    | Map<string, AlCalendarPresetCnHolidayDetail>
+    | Promise<Map<string, AlCalendarPresetCnHolidayDetail>>
+  >
 >(`${bem.root.className}/cn-preset-holiday`, new Map())
 
 const solarFestivalMap = {
@@ -40,10 +45,13 @@ const solarFestivalMap = {
 export const getHolidayOfYear = async (year: number, json: string | CnHolidayJsonObject) => {
   const toDayMap = (jsonObject: CnHolidayJsonObject) => {
     const { days = [] } = jsonObject
-    const cache = new Map<string, CnHoliday>()
+    const cache = new Map<string, AlCalendarPresetCnHolidayDetail>()
 
     for (const day of days) {
-      cache.set(day.date, day)
+      cache.set(day.date, {
+        ...day,
+        festival: solarFestivalMap[Dayjs(day.date).format('MM-DD')]
+      })
     }
 
     return cache
@@ -95,16 +103,7 @@ export const getHolidayDetail = async (
     console.error(formatMessage(error.toString()))
   }
 
-  const detail = detailMap?.get(
+  return detailMap?.get(
     `${date.year}-${(date.month + 1).toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}`
   )
-
-  if (detail) {
-    return {
-      ...detail,
-      festival: solarFestivalMap[`$${date.year}-${(date.month + 1).toString().padStart(2, '0')}`]
-    }
-  }
-
-  return undefined
 }
