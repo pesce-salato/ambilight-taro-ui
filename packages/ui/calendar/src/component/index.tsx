@@ -199,6 +199,10 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
         ) {
           status = AlCalendarDayStatus.rangeStartAndEnd
         }
+
+        if (constrainedValue.length == 1 && constrainedValue[0] === dateStringValue) {
+          status = AlCalendarDayStatus.selected
+        }
       }
 
       return status
@@ -290,7 +294,7 @@ export const AlCalendar = (originalProps: AlCalendarProps) => {
                 </View>
               )
             })}
-            <View className={bem.monthTooltip.className}>{month}</View>
+            <View className={bem.monthTooltip.className}>{month + 1}</View>
           </View>
         </View>
       )

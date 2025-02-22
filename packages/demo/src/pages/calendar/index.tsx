@@ -17,7 +17,13 @@ export default () => {
     <AlPageView id="page-calendar" className={root.className}>
       <Text>{value.join('/') || 'none'}</Text>
       <View className={root.hierarchies('container').className}>
-        <AlCalendar dayRender={render} value={value} onChange={setValue} weekRowFirstDay="sun" />
+        <AlCalendar
+          type="range"
+          dayRender={render}
+          value={value}
+          onChange={setValue}
+          weekRowFirstDay="sun"
+        />
       </View>
     </AlPageView>
   )

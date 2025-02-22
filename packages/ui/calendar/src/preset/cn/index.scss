@@ -7,7 +7,7 @@ $root: with-prefix('calendar');
     $prefix: #{&};
 
     &-day {
-      &--selected {
+      &--selected,&--range-start,&--range-end,&--range-start-and-end {
         #{$prefix}-bottom,#{$prefix}-insert {
           color: semantic-color('font-primary-reverse');
         }

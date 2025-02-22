@@ -2,8 +2,8 @@
 
 $root: with-prefix('calendar');
 $week-bar-height: size(78);
-$day-width: 14.28%;
-$grid-gap-base: size(4);
+$grid-gap-base: size(2);
+$boundary-radius: size(12);
 
 .#{$root} {
   @include mix-font-family('monospace');
@@ -86,7 +86,7 @@ $grid-gap-base: size(4);
   &__day {
     $day-main: #{&}__main;
 
-    width: $day-width;
+    flex: 1;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
@@ -100,7 +100,7 @@ $grid-gap-base: size(4);
     }
 
     &:first-child {
-      margin-left: calc(var(--al-calendar-empty-day-count, 0) * #{$day-width})
+      margin-left: calc(var(--al-calendar-empty-day-count, 0) * 14.28%)
     }
 
     #{$day-main} {
@@ -128,12 +128,12 @@ $grid-gap-base: size(4);
       bottom: size(8);
     }
 
-    &--selected {
-      &::before {
+    &--selected,&--range-start,&--range-end,&--range-start-and-end {
+      &::after {
         position: absolute;
         content: '';
-        width: calc(100% - 3 * $grid-gap-base);
-        height: calc(100% - 3 * $grid-gap-base);
+        width: calc(100% - 6 * $grid-gap-base);
+        height: calc(100% - 6 * $grid-gap-base);
         left: 50%;
         top: 50%;
         background: semantic-color('brand');
@@ -144,6 +144,81 @@ $grid-gap-base: size(4);
 
       #{$day-main}{
         color: semantic-color('font-primary-reverse');
+      }
+    }
+
+
+    &--range-start,&--range-end,&--range-start-and-end,&--range-middle {
+      &::before {
+        position: absolute;
+        top: $grid-gap-base;
+        content: '';
+        height: calc(100% - 2 * $grid-gap-base);
+        z-index: z-index('bg');
+        background: semantic-color('bg-brand');
+      }
+
+      &:first-child {
+        &::before {
+          left: $grid-gap-base;
+        }
+      }
+
+      &:last-child {
+        &::before {
+          right: $grid-gap-base;
+        }
+      }
+    }
+
+    &--range-middle {
+      &::before {
+        right: 0;
+        left: 0;
+      }
+    }
+
+    &--range-middle,&--range-start {
+      &:last-child {
+        &::before {
+          border-top-right-radius: $boundary-radius;
+          border-bottom-right-radius: $boundary-radius;
+        }
+      }
+    }
+
+    &--range-middle,&--range-end {
+      &:first-child {
+        &::before {
+          border-top-left-radius: $boundary-radius;
+          border-bottom-left-radius: $boundary-radius;
+        }
+      }
+    }
+
+
+
+    &--range-start {
+      &::before {
+        left:  $grid-gap-base;
+        right: 0;
+        border-radius: calc(50% - $grid-gap-base) 0 0 calc(50% - $grid-gap-base);
+      }
+    }
+
+    &--range-end {
+      &::before {
+        right:  $grid-gap-base;
+        left: 0;
+        border-radius: 0 calc(50% - $grid-gap-base) calc(50% - $grid-gap-base) 0;
+      }
+    }
+
+    &--range-start-and-end {
+      &::before {
+        right:  $grid-gap-base;
+        left: $grid-gap-base;
+        border-radius: calc(50% - $grid-gap-base);
       }
     }
   }
