@@ -66,6 +66,8 @@ $boundary-radius: size(12);
   &__month-row {
     display: flex;
     align-items: center;
+    margin-left: calc(var(--al-calendar-week-start-empty-day-count, 0) * 14.28%);
+    margin-right: calc(var(--al-calendar-week-end-empty-day-count, 0) * 14.28%);
   }
 
   &__month-tooltip {
@@ -97,10 +99,6 @@ $boundary-radius: size(12);
     &--invalid {
       pointer-events: none;
       opacity: opacity('disabled');
-    }
-
-    &:first-child {
-      margin-left: calc(var(--al-calendar-empty-day-count, 0) * 14.28%)
     }
 
     #{$day-main} {
