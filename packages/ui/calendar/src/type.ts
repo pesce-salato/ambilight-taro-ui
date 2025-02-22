@@ -96,3 +96,7 @@ export interface AlCalendarProps extends AlBaseFcProps {
 
   monthTitleRender?: AlCalendarMonthTitleRender
 }
+
+export interface AlCalendarReference {
+  scrollTo: (year: number, month: number) => void
+}
