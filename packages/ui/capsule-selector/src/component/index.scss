@@ -1,0 +1,92 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('capsule-selector');
+$root-padding: 6;
+$root-height: 64;
+
+.#{$root} {
+  font-size: font-size('comment');
+  padding: size($root-padding);
+  height: size($root-height);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  z-index: z-index('base');
+  border-radius: size($root-height / 2);
+  overflow: hidden;
+
+  $option: #{&}__option;
+
+  &--theme-gray {
+    background: semantic-color('divider');
+    color: semantic-color('font-primary');
+
+    #{$option}--selected {
+      color: semantic-color('brand');
+    }
+  }
+
+  &--theme-brand {
+    background: semantic-color('brand');
+    color: semantic-color('font-primary-reverse');
+
+    #{$option}--selected {
+      color: semantic-color('brand');
+    }
+  }
+
+  #{$option},&__indicator-wrapper,&__separator-wrapper {
+    height: size($root-height - 2 * $root-padding);
+  }
+
+  #{$option} {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color animation-time() timing-function();
+
+    &--selected {
+      font-weight: bold;
+    }
+  }
+
+  &__indicator-wrapper,&__separator-wrapper {
+    width: calc(100% - 2 * size($root-padding));
+    left: size($root-padding);
+    top: size($root-padding);
+    position: absolute;
+    z-index: z-index('bg');
+    pointer-events: none;
+  }
+
+  &__separator {
+    width: size(2);
+    margin-left: size(-1);
+    height: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    background: semantic-color('divider');
+    opacity: 0;
+    position: absolute;
+    transition: opacity animation-time() timing-function();
+
+    &--active {
+      opacity: 1;
+    }
+  }
+
+  &__indicator-wrapper {
+    transition: transform animation-time() timing-function();
+  }
+
+  &__indicator {
+    width: var(--al-capsule-selector-indicator-width, 0);
+    background: semantic-color('bg');
+    height: 100%;
+    border-radius: size($root-height / 2 - $root-padding);
+  }
+}

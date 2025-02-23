@@ -65,7 +65,8 @@
     "@ambilight-taro/carousel": "^0.0.1",
     "@ambilight-taro/picker": "^0.0.1",
     "@ambilight-taro/date-time-picker": "^0.0.1",
-    "@ambilight-taro/calendar": "^0.0.1"
+    "@ambilight-taro/calendar": "^0.0.1",
+    "@ambilight-taro/capsule-selector": "^0.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
