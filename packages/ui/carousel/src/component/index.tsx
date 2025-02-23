@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  Bem,
-  withDefaultProps,
-  classnames,
-  uuid,
-  query,
-} from '@ambilight-taro/core'
+import { Bem, withDefaultProps, classnames, uuid, query } from '@ambilight-taro/core'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { NodesRef } from '@tarojs/taro'
 import { ITouchEvent, View } from '@tarojs/components'
@@ -15,7 +9,7 @@ import {
   AlCarouselDirection,
   AlCarouselIndicatorPosition,
   AlCarouselIndicatorVariant,
-  AlCarouselProps,
+  AlCarouselProps
 } from '../type'
 import './index.scss'
 
@@ -23,19 +17,15 @@ const root = new Bem('carousel')
 
 const defaultProps = {
   direction: AlCarouselDirection.horizontal as AlCarouselDirection,
-  indicatorVariant:
-    AlCarouselIndicatorVariant.dot as AlCarouselIndicatorVariant,
-  indicatorPosition:
-    AlCarouselIndicatorPosition.bottom as AlCarouselIndicatorPosition,
+  indicatorVariant: AlCarouselIndicatorVariant.dot as AlCarouselIndicatorVariant,
+  indicatorPosition: AlCarouselIndicatorPosition.bottom as AlCarouselIndicatorPosition,
   indicatorDisabled: false,
   duration: 0,
-  defaultValue: 0,
+  defaultValue: 0
 }
 
 export const AlCarousel = (originalProps: AlCarouselProps) => {
-  const props = withDefaultProps<AlCarouselProps, typeof defaultProps>(
-    originalProps,
-  )
+  const props = withDefaultProps<AlCarouselProps, typeof defaultProps>(originalProps)
   const {
     className,
     style,
@@ -47,40 +37,35 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
     duration,
     indicatorDisabled,
     indicatorPosition,
-    indicatorVariant,
+    indicatorVariant
   } = props
 
-  const [compatibleValue, onChangeWrapperOriginal] =
-    useCompatibleUncontrolledValue(defaultValue, value, onChange)
+  const [compatibleValue, onChangeWrapperOriginal] = useCompatibleUncontrolledValue(
+    defaultValue,
+    value,
+    onChange
+  )
   const systemSetValueReference = useRef<number>(compatibleValue)
   const realIndexReference = useRef(compatibleValue)
   const [isInTouching, setIsInTouching] = useState(false)
   const count = useMemo(() => React.Children.count(children), [children])
   const translateFunction = useMemo(
-    () =>
-      direction === AlCarouselDirection.horizontal
-        ? 'translateX'
-        : 'translateY',
-    [direction],
+    () => (direction === AlCarouselDirection.horizontal ? 'translateX' : 'translateY'),
+    [direction]
   )
 
-  const [isInTranslating, setIsInTranslating, getSyncIsInTranslating] =
-    useShadowState(false)
+  const [isInTranslating, setIsInTranslating, getSyncIsInTranslating] = useShadowState(false)
 
   const [wrapperStyle, setWrapperStyle] = useState<React.CSSProperties>({
     transform: `${translateFunction}(${-compatibleValue * 100}%)`,
-    transition: 'none',
+    transition: 'none'
   })
 
-  const isHorizontal = useMemo(
-    () => direction === AlCarouselDirection.horizontal,
-    [direction],
-  )
+  const isHorizontal = useMemo(() => direction === AlCarouselDirection.horizontal, [direction])
   const rootId = useMemo(() => uuid(root.className), [])
   const wrapperId = useMemo(() => uuid(root.className), [])
 
-  const [rootRect, setRootRect] =
-    useState<NodesRef.BoundingClientRectCallbackResult>()
+  const [rootRect, setRootRect] = useState<NodesRef.BoundingClientRectCallbackResult>()
   const moveStartFrom = useRef<number>()
   const moveStartOffset = useRef<number>()
   const latestMultipleReference = useRef<number>()
@@ -90,7 +75,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
       systemSetValueReference.current = v
       onChangeWrapperOriginal(v)
     },
-    [onChangeWrapperOriginal],
+    [onChangeWrapperOriginal]
   )
 
   const updateRootRect = useCallback(async () => {
@@ -105,7 +90,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
   // 计算跳转到对应下标索引所需百分比位移
   const calcMoveToIndexNeedPercentage = useCallback(
     (targetIndex: number) => `${-targetIndex * 100}%`,
-    [],
+    []
   )
 
   /**
@@ -120,7 +105,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
 
       return 0
     },
-    [isHorizontal, rootRect],
+    [isHorizontal, rootRect]
   )
 
   const onTouchStart = useCallback(
@@ -129,18 +114,15 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         return
       }
 
-      moveStartFrom.current = isHorizontal
-        ? event.touches[0].clientX
-        : event.touches[0].clientY
-      moveStartOffset.current =
-        compatibleValue * (isHorizontal ? rootRect.width : rootRect.height)
+      moveStartFrom.current = isHorizontal ? event.touches[0].clientX : event.touches[0].clientY
+      moveStartOffset.current = compatibleValue * (isHorizontal ? rootRect.width : rootRect.height)
       latestMultipleReference.current = undefined
 
       realIndexReference.current = -1
 
       setIsInTouching(true)
     },
-    [rootRect, isHorizontal, compatibleValue],
+    [rootRect, isHorizontal, compatibleValue]
   )
 
   const onTouchMove = useCallback(
@@ -154,23 +136,20 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         // 计算位移相对于整个元素的倍数
         const multiple = calcMultiple(
           moveStartOffset.current -
-            (isHorizontal
-              ? event.touches[0].clientX
-              : event.touches[0].clientY) +
-            moveStartFrom.current,
+            (isHorizontal ? event.touches[0].clientX : event.touches[0].clientY) +
+            moveStartFrom.current
         )
         // 处理在第一个元素左滑的case，直接将其置换到最后一个在末尾多渲染的“第一个元素”
         const toPositiveMultiple = multiple < 0 ? count + multiple : multiple
         // 处理突然出现的极大滑动距离的极限情况，将位移约束在安全范围内
-        const safeMultiple =
-          toPositiveMultiple - Math.floor(toPositiveMultiple / count) * count
+        const safeMultiple = toPositiveMultiple - Math.floor(toPositiveMultiple / count) * count
 
         realIndexReference.current = Math.round(safeMultiple)
 
         onChangeWrapper(
           realIndexReference.current >= count
             ? realIndexReference.current - count
-            : realIndexReference.current,
+            : realIndexReference.current
         )
 
         latestMultipleReference.current = safeMultiple
@@ -179,7 +158,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
           transform: `${translateFunction}(${
             -safeMultiple * (isHorizontal ? rootRect.width : rootRect.height)
           }px)`,
-          transition: 'none',
+          transition: 'none'
         })
       }
     },
@@ -190,47 +169,35 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
       isHorizontal,
       translateFunction,
       onChangeWrapper,
-      getSyncIsInTranslating,
-    ],
+      getSyncIsInTranslating
+    ]
   )
 
   const onTouchEnd = useCallback(() => {
-    if (
-      !getSyncIsInTranslating() &&
-      latestMultipleReference.current !== undefined
-    ) {
+    if (!getSyncIsInTranslating() && latestMultipleReference.current !== undefined) {
       // 超过 5% 的位移，则视作会触发动画
       // 阻止后续 move 响应，直至动画结束，位置正确
       // 小于 5%，则视作不触发动画
       // 后续 move 直接位移到对应位置，用户无较大感知
       setIsInTranslating(
-        Math.abs(latestMultipleReference.current - realIndexReference.current) >
-          0.05,
+        Math.abs(latestMultipleReference.current - realIndexReference.current) > 0.05
       )
 
       if (realIndexReference.current >= 0) {
         setWrapperStyle({
-          transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`,
+          transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`
         })
       }
     }
 
     setIsInTouching(false)
-  }, [
-    calcMoveToIndexNeedPercentage,
-    translateFunction,
-    getSyncIsInTranslating,
-    setIsInTranslating,
-  ])
+  }, [calcMoveToIndexNeedPercentage, translateFunction, getSyncIsInTranslating, setIsInTranslating])
 
   const onTransitionEnd = useCallback(() => {
-    if (
-      realIndexReference.current === count &&
-      systemSetValueReference.current == 0
-    ) {
+    if (realIndexReference.current === count && systemSetValueReference.current == 0) {
       setWrapperStyle({
         transform: `${translateFunction}(0px)`,
-        transition: 'none',
+        transition: 'none'
       })
     }
 
@@ -246,7 +213,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         setIsInTranslating(true)
         systemSetValueReference.current = compatibleValue
         setWrapperStyle({
-          transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(compatibleValue)})`,
+          transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(compatibleValue)})`
         })
       }, 0)
     }
@@ -255,7 +222,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
     compatibleValue,
     calcMoveToIndexNeedPercentage,
     translateFunction,
-    setIsInTranslating,
+    setIsInTranslating
   ])
 
   // 自动定时轮播
@@ -269,7 +236,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
           realIndexReference.current = compatibleValue + 1
           setIsInTranslating(true)
           setWrapperStyle({
-            transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`,
+            transform: `${translateFunction}(${calcMoveToIndexNeedPercentage(realIndexReference.current)})`
           })
           onChangeWrapper(newIndex)
         }
@@ -286,21 +253,19 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
     translateFunction,
     onChangeWrapper,
     setIsInTranslating,
-    isInTranslating,
+    isInTranslating
   ])
 
   const items = useMemo(() => {
     const childArray = React.Children.toArray(children)
     // 第一个元素在末尾多渲染一个，以实现无缝轮播效果
-    return [...childArray, childArray[0]].map(
-      (item: React.ReactNode, index: number) => {
-        return (
-          <View key={index} className={root.hierarchies(['item']).className}>
-            {item}
-          </View>
-        )
-      },
-    )
+    return [...childArray, childArray[0]].map((item: React.ReactNode, index: number) => {
+      return (
+        <View key={index} className={root.hierarchies(['item']).className}>
+          {item}
+        </View>
+      )
+    })
   }, [children])
 
   const indicator = useMemo(() => {
@@ -312,14 +277,11 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         result.push(
           <View
             key={counter}
-            className={classnames(
-              root.hierarchies('indicator-item').className,
-              {
-                [root.hierarchies('indicator-item').status('active').className]:
-                  counter === compatibleValue,
-              },
-            )}
-          />,
+            className={classnames(root.hierarchies('indicator-item').className, {
+              [root.hierarchies('indicator-item').status('active').className]:
+                counter === compatibleValue
+            })}
+          />
         )
       }
 
@@ -327,11 +289,8 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         <View
           className={classnames(
             root.hierarchies('indicator').className,
-            root
-              .hierarchies('indicator')
-              .status(`position-${indicatorPosition}`).className,
-            root.hierarchies('indicator').status(`variant-${indicatorVariant}`)
-              .className,
+            root.hierarchies('indicator').status(`position-${indicatorPosition}`).className,
+            root.hierarchies('indicator').status(`variant-${indicatorVariant}`).className
           )}
         >
           <View className={root.hierarchies(['indicator-wrapper']).className}>
@@ -340,7 +299,7 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
                 className={root.hierarchies(['indicator-slider']).className}
                 style={{
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  transform: `translateX(${compatibleValue * 100}%)`,
+                  transform: `translateX(${compatibleValue * 100}%)`
                 }}
               />
             )}
@@ -349,21 +308,11 @@ export const AlCarousel = (originalProps: AlCarouselProps) => {
         </View>
       )
     }
-  }, [
-    compatibleValue,
-    count,
-    indicatorVariant,
-    indicatorDisabled,
-    indicatorPosition,
-  ])
+  }, [compatibleValue, count, indicatorVariant, indicatorDisabled, indicatorPosition])
 
   return (
     <AlBasicView
-      className={classnames(
-        className,
-        root.className,
-        root.status(direction).className,
-      )}
+      className={classnames(className, root.className, root.status(direction).className)}
       style={style}
       id={rootId}
       catchMove
