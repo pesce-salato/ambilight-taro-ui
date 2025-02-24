@@ -28,11 +28,13 @@ export default () => {
           period={120}
         >
           <View className={root.hierarchies('header').className}>
-            于暴雨中行走，伞是倒挂天空的船
+            <View className={root.hierarchies('search-bar').className}>
+              这是一个虚假的毫无意义的搜索框
+            </View>
           </View>
         </AlNavBar.Pop>
         <View id={observeId} className={root.hierarchies('before').className}>
-          尝试往上滚动试试看
+          于暴雨中行走，伞是倒挂天空的船
         </View>
         <View className={root.hierarchies('after').className}>
           <Image

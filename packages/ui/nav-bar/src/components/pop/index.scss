@@ -15,7 +15,7 @@ $root: with-prefix('nav-bar-pop');
   &__content {
     transform: translateY(-100%);
     opacity: 0;
-    transition: all animation-time() timing-function();
+    transition: opacity animation-time('quick') ease-in,transform animation-time('quick') timing-function();
   }
 
   &__gager {

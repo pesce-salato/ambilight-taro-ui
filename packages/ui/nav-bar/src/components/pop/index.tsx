@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   useMemo,
-  useState,
+  useState
 } from 'react'
 import { View } from '@tarojs/components'
 import { useShadowState } from '@ambilight-taro/use-shadow-state'
@@ -26,7 +26,7 @@ export const AlNavBarPop = forwardRef(
       style,
       children,
       id,
-      basicProps = {},
+      basicProps = {}
     } = props
 
     const [pageVisible, setPageVisible] = useState(true)
@@ -48,9 +48,7 @@ export const AlNavBarPop = forwardRef(
         // eslint-disable-next-line unicorn/no-await-expression-member
         setNavBarRect((await query(rectGagerId))[0])
       } catch (error) {
-        throw new Error(
-          formatMessage(`无法查询到 nav bar rect 信息，${error.toString()}`),
-        )
+        throw new Error(formatMessage(`无法查询到 nav bar rect 信息，${error.toString()}`))
       }
     }, [rectGagerId, setNavBarRect])
 
@@ -59,13 +57,7 @@ export const AlNavBarPop = forwardRef(
     }, [queryNavBar])
 
     useEffect(() => {
-      if (
-        pageVisible &&
-        observeElementId &&
-        autoObserve &&
-        navBarRect &&
-        trigger
-      ) {
+      if (pageVisible && observeElementId && autoObserve && navBarRect && trigger) {
         let timeoutHandler: number = 0
         let abandoned = false
 
@@ -107,15 +99,7 @@ export const AlNavBarPop = forwardRef(
           clearTimeout(timeoutHandler)
         }
       }
-    }, [
-      observeElementId,
-      autoObserve,
-      period,
-      navBarRect,
-      trigger,
-      pageVisible,
-      getSyncNavBarRect,
-    ])
+    }, [observeElementId, autoObserve, period, navBarRect, trigger, pageVisible, getSyncNavBarRect])
 
     useImperativeHandle(
       reference,
@@ -128,32 +112,27 @@ export const AlNavBarPop = forwardRef(
           if (realtimeNavBarRect) {
             setIsPopped(trigger(rect, realtimeNavBarRect))
           } else {
-            throw new Error(
-              formatMessage('nav bar rect 信息还未初始化或重查询完成'),
-            )
+            throw new Error(formatMessage('nav bar rect 信息还未初始化或重查询完成'))
           }
         },
-        queryObserveElement: queryNavBar,
+        queryObserveElement: queryNavBar
       }),
-      [observeElementId, trigger, queryNavBar, getSyncNavBarRect],
+      [observeElementId, trigger, queryNavBar, getSyncNavBarRect]
     )
 
     return (
       <View
         className={classnames(className, popRoot.className, {
-          [popRoot.status('visible').className]: isPopped,
+          [popRoot.status('visible').className]: isPopped
         })}
         style={style}
         id={id}
       >
-        <View
-          className={popRoot.hierarchies('gager').className}
-          id={rectGagerId}
-        />
+        <View className={popRoot.hierarchies('gager').className} id={rectGagerId} />
         <View className={popRoot.hierarchies('content').className}>
           <AlNavBarBasic {...basicProps}>{children}</AlNavBarBasic>
         </View>
       </View>
     )
-  },
+  }
 )

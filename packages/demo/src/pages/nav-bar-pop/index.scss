@@ -9,7 +9,8 @@
   }
 
   &__nav-bar {
-    background: linear-gradient(0deg, color-palette('extreme', 'white'), color-palette('purple', '50'))
+    background: linear-gradient(0deg, color-palette('extreme', 'white'), color-palette('purple', '50'));
+    box-shadow: 0 0 size(12) semantic-color('shadow');
   }
 
   &__header {
@@ -20,13 +21,27 @@
     font-size: 14px;
   }
 
+  &__search-bar {
+    background: semantic-color('divider');
+    font-size: font-size('assist');
+    color: semantic-color('font-secondary');
+    height: size(54);
+    border-radius: size(27);
+    width: size(360);
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    padding-left: size(27);
+  }
+
   &__before {
     height: 240px;
-    background: color-palette('black', '100');
+    background: color-palette('black', '50');
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    font-size: font-size('text');
   }
 
   &__after {
