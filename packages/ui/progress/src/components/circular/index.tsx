@@ -3,6 +3,7 @@ import { Canvas, View } from '@tarojs/components'
 import { CanvasContext, useReady, getWindowInfo } from '@tarojs/taro'
 import { withDefaultProps, classnames, uuid, query } from '@ambilight-taro/core'
 import { AlCircularProgressProps } from '../../type'
+import { easeInOut } from './utils'
 import { bem } from '../../bem'
 import './index.scss'
 
@@ -114,16 +115,20 @@ export const AlCircularProgress = (originalProps: AlCircularProgressProps) => {
     animationTaskIdReference.current = taskId
 
     if (withAnimation) {
-      const speed = (value - drawValueReference.current) / animationDuration
-      let lastTimestamp = Date.now()
+      const start = drawValueReference.current
+      const end = value
+      const offset = end - start
+      const startTimestamp = Date.now()
 
       const interpolation = () => {
         if (taskId === animationTaskIdReference.current) {
-          const now = Date.now()
-          drawValueReference.current += speed * (now - lastTimestamp)
+          // Math.min(1, t) 是为了避免值超出 easeInOut 处理范围
+          drawValueReference.current =
+            start +
+            offset * easeInOut(Math.min((Date.now() - startTimestamp) / animationDuration, 1))
 
           const reachedEnd =
-            speed > 0 ? drawValueReference.current > value : drawValueReference.current < value
+            offset > 0 ? drawValueReference.current > value : drawValueReference.current < value
 
           if (reachedEnd) {
             drawValueReference.current = value
@@ -135,7 +140,7 @@ export const AlCircularProgress = (originalProps: AlCircularProgressProps) => {
             return
           }
 
-          lastTimestamp = now
+          // lastTimestamp = now
           requestAnimationFrame(interpolation)
         }
       }
