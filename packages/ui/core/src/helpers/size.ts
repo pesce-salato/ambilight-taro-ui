@@ -9,15 +9,14 @@ export const getRatio = () => {
 }
 
 export const sizeOf = (size: number): string => {
-  const { designWidth: reserveDesignWidth, deviceRatio: reserveDeviceRatio } =
-    getUserDesign()
+  const { designWidth: reserveDesignWidth, deviceRatio: reserveDeviceRatio } = getUserDesign()
 
   // set to our system width
   Taro.initPxTransform({
     designWidth: System.size.width,
     deviceRatio: {
-      [System.size.width]: 750 / System.size.width,
-    },
+      [System.size.width]: 750 / System.size.width
+    }
   })
   // calc size
   const result = Taro.pxTransform(size)
@@ -25,7 +24,7 @@ export const sizeOf = (size: number): string => {
   // recover
   Taro.initPxTransform({
     designWidth: reserveDesignWidth,
-    deviceRatio: reserveDeviceRatio,
+    deviceRatio: reserveDeviceRatio
   })
 
   return result
