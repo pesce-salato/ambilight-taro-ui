@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Canvas, View } from '@tarojs/components'
+import { Canvas } from '@tarojs/components'
 import { CanvasContext, useReady, getWindowInfo } from '@tarojs/taro'
 import { withDefaultProps, classnames, uuid, query } from '@ambilight-taro/core'
+import { AlBasicView } from '@ambilight-taro/basic-view'
 import { AlCircularProgressProps } from '../../type'
 import { easeInOut } from './utils'
 import { bem } from '../../bem'
@@ -17,8 +18,17 @@ const defaultProps = {
 
 export const AlCircularProgress = (originalProps: AlCircularProgressProps) => {
   const props = withDefaultProps<AlCircularProgressProps, typeof defaultProps>(originalProps)
-  const { thicknessRatio, color, ringColor, withAnimation, value, animationDuration, clockwise } =
-    props
+  const {
+    thicknessRatio,
+    color,
+    ringColor,
+    withAnimation,
+    value,
+    animationDuration,
+    clockwise,
+    className,
+    style
+  } = props
   const [diameter, setDiameter] = useState<number>(0)
   const [canvasContext, setCanvasContext] = useState<CanvasContext>()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -153,9 +163,10 @@ export const AlCircularProgress = (originalProps: AlCircularProgressProps) => {
   }, [draw, withAnimation, value, animationDuration, drawEnvironmentGetReady])
 
   return (
-    <View
+    <AlBasicView
       id={rootId}
-      className={classnames(bem.root.className, bem.root.status('circular').className)}
+      className={classnames(className, bem.root.className, bem.root.status('circular').className)}
+      style={style}
     >
       <Canvas
         canvasId={canvasId}
@@ -164,7 +175,7 @@ export const AlCircularProgress = (originalProps: AlCircularProgressProps) => {
         className={bem.root.className}
         style={{ width: `${diameter}px`, height: `${diameter}px` }}
       />
-    </View>
+    </AlBasicView>
   )
 }
 
