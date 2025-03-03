@@ -88,5 +88,6 @@ $root-height: 64;
     background: semantic-color('bg');
     height: 100%;
     border-radius: size($root-height / 2 - $root-padding);
+    box-shadow: 0 0 size(4) semantic-color('shadow');
   }
 }
