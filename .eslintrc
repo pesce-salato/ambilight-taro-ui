@@ -11,6 +11,16 @@
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["prettier", "react-hooks", "simple-import-sort", "sort-keys-fix"],
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "project": "packages/*/tsconfig.json"
+      }
+    }
+  },
   "rules": {
     "quotes": ["error", "single"],
     "react/jsx-uses-react": "off",
