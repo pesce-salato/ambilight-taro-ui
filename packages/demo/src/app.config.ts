@@ -8,7 +8,8 @@ export default defineAppConfig({
     'pages/picker/index',
     'pages/date-time-picker/index',
     'pages/calendar/index',
-    'pages/capsule-selector/index'
+    'pages/capsule-selector/index',
+    'pages/progress/index'
   ],
   window: {
     backgroundTextStyle: 'light',

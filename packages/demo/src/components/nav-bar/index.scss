@@ -1,0 +1,20 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+.nav-bar {
+  border-bottom: 1PX dashed semantic-color('divider');
+
+  &__content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: semantic-color('font-primary');
+    font-size: font-size('sub-headline');
+    font-weight: bold;
+  }
+
+  &__back {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
+}

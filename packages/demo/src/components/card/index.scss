@@ -1,0 +1,41 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+.card {
+  box-shadow: 0 0 2px semantic-color('shadow'), 2px 3px 4px semantic-color('shadow');
+  border-radius: border-radius('md');
+  padding: 0 6px;
+  margin: 16px 8px;
+
+  &__title {
+    font-size: font-size('text');
+    font-weight: bold;
+    color: semantic-color('font-primary');
+    line-height: 36px;
+    border-bottom: 1PX dashed semantic-color('divider');
+  }
+
+  &__item {
+    border-radius: border-radius('md');
+    padding: 0 6px;
+    background: color-palette('black', 50);
+    display: flex;
+    align-items: center;
+    height: 36px;
+    margin: 8px 0;
+    font-size: font-size('comment');
+
+    &__label {
+      color: semantic-color('font-primary');
+      line-height: 28px;
+    }
+
+    &__content {
+      color: semantic-color('brand');
+      flex: 1;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+}
