@@ -1,21 +1,43 @@
 @import 'pkg:@ambilight-taro/core';
 
 $root: with-prefix('capsule-selector');
-$root-padding: 6;
-$root-height: 64;
+$root-padding-css-var-name: '--#{$root}-padding';
+$root-height-css-var-name: '--#{$root}-height';
+
+$root-padding: var(#{$root-padding-css-var-name}, size(6));
+$root-height: var(#{$root-height-css-var-name}, size(64));
 
 .#{$root} {
-  font-size: font-size('comment');
-  padding: size($root-padding);
-  height: size($root-height);
+  padding: $root-padding;
+  height: $root-height;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: row;
   position: relative;
   z-index: z-index('base');
-  border-radius: size($root-height / 2);
+  border-radius: calc($root-height / 2);
   overflow: hidden;
+
+  &--size-md {
+    #{$root-padding-css-var-name}: size(6);
+    #{$root-height-css-var-name}: size(64);
+    font-size: font-size('comment');
+
+    .#{$root}__indicator {
+      box-shadow: 0 0 size(4) semantic-color('shadow');
+    }
+  }
+
+  &--size-sm {
+    #{$root-padding-css-var-name}: size(4);
+    #{$root-height-css-var-name}: size(48);
+    font-size: font-size('assist');
+
+    .#{$root}__indicator {
+      box-shadow: 0 0 size(2) semantic-color('shadow');
+    }
+  }
 
   $option: #{&}__option;
 
@@ -38,7 +60,7 @@ $root-height: 64;
   }
 
   #{$option},&__indicator-wrapper,&__separator-wrapper {
-    height: size($root-height - 2 * $root-padding);
+    height: calc($root-height - 2 * $root-padding);
   }
 
   #{$option} {
@@ -55,9 +77,9 @@ $root-height: 64;
   }
 
   &__indicator-wrapper,&__separator-wrapper {
-    width: calc(100% - 2 * size($root-padding));
-    left: size($root-padding);
-    top: size($root-padding);
+    width: calc(100% - 2 * $root-padding);
+    left: $root-padding;
+    top: $root-padding;
     position: absolute;
     z-index: z-index('bg');
     pointer-events: none;
@@ -87,7 +109,6 @@ $root-height: 64;
     width: var(--al-capsule-selector-indicator-width, 0);
     background: semantic-color('bg');
     height: 100%;
-    border-radius: size($root-height / 2 - $root-padding);
-    box-shadow: 0 0 size(4) semantic-color('shadow');
+    border-radius: calc($root-height / 2 - $root-padding);
   }
 }

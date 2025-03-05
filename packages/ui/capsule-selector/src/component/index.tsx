@@ -1,20 +1,21 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, Children } from 'react'
 import { View } from '@tarojs/components'
 import { Bem, classnames, withDefaultProps } from '@ambilight-taro/core'
 import { useCompatibleUncontrolledValue } from '@ambilight-taro/use-compatible-uncontrolled-value'
-import { AlCapsuleSelectorProps, AlCapsuleSelectorTheme } from '../type'
+import { AlCapsuleSelectorProps, AlCapsuleSelectorSize, AlCapsuleSelectorTheme } from '../type'
 import './index.scss'
 
 const defaultProps = {
   theme: AlCapsuleSelectorTheme.gray as AlCapsuleSelectorTheme,
-  defaultValue: 0
+  defaultValue: 0,
+  size: AlCapsuleSelectorSize.md as AlCapsuleSelectorSize
 }
 
 const root = new Bem('capsule-selector')
 
 export const AlCapsuleSelector = (originalProps: AlCapsuleSelectorProps) => {
   const props = withDefaultProps<AlCapsuleSelectorProps, typeof defaultProps>(originalProps)
-  const { children, theme, value, defaultValue, onChange, className, style } = props
+  const { children, theme, value, defaultValue, onChange, className, style, size } = props
 
   const [compatibleValue, onChangeWrapper] = useCompatibleUncontrolledValue(
     defaultValue,
@@ -22,10 +23,10 @@ export const AlCapsuleSelector = (originalProps: AlCapsuleSelectorProps) => {
     onChange
   )
 
-  const optionCount = useMemo(() => React.Children.toArray(children).length, [children])
+  const optionCount = useMemo(() => Children.toArray(children).length, [children])
 
   const options = useMemo(() => {
-    return React.Children.toArray(children).map((option: React.ReactNode, index: number) => {
+    return Children.toArray(children).map((option: React.ReactNode, index: number) => {
       return (
         <View
           key={index}
@@ -71,7 +72,12 @@ export const AlCapsuleSelector = (originalProps: AlCapsuleSelectorProps) => {
 
   return (
     <View
-      className={classnames(root.className, className, root.status(`theme-${theme}`).className)}
+      className={classnames(
+        root.className,
+        className,
+        root.status(`theme-${theme}`).className,
+        root.status(`size-${size}`).className
+      )}
       style={style}
     >
       {separators}
