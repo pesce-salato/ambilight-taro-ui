@@ -11,6 +11,8 @@ npm install @ambilight-taro/progress
 
 ## Usage
 
+进度条组件，包含线形/环形进度条
+
 ### Common
 
 #### 关闭动画效果
