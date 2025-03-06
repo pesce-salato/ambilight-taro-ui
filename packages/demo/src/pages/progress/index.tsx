@@ -1,13 +1,13 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { AlPageView } from '@ambilight-taro/page-view'
 import { Bem } from '@ambilight-taro/core'
 import { View } from '@tarojs/components'
 import { AlProgress } from '@ambilight-taro/progress'
 import { NavBar } from '@/components/nav-bar'
 import { Tooltip } from '@/components/tooltip'
-import './index.scss'
 import { Card, CardItem } from '@/components/card'
 import { AlCapsuleSelector } from '@ambilight-taro/capsule-selector'
+import './index.scss'
 
 const root = new Bem('page-progress', undefined, undefined, false)
 
