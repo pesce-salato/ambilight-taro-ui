@@ -21,6 +21,18 @@ export const Config: {
     components: [
       {
         title: 'nav-bar'
+      },
+      {
+        title: 'tab-bar'
+      }
+    ]
+  },
+  {
+    title: '表单',
+    components: [
+      {
+        title: 'picker',
+        path: '/pages/picker/index'
       }
     ]
   },

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { navigateBack } from '@tarojs/taro'
 import { AlNavBar } from '@ambilight-taro/nav-bar'
 import { Image, View } from '@tarojs/components'
 import BackIcon from '@/resources/icon/back.svg'
@@ -15,7 +16,11 @@ export const NavBar = (props: NavBarProps) => {
   return (
     <AlNavBar.Basic className={root.className} safePaddingForMenuButton>
       <View className={root.hierarchies('content').className}>
-        <Image src={BackIcon} className={root.hierarchies('back').className} />
+        <Image
+          src={BackIcon}
+          className={root.hierarchies('back').className}
+          onClick={() => navigateBack()}
+        />
         {props.children}
       </View>
     </AlNavBar.Basic>
