@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/default
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { classnames, formatMessage, query, uuid } from '@ambilight-taro/core'
 import { AlBasicView } from '@ambilight-taro/basic-view'
@@ -14,13 +15,11 @@ export const AlPicker = (props: AlPickerProps) => {
   const [compatibleValue, onChangeWrapper] = useCompatibleUncontrolledValue(
     defaultValue || options[0].id,
     value,
-    onChange,
+    onChange
   )
 
-  const [rootRect, setRootRect] =
-    useState<NodesRef.BoundingClientRectCallbackResult>()
-  const [optionRect, setOptionRect] =
-    useState<NodesRef.BoundingClientRectCallbackResult>()
+  const [rootRect, setRootRect] = useState<NodesRef.BoundingClientRectCallbackResult>()
+  const [optionRect, setOptionRect] = useState<NodesRef.BoundingClientRectCallbackResult>()
   const [wrapperStyle, setWrapperStyle] = useState<React.CSSProperties>({})
   const rootId = useMemo(() => uuid(bem.root.className), [])
   const optionHeightGagerId = useMemo(() => uuid(bem.root.className), [])
@@ -35,9 +34,7 @@ export const AlPicker = (props: AlPickerProps) => {
       setRootRect(rects.find((item) => item.id === rootId))
       setOptionRect(rects.find((item) => item.id === optionHeightGagerId))
     } catch (error) {
-      throw new Error(
-        formatMessage(`查询组件本身以及行高信息失败，${error.toString()}`),
-      )
+      throw new Error(formatMessage(`查询组件本身以及行高信息失败，${error.toString()}`))
     }
   }, [rootId, optionHeightGagerId])
 
@@ -55,7 +52,7 @@ export const AlPicker = (props: AlPickerProps) => {
     if (optionRect) {
       setWrapperStyle((pre) => ({
         ...pre,
-        transform: `translateY(${-currentIndex * optionRect.height}px)`,
+        transform: `translateY(${-currentIndex * optionRect.height}px)`
       }))
     }
   }, [currentIndex, optionRect])
@@ -66,14 +63,13 @@ export const AlPicker = (props: AlPickerProps) => {
       moveStartOffsetReference.current = currentIndex * optionRect!.height
       latestTranslateMultipleReference.current = undefined
     },
-    [optionRect, currentIndex],
+    [optionRect, currentIndex]
   )
 
   const onTouchMove = useCallback(
     (event: ITouchEvent) => {
       if (!isInTranslatingReference.current) {
-        const fromStartOffset =
-          event.touches[0].clientY - moveStartFromReference.current
+        const fromStartOffset = event.touches[0].clientY - moveStartFromReference.current
 
         const totalOffset = moveStartOffsetReference.current - fromStartOffset
         const multiple = totalOffset / optionRect!.height
@@ -81,18 +77,18 @@ export const AlPicker = (props: AlPickerProps) => {
         // 允许一定范围的上下超出界限
         const wideRangeMultiple = Math.max(
           Math.min(multiple, optionCount + allowBoundary - 1),
-          -allowBoundary,
+          -allowBoundary
         )
 
         latestTranslateMultipleReference.current = wideRangeMultiple
 
         setWrapperStyle({
           transition: 'none',
-          transform: `translateY(${-wideRangeMultiple * optionRect!.height}px)`,
+          transform: `translateY(${-wideRangeMultiple * optionRect!.height}px)`
         })
       }
     },
-    [optionRect, optionCount],
+    [optionRect, optionCount]
   )
 
   const onTouchEnd = useCallback(() => {
@@ -103,16 +99,13 @@ export const AlPicker = (props: AlPickerProps) => {
       latestTranslateMultipleReference.current !== undefined
     ) {
       const multiple = Math.round(
-        Math.max(
-          Math.min(latestTranslateMultipleReference.current, optionCount - 1),
-          0,
-        ),
+        Math.max(Math.min(latestTranslateMultipleReference.current, optionCount - 1), 0)
       )
       isInTranslatingReference.current =
         Math.abs(multiple - latestTranslateMultipleReference.current) > 0.1
 
       setWrapperStyle({
-        transform: `translateY(${-optionRect!.height * multiple}px)`,
+        transform: `translateY(${-optionRect!.height * multiple}px)`
       })
 
       onChangeWrapper(options[multiple].id)
@@ -128,10 +121,10 @@ export const AlPicker = (props: AlPickerProps) => {
       onChangeWrapper(option.id)
       isInTranslatingReference.current = false
       setWrapperStyle({
-        transform: `translateY(${-optionRect!.height * index}px)`,
+        transform: `translateY(${-optionRect!.height * index}px)`
       })
     },
-    [onChangeWrapper, setWrapperStyle, optionRect],
+    [onChangeWrapper, setWrapperStyle, optionRect]
   )
 
   const placeholderHeight = useMemo(() => {
@@ -142,11 +135,7 @@ export const AlPicker = (props: AlPickerProps) => {
   }, [rootRect, optionRect])
 
   return (
-    <AlBasicView
-      className={classnames(className, bem.root.className)}
-      style={style}
-      id={rootId}
-    >
+    <AlBasicView className={classnames(className, bem.root.className)} style={style} id={rootId}>
       {rootRect && optionRect && (
         <View
           className={bem.wrapper.className}
@@ -163,7 +152,7 @@ export const AlPicker = (props: AlPickerProps) => {
             style={{
               paddingTop: `${placeholderHeight}px`,
               paddingBottom: `${placeholderHeight}px`,
-              ...wrapperStyle,
+              ...wrapperStyle
             }}
             onTransitionEnd={() => onTransitionEnd()}
           >
@@ -178,37 +167,28 @@ export const AlPicker = (props: AlPickerProps) => {
             ))}
           </View>
           <View
-            className={classnames(
-              bem.mask.className,
-              bem.mask.status('top').className,
-            )}
+            className={classnames(bem.mask.className, bem.mask.status('top').className)}
             style={{
-              height: `${rootRect.height / 2 - optionRect.height / 2}px`,
+              height: `${rootRect.height / 2 - optionRect.height / 2}px`
             }}
           />
           <View
-            className={classnames(
-              bem.mask.className,
-              bem.mask.status('bottom').className,
-            )}
+            className={classnames(bem.mask.className, bem.mask.status('bottom').className)}
             style={{
-              height: `${rootRect.height / 2 - optionRect.height / 2}px`,
+              height: `${rootRect.height / 2 - optionRect.height / 2}px`
             }}
           />
           <View
             className={bem.indicator.className}
             style={{
-              height: `${optionRect.height}px`,
+              height: `${optionRect.height}px`
             }}
           />
         </View>
       )}
       <View
         id={optionHeightGagerId}
-        className={classnames(
-          bem.option.className,
-          bem.optionHeightGager.className,
-        )}
+        className={classnames(bem.option.className, bem.optionHeightGager.className)}
       />
     </AlBasicView>
   )
