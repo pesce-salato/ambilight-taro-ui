@@ -2,7 +2,7 @@ import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
 
 export const AlCarouselDirection = {
   vertical: 'vertical',
-  horizontal: 'horizontal',
+  horizontal: 'horizontal'
 } as const
 
 export type AlCarouselDirection = ValueOf<typeof AlCarouselDirection>
@@ -11,12 +11,10 @@ export const AlCarouselIndicatorVariant = {
   combine: 'combine',
   dot: 'dot',
   line: 'line',
-  slider: 'slider',
+  slider: 'slider'
 } as const
 
-export type AlCarouselIndicatorVariant = ValueOf<
-  typeof AlCarouselIndicatorVariant
->
+export type AlCarouselIndicatorVariant = ValueOf<typeof AlCarouselIndicatorVariant>
 
 export const AlCarouselIndicatorPosition = {
   bottom: 'bottom',
@@ -24,12 +22,10 @@ export const AlCarouselIndicatorPosition = {
   bottomEnd: 'bottom-end',
   right: 'right',
   bottomStart: 'bottom-start',
-  top: 'top',
+  top: 'top'
 } as const
 
-export type AlCarouselIndicatorPosition = ValueOf<
-  typeof AlCarouselIndicatorPosition
->
+export type AlCarouselIndicatorPosition = ValueOf<typeof AlCarouselIndicatorPosition>
 
 export interface AlCarouselProps extends AlBaseFcProps {
   /**
