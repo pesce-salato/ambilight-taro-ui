@@ -2,6 +2,7 @@
 
 .nav-bar {
   border-bottom: 1PX dashed semantic-color('divider');
+  background: semantic-color('bg');
 
   &__content {
     display: flex;
