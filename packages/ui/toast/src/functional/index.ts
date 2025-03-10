@@ -7,8 +7,8 @@ import { AlToast } from '../component'
 
 export interface AlToastFunctionalConfig {
   /**
-   * 目标渲染控制器 id，具体可以参考 `AlPageView`
-   * @default 当前页面
+   * 目标渲染控制器 id，具体可以参考 `AlDynamicRenderController`
+   * @default 不配置则会默认渲染到当前应用中“最新”（存在且最后出现）创建的控制器上
    */
   controllerId?: string
   /**
