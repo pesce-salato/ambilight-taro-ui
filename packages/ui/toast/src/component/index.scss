@@ -52,7 +52,7 @@ $content: '#{$root}__content';
     display: flex;
     align-items: center;
     background: semantic-color('bg-reverse-with-opacity');
-    backdrop-filter: blur(size(12));
+    // backdrop-filter: blur(size(12));
   }
 
   &--bottom {
@@ -86,7 +86,7 @@ $content: '#{$root}__content';
 
     max-width: size(480);
     color: semantic-color('font-primary-reverse');
-    font-size: font-size('text');
+    font-size: font-size('comment');
   }
 
   &__icon {

@@ -1,33 +1,24 @@
 import { FC } from 'react'
 import { uuid as _uuid, Cache } from '@ambilight-taro/core'
-import { safeRenderToController } from '@ambilight-taro/page-view'
-import { AlToastProps } from '../component/type'
+import { safeRender } from '@ambilight-taro/dynamic-render-controller'
+import { AlToastProps } from '../type'
 import { root } from '../component/bem'
 import { AlToast } from '../component'
 
 export interface AlToastFunctionalConfig {
   /**
-   * target controller id, detail see AlPageView
-   * @default current page
+   * 目标渲染控制器 id，具体可以参考 `AlPageView`
+   * @default 当前页面
    */
   controllerId?: string
   /**
-   * whether this toast blocked the render queue
+   * 是否阻塞渲染队列，直至此 toast 渲染结束
    */
   isBlocked?: boolean
 }
 
 export interface AlToastStatic {
-  /**
-   * this method need
-   * @param props
-   * @param config
-   * @returns
-   */
-  show: (
-    props: Omit<AlToastProps, 'visible' | 'onClose'>,
-    config?: AlToastFunctionalConfig,
-  ) => () => void
+  show: (props: Omit<AlToastProps, 'visible'>, config?: AlToastFunctionalConfig) => () => void
 }
 
 interface RenderDetail {
@@ -38,10 +29,7 @@ interface RenderDetail {
   destroy: () => void
 }
 
-const renderQueue = Cache.app.getOrCreate<RenderDetail[]>(
-  `${root.className}/render-queue`,
-  [],
-)
+const renderQueue = Cache.app.getOrCreate<RenderDetail[]>(`${root.className}/render-queue`, [])
 
 const removeFromQueue = (uuid: string) => {
   const index = renderQueue.findIndex((item) => item.uuid === uuid)
@@ -77,23 +65,20 @@ const tryToRenderNext = () => {
     removeFromQueue(oldest.uuid)
   }
 
-  const nextBlockedIndex = renderQueue.findIndex(
-    (item) => item.config.isBlocked,
-  )
+  const nextBlockedIndex = renderQueue.findIndex((item) => item.config.isBlocked)
   // if we find a blocked toast in the render queue  by timeline
   // we should render it first and blocked the queue
   // or we just render the latest one
-  const nextRenderIndex =
-    nextBlockedIndex >= 0 ? nextBlockedIndex : renderQueue.length - 1
+  const nextRenderIndex = nextBlockedIndex >= 0 ? nextBlockedIndex : renderQueue.length - 1
 
   renderQueue.splice(0, nextRenderIndex)
 
   const next = renderQueue[0]
 
-  const controller = safeRenderToController({
+  const controller = safeRender({
     component: AlToast,
     props: next.props,
-    targetId: next.config.controllerId,
+    targetId: next.config.controllerId
   })
 
   next.destroy = controller.remove
@@ -111,15 +96,16 @@ export const functionalWrapper = (component: FC<AlToastProps>) => {
         ...props,
         visible: true,
         onClose: () => {
+          props?.onClose?.()
           removeFromQueue(uuid)
           tryToRenderNext()
-        },
+        }
       },
       rendered: false,
       config: config || {},
       destroy: () => {
         // default
-      },
+      }
     })
 
     tryToRenderNext()

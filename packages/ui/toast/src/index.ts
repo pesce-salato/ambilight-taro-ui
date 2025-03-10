@@ -3,4 +3,4 @@ import { functionalWrapper } from './functional'
 
 export const AlToast = functionalWrapper(_AlTost)
 
-export * from './component/type'
+export * from './type'
