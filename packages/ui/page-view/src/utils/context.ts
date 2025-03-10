@@ -1,5 +1,5 @@
+import { useContext, createContext } from 'react'
 import { ValueOf } from '@ambilight-taro/core'
-import React, { useContext } from 'react'
 
 export const AlPageViewListenerType = {
   onClick: 'onClick',
@@ -9,21 +9,16 @@ export const AlPageViewListenerType = {
   onTouchEnd: 'onTouchEnd',
   onTouchForceChange: 'onTouchForceChange',
   onTouchMove: 'onTouchMove',
-  onTouchStart: 'onTouchStart',
+  onTouchStart: 'onTouchStart'
 } as const
 
 export type AlPageViewListenerType = ValueOf<typeof AlPageViewListenerType>
 
 export interface AlPageViewContextValue {
-  addEventListener: (
-    type: AlPageViewListenerType,
-    listener: (...arguments_) => void,
-  ) => () => void
+  addEventListener: (type: AlPageViewListenerType, listener: (...arguments_) => void) => () => void
 }
 
-const context = React.createContext<AlPageViewContextValue | undefined>(
-  undefined,
-)
+const context = createContext<AlPageViewContextValue | undefined>(undefined)
 
 export const AlPageViewContextProvider = context.Provider
 

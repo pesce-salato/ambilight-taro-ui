@@ -6,10 +6,7 @@ import { root } from '../component/bem'
 
 // generate default listener map
 const generateDefaultListenerMap = () => {
-  const result = new Map<
-    AlPageViewListenerType,
-    Map<string, (...arguments_) => void>
-  >()
+  const result = new Map<AlPageViewListenerType, Map<string, (...arguments_) => void>>()
   for (const type of Object.keys(AlPageViewListenerType))
     result.set(type as AlPageViewListenerType, new Map())
 
@@ -17,12 +14,7 @@ const generateDefaultListenerMap = () => {
 }
 
 export const useEvent = (props: AlPageViewProps) => {
-  const {
-    className: _cn,
-    children: _c,
-    interactControllerId: _index,
-    ...others
-  } = props
+  const { className: _cn, children: _c, ...others } = props
 
   const listenerMap = useRef(generateDefaultListenerMap())
 
@@ -42,7 +34,7 @@ export const useEvent = (props: AlPageViewProps) => {
         }
       }
     },
-    [],
+    []
   )
 
   const rootEventProps = useMemo(() => {
@@ -57,9 +49,7 @@ export const useEvent = (props: AlPageViewProps) => {
       result[eventName] = (...arguments_) => {
         originalEventCallback(...arguments_)
 
-        const cache = listenerMap.current.get(
-          eventName as AlPageViewListenerType,
-        )!
+        const cache = listenerMap.current.get(eventName as AlPageViewListenerType)!
 
         for (const listener of cache.values()) {
           listener(...arguments_)
