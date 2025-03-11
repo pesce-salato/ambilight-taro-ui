@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '导航栏/弹出效果',
+  navigationBarTitleText: '弹出提示',
   navigationStyle: 'custom',
-  disableScroll: true,
+  disableScroll: true
 })
