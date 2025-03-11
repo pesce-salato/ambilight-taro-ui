@@ -67,7 +67,7 @@ $anchor: '#{$root}__anchor';
     box-shadow: 0 size(4) size(16) 0 semantic-color('shadow');
     display: flex;
     align-items: center;
-    background: semantic-color('bg-reverse-with-opacity');
+    background: semantic-color('bg-reverse');
   }
 
   &--bottom {
