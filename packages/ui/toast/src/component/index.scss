@@ -1,7 +1,7 @@
 @import 'pkg:@ambilight-taro/core';
 
 $root: with-prefix('toast');
-$content: '#{$root}__content';
+$anchor: '#{$root}__anchor';
 
 .#{$root} {
   pointer-events: none;
@@ -27,6 +27,18 @@ $content: '#{$root}__content';
     }
   }
 
+  @keyframes #{$appear-animation-name}-from-center {
+    0% {
+      transform: translateX(-50%) translateY(#{size($appear-diff)});
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
   @keyframes #{$appear-animation-name}-from-top {
     0% {
       transform: translateX(-50%) translateY(#{size(-$appear-diff)});
@@ -39,9 +51,13 @@ $content: '#{$root}__content';
     }
   }
 
-  .#{$content} {
+  .#{$anchor} {
     position: absolute;
     left: 50%;
+    width: fit-content;
+  }
+
+  &__content {
     width: fit-content;
     padding: 0 size(32);
     min-width: size(80);
@@ -52,11 +68,10 @@ $content: '#{$root}__content';
     display: flex;
     align-items: center;
     background: semantic-color('bg-reverse-with-opacity');
-    // backdrop-filter: blur(size(12));
   }
 
   &--bottom {
-    .#{$content} {
+    .#{$anchor} {
       animation: #{$appear-animation-name}-from-bottom animation-time() timing-function() forwards;
 
       @each $var in safe-area-inset-bottom-vars() {
@@ -66,8 +81,8 @@ $content: '#{$root}__content';
   }
 
   &--top {
-    .#{$content} {
-      animation-name: #{$appear-animation-name}-from-top;
+    .#{$anchor} {
+      animation: #{$appear-animation-name}-from-top animation-time() timing-function() forwards;
 
       @each $var in safe-area-inset-top-vars() {
         top: calc(#{size(64)} + #{$var});
@@ -76,7 +91,9 @@ $content: '#{$root}__content';
   }
 
   &--center {
-    .#{$content} {
+    .#{$anchor} {
+      animation: #{$appear-animation-name}-from-center animation-time() timing-function() forwards;
+
       top: 50%;
     }
   }

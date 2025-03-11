@@ -54,14 +54,16 @@ export const AlToast = (originalProps: AlToastProps) => {
         style={style}
         catchMove={mask || undefined}
       >
-        <View
-          className={root.hierarchies(['content']).className}
-          style={{
-            marginTop: sizeOf(offset || 0)
-          }}
-        >
-          {!!icon && <View className={root.hierarchies(['icon']).className}>{icon}</View>}
-          {!!label && <View className={root.hierarchies(['label']).className}>{label}</View>}
+        <View className={root.hierarchies(['anchor']).className}>
+          <View
+            className={root.hierarchies(['content']).className}
+            style={{
+              transform: `translateY(${sizeOf(offset || 0)})`
+            }}
+          >
+            {!!icon && <View className={root.hierarchies(['icon']).className}>{icon}</View>}
+            {!!label && <View className={root.hierarchies(['label']).className}>{label}</View>}
+          </View>
         </View>
       </AlBasicView>
     </AlPortal>
