@@ -5,5 +5,5 @@ const root = new Bem('popup')
 export const bem = {
   root: root,
   mask: root.hierarchies('mask'),
-  content: root.hierarchies('content'),
+  content: root.hierarchies('content')
 }

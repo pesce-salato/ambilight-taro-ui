@@ -7,7 +7,7 @@ export const AlPopupPosition = {
   center: 'center',
   left: 'left',
   right: 'right',
-  top: 'top',
+  top: 'top'
 } as const
 
 export type AlPopupPosition = ValueOf<typeof AlPopupPosition>

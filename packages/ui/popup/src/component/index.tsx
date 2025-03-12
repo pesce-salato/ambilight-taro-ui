@@ -1,5 +1,6 @@
-import { View } from '@tarojs/components'
+// eslint-disable-next-line import/default
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { withDefaultProps, classnames } from '@ambilight-taro/core'
@@ -14,7 +15,7 @@ const defaultProps = {
   position: AlPopupPosition.bottom as AlPopupPosition,
   safePadding: true,
   catchMove: true,
-  portalProps: {},
+  portalProps: {}
 }
 
 /**
@@ -24,9 +25,7 @@ const defaultProps = {
  * @returns
  */
 export const AlPopup = (originalProps: AlPopupProps) => {
-  const props = withDefaultProps<AlPopupProps, typeof defaultProps>(
-    originalProps,
-  )
+  const props = withDefaultProps<AlPopupProps, typeof defaultProps>(originalProps)
   const {
     className,
     catchMove,
@@ -39,7 +38,7 @@ export const AlPopup = (originalProps: AlPopupProps) => {
     onHide,
     onMaskClick,
     onMaskTouch,
-    portalProps,
+    portalProps
   } = props
 
   const [hasAppearedOnce, setHasAppearedOnce] = useState(false)
@@ -53,7 +52,7 @@ export const AlPopup = (originalProps: AlPopupProps) => {
 
   const useAnimation = useMemo(
     () => _functionCall || visible || hasAppearedOnce,
-    [_functionCall, hasAppearedOnce, visible],
+    [_functionCall, hasAppearedOnce, visible]
   )
 
   const bottomSafePadding = useBottomSafePadding()
@@ -73,7 +72,7 @@ export const AlPopup = (originalProps: AlPopupProps) => {
 
     return {
       paddingTop,
-      paddingBottom,
+      paddingBottom
     }
   }, [bottomSafePadding, position, safePadding, topSafePadding])
 
@@ -104,22 +103,13 @@ export const AlPopup = (originalProps: AlPopupProps) => {
   return (
     <AlPortal {...portalProps}>
       <AlBasicView
-        className={classnames(
-          className,
-          bem.root.className,
-          bem.root.status(position).className,
-          {
-            [bem.root.status('visible').className]: visible,
-            [bem.root.status('use-animation').className]: useAnimation,
-          },
-        )}
+        className={classnames(className, bem.root.className, bem.root.status(position).className, {
+          [bem.root.status('visible').className]: visible,
+          [bem.root.status('use-animation').className]: useAnimation
+        })}
         catchMove={catchMove || undefined}
       >
-        <View
-          className={bem.mask.className}
-          onTouchStart={onMaskTouch}
-          onClick={onMaskClick}
-        />
+        <View className={bem.mask.className} onTouchStart={onMaskTouch} onClick={onMaskClick} />
         <View
           style={contentWrapperStyle}
           onAnimationStart={onAnimationStart}
