@@ -11,6 +11,6 @@ export const getUserDesign = () => {
 
   return {
     designWidth,
-    deviceRatio,
+    deviceRatio
   }
 }

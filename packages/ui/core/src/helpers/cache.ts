@@ -54,13 +54,13 @@ const safeGetSpace = (instance: any, spaceKey: string) => {
 const appSpace = safeGetSpace(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Taro.getCurrentInstance().app as any,
-  '__alAppShareCache__',
+  '__alAppShareCache__'
 )
 const app = cacheBuilder(() => appSpace)
 
 const page = cacheBuilder(() =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  safeGetSpace(Taro.getCurrentInstance().page as any, '__alPageShareCache__'),
+  safeGetSpace(Taro.getCurrentInstance().page as any, '__alPageShareCache__')
 )
 
 export const Cache = Object.freeze({ app, page })
