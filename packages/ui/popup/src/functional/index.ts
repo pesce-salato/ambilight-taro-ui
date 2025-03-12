@@ -1,4 +1,4 @@
-import { safeRenderToController } from '@ambilight-taro/page-view'
+import { safeRender } from '@ambilight-taro/dynamic-render-controller'
 import { AlPopup } from '../component'
 import { type AlPopupProps } from '../component/type'
 
@@ -8,7 +8,7 @@ export interface AlPopupFunctionalShowSetting
 export interface AlPopupStatic {
   show: (
     setting: AlPopupFunctionalShowSetting,
-    id?: string,
+    id?: string
   ) => {
     close: () => void
     changeSetting: (newSetting: AlPopupFunctionalShowSetting) => void
@@ -26,7 +26,7 @@ export const functionalWrapper = (component: typeof AlPopup) => {
       // default
     }
 
-    const controller = safeRenderToController({
+    const controller = safeRender({
       component: AlPopup,
       targetId,
       props: {
@@ -36,8 +36,8 @@ export const functionalWrapper = (component: typeof AlPopup) => {
         onHide: () => {
           latestSetting.onHide?.()
           deleteMyself()
-        },
-      },
+        }
+      }
     })
 
     deleteMyself = controller.remove
@@ -47,7 +47,7 @@ export const functionalWrapper = (component: typeof AlPopup) => {
       changeSetting: (newSetting: any = {}) => {
         latestSetting = {
           ...latestSetting,
-          ...newSetting,
+          ...newSetting
         }
         // forbidden to set the system control props
         const { _functionCall, visible, onHide, ...others } =
@@ -58,7 +58,7 @@ export const functionalWrapper = (component: typeof AlPopup) => {
       },
       close: () => {
         controller.changeProps({ visible: false })
-      },
+      }
     }
   }
 
