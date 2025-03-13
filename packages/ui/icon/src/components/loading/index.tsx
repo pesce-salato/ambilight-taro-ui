@@ -20,11 +20,7 @@ export const AlLoadingIcon = (props: LoadingIconProps) => {
     <Image
       {...others}
       src={base64Image}
-      className={classnames(
-        basic.className,
-        basic.status('loading').className,
-        className,
-      )}
+      className={classnames(basic.className, basic.status('loading').className, className)}
     />
   )
 }
