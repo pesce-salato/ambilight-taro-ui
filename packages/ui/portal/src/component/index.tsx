@@ -1,5 +1,5 @@
-import { createPortal } from '@tarojs/react'
 import React, { useMemo } from 'react'
+import { createPortal } from '@tarojs/react'
 import { useRootElement } from '@ambilight-taro/use-root-element'
 
 export interface AlPortalProps {
