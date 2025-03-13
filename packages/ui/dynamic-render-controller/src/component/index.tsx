@@ -2,12 +2,8 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import { uuid } from '@ambilight-taro/core'
 import { AlDynamicRenderControllerProps } from '../type'
-import {
-  changeControllerId,
-  createController,
-  InQueueRenderDetail,
-  Namespace
-} from '../utils/queue'
+import { changeControllerId, createController, InQueueRenderDetail } from '../queue'
+import { Namespace } from '../namespace'
 
 export const AlDynamicRenderController = (props: AlDynamicRenderControllerProps) => {
   const { controllerId } = props

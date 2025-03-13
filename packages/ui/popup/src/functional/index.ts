@@ -1,6 +1,6 @@
 import { safeRender } from '@ambilight-taro/dynamic-render-controller'
 import { AlPopup } from '../component'
-import { type AlPopupProps } from '../component/type'
+import { AlPopupProps } from '../type'
 
 export interface AlPopupFunctionalShowSetting
   extends Omit<AlPopupProps, 'visible' | '_functionCall'> {}

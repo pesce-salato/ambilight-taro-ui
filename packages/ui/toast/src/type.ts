@@ -1,4 +1,4 @@
-import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
+import { AlBaseFcProps, EnumValueUnion } from '@ambilight-taro/core'
 import { AlPortalProps } from '@ambilight-taro/portal'
 
 export interface AlToastProps extends AlBaseFcProps {
@@ -17,7 +17,7 @@ export interface AlToastProps extends AlBaseFcProps {
   /**
    * @default 'bottom'
    */
-  position?: AlToastPosition
+  position?: EnumValueUnion<AlToastPosition>
   /**
    * @default 3000 ms
    */
@@ -41,10 +41,8 @@ export interface AlToastProps extends AlBaseFcProps {
   portalProps?: Omit<AlPortalProps, 'children'>
 }
 
-export const AlToastPosition = {
-  top: 'top',
-  center: 'center',
-  bottom: 'bottom'
-} as const
-
-export type AlToastPosition = ValueOf<typeof AlToastPosition>
+export enum AlToastPosition {
+  top = 'top',
+  center = 'center',
+  bottom = 'bottom'
+}

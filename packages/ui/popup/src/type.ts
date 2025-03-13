@@ -1,6 +1,6 @@
 import { AlBaseFcProps, EnumValueUnion } from '@ambilight-taro/core'
 import { AlPortalProps } from '@ambilight-taro/portal'
-import { CommonEventFunction, ITouchEvent } from '@tarojs/components'
+import { ITouchEvent } from '@tarojs/components'
 
 export enum AlPopupPosition {
   bottom = 'bottom',
@@ -27,10 +27,6 @@ export interface AlPopupProps extends AlBaseFcProps {
    * mask click event
    */
   onMaskClick?: (event: ITouchEvent) => void
-  /**
-   * mask touch event
-   */
-  onMaskTouch?: CommonEventFunction
 
   children: React.ReactNode
 

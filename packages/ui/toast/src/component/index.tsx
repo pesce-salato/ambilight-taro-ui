@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { View } from '@tarojs/components'
 import { AlPortal } from '@ambilight-taro/portal'
-import { classnames, withDefaultProps, sizeOf } from '@ambilight-taro/core'
+import { classnames, withDefaultProps, sizeOf, EnumValueUnion } from '@ambilight-taro/core'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { AlToastPosition, AlToastProps } from '../type'
 import { root } from './bem'
@@ -12,7 +12,7 @@ const defaultProps = {
   duration: 3000,
   mask: false,
   visible: false,
-  position: AlToastPosition.bottom as AlToastPosition,
+  position: AlToastPosition.bottom as EnumValueUnion<AlToastPosition>,
   portalProps: {}
 }
 

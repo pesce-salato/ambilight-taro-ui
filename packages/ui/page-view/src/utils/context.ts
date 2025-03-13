@@ -1,21 +1,22 @@
+import { EnumValueUnion } from '@ambilight-taro/core'
 import { useContext, createContext } from 'react'
-import { ValueOf } from '@ambilight-taro/core'
 
-export const AlPageViewListenerType = {
-  onClick: 'onClick',
-  onLongClick: 'onLongClick',
-  onLongPress: 'onLongPress',
-  onTouchCancel: 'onTouchCancel',
-  onTouchEnd: 'onTouchEnd',
-  onTouchForceChange: 'onTouchForceChange',
-  onTouchMove: 'onTouchMove',
-  onTouchStart: 'onTouchStart'
-} as const
-
-export type AlPageViewListenerType = ValueOf<typeof AlPageViewListenerType>
+export enum AlPageViewListenerType {
+  onClick = 'onClick',
+  onLongClick = 'onLongClick',
+  onLongPress = 'onLongPress',
+  onTouchCancel = 'onTouchCancel',
+  onTouchEnd = 'onTouchEnd',
+  onTouchForceChange = 'onTouchForceChange',
+  onTouchMove = 'onTouchMove',
+  onTouchStart = 'onTouchStart'
+}
 
 export interface AlPageViewContextValue {
-  addEventListener: (type: AlPageViewListenerType, listener: (...arguments_) => void) => () => void
+  addEventListener: (
+    type: EnumValueUnion<AlPageViewListenerType>,
+    listener: (...arguments_) => void
+  ) => () => void
 }
 
 const context = createContext<AlPageViewContextValue | undefined>(undefined)

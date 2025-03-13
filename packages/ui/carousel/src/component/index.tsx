@@ -1,5 +1,13 @@
+// eslint-disable-next-line import/default
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Bem, withDefaultProps, classnames, uuid, query } from '@ambilight-taro/core'
+import {
+  Bem,
+  withDefaultProps,
+  classnames,
+  uuid,
+  query,
+  EnumValueUnion
+} from '@ambilight-taro/core'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { NodesRef } from '@tarojs/taro'
 import { ITouchEvent, View } from '@tarojs/components'
@@ -16,9 +24,10 @@ import './index.scss'
 const root = new Bem('carousel')
 
 const defaultProps = {
-  direction: AlCarouselDirection.horizontal as AlCarouselDirection,
-  indicatorVariant: AlCarouselIndicatorVariant.dot as AlCarouselIndicatorVariant,
-  indicatorPosition: AlCarouselIndicatorPosition.bottom as AlCarouselIndicatorPosition,
+  direction: AlCarouselDirection.horizontal as EnumValueUnion<AlCarouselDirection>,
+  indicatorVariant: AlCarouselIndicatorVariant.dot as EnumValueUnion<AlCarouselIndicatorVariant>,
+  indicatorPosition:
+    AlCarouselIndicatorPosition.bottom as EnumValueUnion<AlCarouselIndicatorPosition>,
   indicatorDisabled: false,
   duration: 0,
   defaultValue: 0

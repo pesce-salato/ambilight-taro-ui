@@ -1,32 +1,28 @@
-import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
+import { AlBaseFcProps, EnumValueUnion } from '@ambilight-taro/core'
 
-export const AlDateTimePickerFineness = {
-  year: 'year',
-  month: 'month',
-  day: 'day',
-  hour: 'hour',
-  minute: 'minute',
-  hourOfDay: 'hour-of-day',
-  minuteOfDay: 'minute-of-day'
-} as const
+export enum AlDateTimePickerFineness {
+  year = 'year',
+  month = 'month',
+  day = 'day',
+  hour = 'hour',
+  minute = 'minute',
+  hourOfDay = 'hour-of-day',
+  minuteOfDay = 'minute-of-day'
+}
 
-export type AlDateTimePickerFineness = ValueOf<typeof AlDateTimePickerFineness>
-
-export const AlDateTimePickerColumn = {
-  day: 'day',
-  hour: 'hour',
-  minute: 'minute',
-  month: 'month',
-  year: 'year'
-} as const
-
-export type AlDateTimePickerColumn = ValueOf<typeof AlDateTimePickerColumn>
+export enum AlDateTimePickerColumn {
+  day = 'day',
+  hour = 'hour',
+  minute = 'minute',
+  month = 'month',
+  year = 'year'
+}
 
 export type AlDateTimePickerFormatter = (
   /**
    * 当前对应处理节点的类型
    */
-  column: AlDateTimePickerColumn,
+  column: EnumValueUnion<AlDateTimePickerColumn>,
   /**
    * 列下标
    */
@@ -48,7 +44,7 @@ export type AlDateTimePickerFilter = (
   /**
    * 当前对应处理节点的类型
    */
-  column: AlDateTimePickerColumn,
+  column: EnumValueUnion<AlDateTimePickerColumn>,
   /**
    * 列下标
    */
@@ -117,7 +113,7 @@ export interface AlDateTimePickerProps extends AlBaseFcProps {
    * 日期时间选择器选择数据精细度
    * @default 'day' value -> [year,month,day]
    */
-  fineness?: AlDateTimePickerFineness
+  fineness?: EnumValueUnion<AlDateTimePickerFineness>
   /**
    * option 自定义格式化展示
    */

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/default
 import React, { Fragment, useCallback, useEffect, useMemo, useRef } from 'react'
 import { Image, View } from '@tarojs/components'
 import { classnames } from '@ambilight-taro/core'
@@ -6,8 +7,7 @@ import { bem } from './bem'
 import './index.scss'
 
 export const AlTabBar = (props: AlTabBarProps) => {
-  const { id, className, style, tabs, onTabClick, effect, render, current } =
-    props
+  const { id, className, style, tabs, onTabClick, effect, render, current } = props
   // 用作标识是否已经渲染了一次，避免初始渲染就开启了动画效果
   const hasRenderedOnce = useRef(false)
 
@@ -23,7 +23,7 @@ export const AlTabBar = (props: AlTabBarProps) => {
         <View
           onClick={(event) => onTabClick?.(event, item)}
           className={classnames(bem.item.className, {
-            [bem.item.status('active').className]: isActive,
+            [bem.item.status('active').className]: isActive
           })}
         >
           {render ? (
@@ -34,14 +34,11 @@ export const AlTabBar = (props: AlTabBarProps) => {
                 <View
                   className={classnames(
                     bem.iconWrapper.className,
-                    bem.iconWrapper.status('active').className,
+                    bem.iconWrapper.status('active').className
                   )}
                 >
                   {typeof item.iconSource?.active === 'string' ? (
-                    <Image
-                      src={item.iconSource.active}
-                      className={bem.icon.className}
-                    />
+                    <Image src={item.iconSource.active} className={bem.icon.className} />
                   ) : (
                     item.iconSource?.active
                   )}
@@ -49,14 +46,11 @@ export const AlTabBar = (props: AlTabBarProps) => {
                 <View
                   className={classnames(
                     bem.iconWrapper.className,
-                    bem.iconWrapper.status('inactive').className,
+                    bem.iconWrapper.status('inactive').className
                   )}
                 >
                   {typeof item.iconSource?.inactive === 'string' ? (
-                    <Image
-                      src={item.iconSource.inactive}
-                      className={bem.icon.className}
-                    />
+                    <Image src={item.iconSource.inactive} className={bem.icon.className} />
                   ) : (
                     item.iconSource?.inactive
                   )}
@@ -68,7 +62,7 @@ export const AlTabBar = (props: AlTabBarProps) => {
         </View>
       )
     },
-    [render, onTabClick, current],
+    [render, onTabClick, current]
   )
 
   // 只有在 活跃 id 改变的时候才会去计算是否使用预设动画
@@ -81,7 +75,7 @@ export const AlTabBar = (props: AlTabBarProps) => {
   return (
     <View
       className={classnames(bem.root.className, className, {
-        [bem.root.status(effect || '').className]: effect && usePresetAnimation,
+        [bem.root.status(effect || '').className]: effect && usePresetAnimation
       })}
       id={id}
       style={style}

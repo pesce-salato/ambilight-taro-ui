@@ -1,30 +1,24 @@
-import { ValueOf, AlBaseFcProps } from '@ambilight-taro/core'
+import { AlBaseFcProps, EnumValueUnion } from '@ambilight-taro/core'
 
-export const AlCalendarWeekRowFirstDay = {
-  mon: 'mon',
-  sun: 'sun'
-} as const
+export enum AlCalendarWeekRowFirstDay {
+  mon = 'mon',
+  sun = 'sun'
+}
 
-export type AlCalendarWeekRowFirstDay = ValueOf<typeof AlCalendarWeekRowFirstDay>
+export enum AlCalendarType {
+  single = 'single',
+  range = 'range',
+  multiple = 'multiple'
+}
 
-export const AlCalendarType = {
-  single: 'single',
-  range: 'range',
-  multiple: 'multiple'
-} as const
-
-export type AlCalendarType = ValueOf<typeof AlCalendarType>
-
-export const AlCalendarDayStatus = {
-  unselected: 'unselected',
-  rangeMiddle: 'range-middle',
-  rangeStart: 'range-start',
-  rangeEnd: 'range-end',
-  rangeStartAndEnd: 'range-start-and-end',
-  selected: 'selected'
-} as const
-
-export type AlCalendarDayStatus = ValueOf<typeof AlCalendarDayStatus>
+export enum AlCalendarDayStatus {
+  unselected = 'unselected',
+  rangeMiddle = 'range-middle',
+  rangeStart = 'range-start',
+  rangeEnd = 'range-end',
+  rangeStartAndEnd = 'range-start-and-end',
+  selected = 'selected'
+}
 
 export interface AlCalendarDate {
   year: number
@@ -55,14 +49,14 @@ export interface AlCalendarPresetRenderStruct {
 
 export type AlCalendarDayRender = (
   date: AlCalendarDate,
-  status: AlCalendarDayStatus
+  status: EnumValueUnion<AlCalendarDayStatus>
 ) => React.ReactNode | AlCalendarPresetRenderStruct
 
 export interface AlCalendarProps extends AlBaseFcProps {
   /**
    * @default 'single'
    */
-  type?: AlCalendarType
+  type?: EnumValueUnion<AlCalendarType>
 
   dayRender?: AlCalendarDayRender
 
@@ -90,7 +84,7 @@ export interface AlCalendarProps extends AlBaseFcProps {
    * 每周的第一列
    * @default 'mon' 周一
    */
-  weekRowFirstDay?: AlCalendarWeekRowFirstDay
+  weekRowFirstDay?: EnumValueUnion<AlCalendarWeekRowFirstDay>
 
   dayOfWeekTitleRender?: AlCalendarDayOfWeekTitleRender
 

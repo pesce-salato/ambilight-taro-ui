@@ -1,48 +1,42 @@
-import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
+import { AlBaseFcProps, EnumValueUnion } from '@ambilight-taro/core'
 
-export const AlCarouselDirection = {
-  vertical: 'vertical',
-  horizontal: 'horizontal'
-} as const
+export enum AlCarouselDirection {
+  vertical = 'vertical',
+  horizontal = 'horizontal'
+}
 
-export type AlCarouselDirection = ValueOf<typeof AlCarouselDirection>
+export enum AlCarouselIndicatorVariant {
+  combine = 'combine',
+  dot = 'dot',
+  line = 'line',
+  slider = 'slider'
+}
 
-export const AlCarouselIndicatorVariant = {
-  combine: 'combine',
-  dot: 'dot',
-  line: 'line',
-  slider: 'slider'
-} as const
-
-export type AlCarouselIndicatorVariant = ValueOf<typeof AlCarouselIndicatorVariant>
-
-export const AlCarouselIndicatorPosition = {
-  bottom: 'bottom',
-  left: 'left',
-  bottomEnd: 'bottom-end',
-  right: 'right',
-  bottomStart: 'bottom-start',
-  top: 'top'
-} as const
-
-export type AlCarouselIndicatorPosition = ValueOf<typeof AlCarouselIndicatorPosition>
+export enum AlCarouselIndicatorPosition {
+  bottom = 'bottom',
+  left = 'left',
+  bottomEnd = 'bottom-end',
+  right = 'right',
+  bottomStart = 'bottom-start',
+  top = 'top'
+}
 
 export interface AlCarouselProps extends AlBaseFcProps {
   /**
    * 轮播方向
    * @default 'horizontal'
    */
-  direction?: AlCarouselDirection
+  direction?: EnumValueUnion<AlCarouselDirection>
   /**
    * 指示器样式
    * @default 'dot'
    */
-  indicatorVariant?: AlCarouselIndicatorVariant
+  indicatorVariant?: EnumValueUnion<AlCarouselIndicatorVariant>
   /**
    * 指示器位置
    * @default 'bottom'
    */
-  indicatorPosition?: AlCarouselIndicatorPosition
+  indicatorPosition?: EnumValueUnion<AlCarouselIndicatorPosition>
   /**
    * 禁用指示器
    * @default false

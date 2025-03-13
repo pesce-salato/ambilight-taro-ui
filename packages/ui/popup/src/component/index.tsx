@@ -3,16 +3,16 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { AlBasicView } from '@ambilight-taro/basic-view'
-import { withDefaultProps, classnames } from '@ambilight-taro/core'
+import { withDefaultProps, classnames, EnumValueUnion } from '@ambilight-taro/core'
 import { useBottomSafePadding } from '@ambilight-taro/use-bottom-safe-padding'
 import { AlPortal } from '@ambilight-taro/portal'
-import { AlPopupPosition, AlPopupProps } from './type'
+import { AlPopupPosition, AlPopupProps } from '../type'
 import { bem } from './bem'
 import './index.scss'
 
 const defaultProps = {
   visible: false,
-  position: AlPopupPosition.bottom as AlPopupPosition,
+  position: AlPopupPosition.bottom as EnumValueUnion<AlPopupPosition>,
   safePadding: true,
   catchMove: true,
   portalProps: {}
@@ -37,7 +37,6 @@ export const AlPopup = (originalProps: AlPopupProps) => {
     onAppear,
     onHide,
     onMaskClick,
-    onMaskTouch,
     portalProps
   } = props
 
@@ -109,7 +108,7 @@ export const AlPopup = (originalProps: AlPopupProps) => {
         })}
         catchMove={catchMove || undefined}
       >
-        <View className={bem.mask.className} onTouchStart={onMaskTouch} onClick={onMaskClick} />
+        <View className={bem.mask.className} onClick={onMaskClick} />
         <View
           style={contentWrapperStyle}
           onAnimationStart={onAnimationStart}

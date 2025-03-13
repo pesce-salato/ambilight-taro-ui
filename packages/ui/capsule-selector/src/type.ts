@@ -1,30 +1,26 @@
-import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
+import { AlBaseFcProps, EnumValueUnion } from '@ambilight-taro/core'
 
-export const AlCapsuleSelectorTheme = {
-  gray: 'gray',
-  brand: 'brand'
-} as const
+export enum AlCapsuleSelectorTheme {
+  gray = 'gray',
+  brand = 'brand'
+}
 
-export type AlCapsuleSelectorTheme = ValueOf<typeof AlCapsuleSelectorTheme>
-
-export const AlCapsuleSelectorSize = {
-  md: 'md',
-  sm: 'sm'
-} as const
-
-export type AlCapsuleSelectorSize = ValueOf<typeof AlCapsuleSelectorSize>
+export enum AlCapsuleSelectorSize {
+  md = 'md',
+  sm = 'sm'
+}
 
 export interface AlCapsuleSelectorProps extends AlBaseFcProps {
   /**
    * 主题
    * @default 'gray'
    */
-  theme?: AlCapsuleSelectorTheme
+  theme?: EnumValueUnion<AlCapsuleSelectorTheme>
   /**
    * 尺寸
    * @default 'md'
    */
-  size?: AlCapsuleSelectorSize
+  size?: EnumValueUnion<AlCapsuleSelectorSize>
 
   defaultValue?: number
   value?: number

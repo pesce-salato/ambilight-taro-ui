@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
+import { EnumValueUnion } from '@ambilight-taro/core'
 import { AlDateTimePickerColumn, AlDateTimePickerFilter, AlDateTimePickerFineness } from '../type'
 
 Dayjs.extend(isBetween)
 
-export const calcRenderColumns = (fineness: AlDateTimePickerFineness): AlDateTimePickerColumn[] => {
+export const calcRenderColumns = (
+  fineness: EnumValueUnion<AlDateTimePickerFineness>
+): AlDateTimePickerColumn[] => {
   const result: AlDateTimePickerColumn[] = []
 
   const isOnlyNeedTime = [AlDateTimePickerFineness.minute, AlDateTimePickerFineness.hour].includes(

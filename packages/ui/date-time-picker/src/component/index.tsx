@@ -1,5 +1,6 @@
+// eslint-disable-next-line import/default
 import React, { useCallback, useMemo } from 'react'
-import { Bem, withDefaultProps } from '@ambilight-taro/core'
+import { Bem, EnumValueUnion, withDefaultProps } from '@ambilight-taro/core'
 import { View } from '@tarojs/components'
 import { useCompatibleUncontrolledValue } from '@ambilight-taro/use-compatible-uncontrolled-value'
 import { AlPicker, AlPickerOption } from '@ambilight-taro/picker'
@@ -26,7 +27,7 @@ const defaultFormatter: AlDateTimePickerFormatter = (column, _columnIndex, { row
 }
 
 const defaultProps = {
-  fineness: AlDateTimePickerFineness.day as AlDateTimePickerFineness,
+  fineness: AlDateTimePickerFineness.day as EnumValueUnion<AlDateTimePickerFineness>,
   defaultValue: [] as number[],
   filter: (() => true) as AlDateTimePickerFilter,
   formatter: defaultFormatter

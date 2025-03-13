@@ -1,6 +1,5 @@
-import { AlBaseFcProps, ValueOf } from '@ambilight-taro/core'
+import { AlBaseFcProps, EnumValueUnion } from '@ambilight-taro/core'
 import { ITouchEvent } from '@tarojs/components'
-import React from 'react'
 
 export interface AlTabBarProps extends AlBaseFcProps {
   id?: string
@@ -21,19 +20,17 @@ export interface AlTabBarProps extends AlBaseFcProps {
   /**
    * 激活态切换效果
    */
-  effect?: AlTabBarEffect
+  effect?: EnumValueUnion<AlTabBarEffect>
   /**
    * item 自定义渲染器
    */
   render?: (item: AlTabBarItem) => React.ReactNode
 }
 
-export const AlTabBarEffect = {
-  pop: 'pop',
-  scale: 'scale',
-} as const
-
-export type AlTabBarEffect = ValueOf<typeof AlTabBarEffect>
+export enum AlTabBarEffect {
+  pop = 'pop',
+  scale = 'scale'
+}
 
 export interface AlTabBarItem {
   id: string

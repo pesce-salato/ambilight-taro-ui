@@ -1,14 +1,15 @@
+// eslint-disable-next-line import/default
 import React, { useMemo, Children } from 'react'
 import { View } from '@tarojs/components'
-import { Bem, classnames, withDefaultProps } from '@ambilight-taro/core'
+import { Bem, classnames, EnumValueUnion, withDefaultProps } from '@ambilight-taro/core'
 import { useCompatibleUncontrolledValue } from '@ambilight-taro/use-compatible-uncontrolled-value'
 import { AlCapsuleSelectorProps, AlCapsuleSelectorSize, AlCapsuleSelectorTheme } from '../type'
 import './index.scss'
 
 const defaultProps = {
-  theme: AlCapsuleSelectorTheme.gray as AlCapsuleSelectorTheme,
+  theme: AlCapsuleSelectorTheme.gray as EnumValueUnion<AlCapsuleSelectorTheme>,
   defaultValue: 0,
-  size: AlCapsuleSelectorSize.md as AlCapsuleSelectorSize
+  size: AlCapsuleSelectorSize.md as EnumValueUnion<AlCapsuleSelectorSize>
 }
 
 const root = new Bem('capsule-selector')

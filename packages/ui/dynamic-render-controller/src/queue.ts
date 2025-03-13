@@ -1,6 +1,5 @@
-import { Cache, uuid as getUuid, Bem } from '@ambilight-taro/core'
-
-export const Namespace = new Bem('dynamic-render-controller').className
+import { Cache, uuid as getUuid } from '@ambilight-taro/core'
+import { Namespace } from './namespace'
 
 export interface RenderDetail {
   /**

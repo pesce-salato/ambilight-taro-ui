@@ -1,4 +1,5 @@
 /* eslint-disable unicorn/consistent-function-scoping */
+// eslint-disable-next-line import/default
 import React, { useCallback, useState } from 'react'
 import { View } from '@tarojs/components'
 import { classnames } from '@ambilight-taro/core'

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/default
 import React, {
   forwardRef,
   Fragment,
@@ -9,7 +10,7 @@ import React, {
 } from 'react'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { useCompatibleUncontrolledValue } from '@ambilight-taro/use-compatible-uncontrolled-value'
-import { withDefaultProps, classnames, uuid } from '@ambilight-taro/core'
+import { withDefaultProps, classnames, uuid, EnumValueUnion } from '@ambilight-taro/core'
 import Dayjs from 'dayjs'
 import Taro from '@tarojs/taro'
 import { ScrollView, View } from '@tarojs/components'
@@ -31,8 +32,8 @@ import './index.scss'
 
 const defaultProps = {
   dayRender: ((date) => ({ main: date.day })) as AlCalendarDayRender,
-  weekRowFirstDay: AlCalendarWeekRowFirstDay.mon as AlCalendarWeekRowFirstDay,
-  type: AlCalendarType.single as AlCalendarType,
+  weekRowFirstDay: AlCalendarWeekRowFirstDay.mon as EnumValueUnion<AlCalendarWeekRowFirstDay>,
+  type: AlCalendarType.single as EnumValueUnion<AlCalendarType>,
   dayOfWeekTitleRender: ((dayOfWeek) => {
     return ['日', '一', '二', '三', '四', '五', '六'][dayOfWeek]
   }) as AlCalendarDayOfWeekTitleRender,

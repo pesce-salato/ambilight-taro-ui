@@ -1,7 +1,7 @@
 import { AlPopup as _AlPopup } from './component'
 import { functionalWrapper } from './functional'
 
-export const AlPopup = functionalWrapper(_AlPopup)
+export * from './type'
+export type { AlPopupFunctionalShowSetting, AlPopupStatic } from './functional'
 
-export { AlPopupFunctionalShowSetting, AlPopupStatic } from './functional'
-export * from './component/type'
+export const AlPopup = functionalWrapper(_AlPopup)
