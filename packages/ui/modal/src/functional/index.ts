@@ -1,4 +1,4 @@
-import { safeRenderToController } from '@ambilight-taro/page-view'
+import { safeRender } from '@ambilight-taro/dynamic-render-controller'
 import { AlModal } from '../component'
 import { type AlModalProps } from '../component/type'
 
@@ -8,7 +8,7 @@ export interface AlModalFunctionalShowSetting
 export interface AlModalStatic {
   show: (
     setting: AlModalFunctionalShowSetting,
-    id?: string,
+    id?: string
   ) => {
     close: () => void
     changeSetting: (newSetting: AlModalFunctionalShowSetting) => void
@@ -26,7 +26,7 @@ export const functionalWrapper = (component: typeof AlModal) => {
       // default
     }
 
-    const controller = safeRenderToController<AlModalFunctionalShowSetting>({
+    const controller = safeRender<AlModalFunctionalShowSetting>({
       component,
       targetId,
       props: {
@@ -35,8 +35,8 @@ export const functionalWrapper = (component: typeof AlModal) => {
         visible: true,
         _onAnimationEnd: () => {
           deleteMyself()
-        },
-      },
+        }
+      }
     })
 
     deleteMyself = controller.remove
@@ -46,7 +46,7 @@ export const functionalWrapper = (component: typeof AlModal) => {
       changeSetting: (newSetting: AlModalFunctionalShowSetting = {}) => {
         latestSetting = {
           ...latestSetting,
-          ...newSetting,
+          ...newSetting
         }
         // forbidden to set the system control props
         const { _functionCall, visible, _onAnimationEnd, ...others } =
@@ -58,7 +58,7 @@ export const functionalWrapper = (component: typeof AlModal) => {
       close: () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         controller.changeProps({ visible: false } as any)
-      },
+      }
     }
   }
 
