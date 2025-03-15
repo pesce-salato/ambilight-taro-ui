@@ -20,6 +20,10 @@ export const Config: {
     title: '导航',
     components: [
       {
+        title: 'carousel',
+        path: '/pages/carousel/index'
+      },
+      {
         title: 'nav-bar'
       },
       {
@@ -43,7 +47,8 @@ export const Config: {
         title: 'modal'
       },
       {
-        title: 'popup'
+        title: 'popup',
+        path: '/pages/popup/index'
       },
       {
         title: 'progress',

@@ -9,6 +9,7 @@ import { Slogan } from '@/components/slogan'
 import { AlToast } from '@ambilight-taro/toast'
 import { Config } from './config'
 import './index.scss'
+import { AlDynamicRenderController } from '@ambilight-taro/dynamic-render-controller'
 
 const root = new Bem('page-index', undefined, undefined, false)
 const card = root.hierarchies('card')
@@ -96,6 +97,7 @@ export default () => {
           }
         ]}
       />
+      <AlDynamicRenderController />
     </AlPageView>
   )
 }
