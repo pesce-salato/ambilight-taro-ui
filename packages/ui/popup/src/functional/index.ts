@@ -2,24 +2,24 @@ import { safeRender } from '@ambilight-taro/dynamic-render-controller'
 import { AlPopup } from '../component'
 import { AlPopupProps } from '../type'
 
-export interface AlPopupFunctionalShowSetting
+export interface AlPopupFunctionalShowProps
   extends Omit<AlPopupProps, 'visible' | '_functionCall'> {}
 
 export interface AlPopupStatic {
   show: (
-    setting: AlPopupFunctionalShowSetting,
-    id?: string
+    props: AlPopupFunctionalShowProps,
+    controllerId?: string
   ) => {
     close: () => void
-    changeSetting: (newSetting: AlPopupFunctionalShowSetting) => void
+    changeProps: (newProps: AlPopupFunctionalShowProps) => void
   }
 }
 
 export const functionalWrapper = (component: typeof AlPopup) => {
   const wrappedComponent = component as typeof AlPopup & AlPopupStatic
 
-  wrappedComponent.show = (setting, targetId) => {
-    let latestSetting = setting
+  wrappedComponent.show = (props, controllerId) => {
+    let latestProps = props
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
     let deleteMyself = () => {
@@ -28,13 +28,13 @@ export const functionalWrapper = (component: typeof AlPopup) => {
 
     const controller = safeRender({
       component: AlPopup,
-      targetId,
+      targetId: controllerId,
       props: {
-        ...setting,
+        ...props,
         _functionCall: true,
         visible: true,
         onHide: () => {
-          latestSetting.onHide?.()
+          latestProps.onHide?.()
           deleteMyself()
         }
       }
@@ -44,15 +44,15 @@ export const functionalWrapper = (component: typeof AlPopup) => {
 
     return {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      changeSetting: (newSetting: any = {}) => {
-        latestSetting = {
-          ...latestSetting,
-          ...newSetting
+      changeProps: (newProps: any = {}) => {
+        latestProps = {
+          ...latestProps,
+          ...newProps
         }
         // forbidden to set the system control props
         const { _functionCall, visible, onHide, ...others } =
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          latestSetting as any
+          latestProps as any
 
         controller.changeProps(others)
       },
