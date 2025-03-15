@@ -17,23 +17,26 @@ export interface AlPopupProps extends AlBaseFcProps {
    */
   position?: EnumValueUnion<AlPopupPosition>
   /**
-   * whether open the auto safe padding
+   * 是否开启安全边距
    * - position = 'bottom' -> ios bottom safe padding
    * - position = 'top' -> status bar safe padding
    * @default true
    */
   safePadding?: boolean
   /**
-   * mask click event
+   * 遮罩点击事件
    */
   onMaskClick?: (event: ITouchEvent) => void
 
   children: React.ReactNode
-
+  /**
+   * 透传到 AlPortal 的 props
+   */
   portalProps?: Omit<AlPortalProps, 'children'>
   /**
-   * whether to catch move, forbidden the rolling penetration of mask touch move
-   * - it should be set during component initialization, and not suppose to be changed
+   * 是否开启 catchMove 配置，拦截点击滚动事件，避免出现滚动穿透
+   * - 请在组件初始化的时候就配置好，动态改变可能不会有预期的效果
+   * - 如果此时想要实现弹出内容滚动，则可以使用 ScrollView 来做滚动处理
    * @default true
    */
   catchMove?: boolean
@@ -43,11 +46,11 @@ export interface AlPopupProps extends AlBaseFcProps {
    */
   _functionCall?: boolean
   /**
-   * after appear animation end
+   * 弹出动画完成事件
    */
   onAppear?: () => void
   /**
-   * after hide animation end
+   * 收起动画完成事件
    */
   onHide?: () => void
 }
