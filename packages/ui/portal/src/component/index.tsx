@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/default
 import React, { useMemo } from 'react'
 import { createPortal } from '@tarojs/react'
 import { useRootElement } from '@ambilight-taro/use-root-element'
