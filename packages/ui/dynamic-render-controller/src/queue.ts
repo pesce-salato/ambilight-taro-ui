@@ -1,19 +1,19 @@
-import { Cache, uuid as getUuid } from '@ambilight-taro/core'
+import { Cache, formatMessage, uuid as getUuid } from '@ambilight-taro/core'
 import { Namespace } from './namespace'
 
 export interface RenderDetail {
   /**
-   * render react element
+   * 渲染组件
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: React.FunctionComponent<any> | React.ComponentClass<any>
   /**
-   * component props
+   * 渲染组件 Props
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: any
   /**
-   * target interact controller
+   * 目标控制器 id
    */
   targetId?: string
 }
@@ -30,12 +30,12 @@ export type Render = <P = any>(
   detail: RenderDetail
 ) => {
   /**
-   * change props（shallow coverage merge）
+   * 修改 props（使用浅层合并覆盖）
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   changeProps: (newProps: Partial<P>) => void
   /**
-   * remove current node
+   * 删除当前渲染节点
    * @returns void
    */
   remove: () => void
@@ -86,8 +86,20 @@ export const getControllerById = (id: string) => {
 }
 
 export const changeControllerId = (uuid: string, id: string) => {
-  const controller = getControllerByUuid(uuid)
-  controller.id = id
+  // 出现了 id 重复现象，提示错误
+  if (
+    [...cache.controller.values()].some((item) => {
+      if (item.uuid !== uuid && item.id === id) {
+        return true
+      }
+    })
+  ) {
+    console.error(formatMessage(`已经存在 id=${id} 的 AlDynamicController 控制器，设置失败`))
+  } else {
+    const controller = getControllerByUuid(uuid)
+    controller.id = id
+  }
+
   // try to resolve error render in this case
   resolveErrorRender()
 }
