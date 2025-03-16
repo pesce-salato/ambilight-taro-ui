@@ -2,6 +2,9 @@ import { AlBaseFcProps, EnumValueUnion } from '@ambilight-taro/core'
 import { ITouchEvent } from '@tarojs/components'
 
 export interface AlTabBarProps extends AlBaseFcProps {
+  /**
+   * 根容器元素 key
+   */
   id?: string
   /**
    * 当前活跃的 tab
@@ -24,7 +27,7 @@ export interface AlTabBarProps extends AlBaseFcProps {
   /**
    * item 自定义渲染器
    */
-  render?: (item: AlTabBarItem) => React.ReactNode
+  render?: (item: AlTabBarItem, isActive: boolean) => React.ReactNode
 }
 
 export enum AlTabBarEffect {
