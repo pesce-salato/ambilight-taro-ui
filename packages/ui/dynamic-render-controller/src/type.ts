@@ -1,5 +1,6 @@
-import { AlBaseFcProps } from '@ambilight-taro/core'
-
-export interface AlDynamicRenderControllerProps extends AlBaseFcProps {
+export interface AlDynamicRenderControllerProps {
+  /**
+   * 控制器 id（请保持全应用唯一）
+   */
   controllerId?: string
 }
