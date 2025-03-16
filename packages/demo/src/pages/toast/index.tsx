@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Bem } from '@ambilight-taro/core'
 import { ScrollView, Text, View } from '@tarojs/components'
 import { AlLoadingIcon } from '@ambilight-taro/icon'
@@ -78,6 +78,7 @@ export default () => {
                 size="sm"
                 style={{ width: '360rpx' }}
                 value={Positions.indexOf(position)}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onChange={(index) => setPosition(Positions[index] as any)}
               >
                 {Positions.map((item) => (
