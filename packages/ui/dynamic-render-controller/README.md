@@ -49,7 +49,8 @@ import { safeRender } from '@ambilight-taro/dynamic-render-controller'
 const showMeTheMoney = () => {
   const controller = safeRender({
     component: View,
-    targetId: '',
+    // targetId 可以不设置
+    targetId: 'targetId',
     props: {
       children: '¥999999999'
     }
