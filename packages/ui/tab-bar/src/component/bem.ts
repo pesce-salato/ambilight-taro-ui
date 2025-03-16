@@ -8,5 +8,5 @@ export const bem = {
   iconAnchor: root.hierarchies('icon-anchor'),
   iconWrapper: root.hierarchies('icon-wrapper'),
   icon: root.hierarchies('icon'),
-  title: root.hierarchies('title-wrapper'),
+  title: root.hierarchies('title-wrapper')
 }

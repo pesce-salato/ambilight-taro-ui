@@ -27,7 +27,7 @@ export const AlTabBar = (props: AlTabBarProps) => {
           })}
         >
           {render ? (
-            render(item)
+            render(item, isActive)
           ) : (
             <>
               <View className={bem.iconAnchor.className}>
