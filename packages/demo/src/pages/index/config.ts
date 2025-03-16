@@ -9,6 +9,10 @@ export const Config: {
         title: 'icon'
       },
       {
+        title: 'dynamic-render-controller',
+        path: '/pages/dynamic-render-controller/index'
+      },
+      {
         title: 'page-view'
       },
       {

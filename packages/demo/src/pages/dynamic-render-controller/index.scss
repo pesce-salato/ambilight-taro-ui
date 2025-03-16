@@ -1,0 +1,10 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-dynamic-render-controller {
+  color: semantic-color('font-primary');
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+}
