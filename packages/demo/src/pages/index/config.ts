@@ -27,7 +27,8 @@ export const Config: {
         title: 'nav-bar'
       },
       {
-        title: 'tab-bar'
+        title: 'tab-bar',
+        path: '/pages/tab-bar/index'
       }
     ]
   },
@@ -55,7 +56,8 @@ export const Config: {
         path: '/pages/progress/index'
       },
       {
-        title: 'toast'
+        title: 'toast',
+        path: '/pages/toast/index'
       }
     ]
   }

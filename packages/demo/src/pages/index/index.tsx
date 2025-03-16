@@ -19,8 +19,6 @@ const SubPage = {
   about: 'about'
 } as const
 
-const SubPageMap = {}
-
 export default () => {
   const [current, setCurrent] = useState<string>(SubPage.component)
 

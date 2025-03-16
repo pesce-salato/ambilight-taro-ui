@@ -10,7 +10,8 @@ export default defineAppConfig({
     'pages/calendar/index',
     'pages/capsule-selector/index',
     'pages/progress/index',
-    'pages/popup/index'
+    'pages/popup/index',
+    'pages/tab-bar/index'
   ],
   window: {
     backgroundTextStyle: 'light',
