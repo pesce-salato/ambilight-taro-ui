@@ -4,7 +4,15 @@ import { createPortal } from '@tarojs/react'
 import { useRootElement } from '@ambilight-taro/use-root-element'
 
 export interface AlPortalProps {
+  /**
+   * 是否禁用 portal
+   * @default false
+   */
   disabled?: boolean
+  /**
+   * 容器 id
+   * @default 默认将渲染到根容器
+   */
   containerId?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children?: any
