@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AlPageView } from '@ambilight-taro/page-view'
 import { AlNavBar } from '@ambilight-taro/nav-bar'
 import { AlTabBar } from '@ambilight-taro/tab-bar'
@@ -48,7 +48,7 @@ export default () => {
                   <View
                     className={card.hierarchies('item').className}
                     key={componentIndex}
-                    onClick={() => navigateTo({ url: componentDetail.path })}
+                    onClick={() => navigateTo({ url: componentDetail.path! })}
                   >
                     {componentDetail.title}
                   </View>

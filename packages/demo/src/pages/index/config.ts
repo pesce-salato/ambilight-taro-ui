@@ -13,7 +13,8 @@ export const Config: {
         path: '/pages/dynamic-render-controller/index'
       },
       {
-        title: 'portal'
+        title: 'portal',
+        path: '/pages/portal/index'
       }
     ]
   },

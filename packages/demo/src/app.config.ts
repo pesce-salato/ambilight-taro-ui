@@ -12,7 +12,8 @@ export default defineAppConfig({
     'pages/progress/index',
     'pages/popup/index',
     'pages/tab-bar/index',
-    'pages/dynamic-render-controller/index'
+    'pages/dynamic-render-controller/index',
+    'pages/portal/index'
   ],
   window: {
     backgroundTextStyle: 'light',
