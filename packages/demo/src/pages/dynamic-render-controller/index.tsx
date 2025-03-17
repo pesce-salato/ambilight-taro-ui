@@ -5,6 +5,7 @@ import { AlBasicView } from '@ambilight-taro/basic-view'
 import { NavBar } from '@/components/nav-bar'
 import { Tooltip } from '@/components/tooltip'
 import { Card, CardItem } from '@/components/card'
+import './index.scss'
 
 const root = new Bem('page-dynamic-render-controller', undefined, undefined, false)
 
@@ -23,7 +24,8 @@ export default () => {
                 component: View,
                 targetId: root.className,
                 props: {
-                  children: '¥999999999'
+                  children: '¥999999999',
+                  className: root.hierarchies('money').className
                 }
               })
 
