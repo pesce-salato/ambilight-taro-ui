@@ -7,9 +7,13 @@ import { Bem, classnames } from '@ambilight-taro/core'
 import { ScrollView, View } from '@tarojs/components'
 import { Slogan } from '@/components/slogan'
 import { AlToast } from '@ambilight-taro/toast'
+import { AlDynamicRenderController } from '@ambilight-taro/dynamic-render-controller'
+import PreviewActiveIcon from '@/resources/icon/preview-active.svg'
+import PreviewInactiveIcon from '@/resources/icon/preview-inactive.svg'
+import { usePresetCnDayRender } from '@ambilight-taro/calendar'
+import dayjs from 'dayjs'
 import { Config } from './config'
 import './index.scss'
-import { AlDynamicRenderController } from '@ambilight-taro/dynamic-render-controller'
 
 const root = new Bem('page-index', undefined, undefined, false)
 const card = root.hierarchies('card')
@@ -24,6 +28,7 @@ export default () => {
 
   useEffect(() => {
     AlToast.show({ label: 'Hello world' })
+    usePresetCnDayRender.preload([dayjs().year()])
   }, [])
 
   return (
@@ -63,8 +68,8 @@ export default () => {
             id: SubPage.component,
             title: '预览',
             iconSource: {
-              active: 'https://cdn.salted-fish.org/ambilight-taro/demo/preview-active.svg',
-              inactive: 'https://cdn.salted-fish.org/ambilight-taro/demo/preview-inactive.svg'
+              active: PreviewActiveIcon,
+              inactive: PreviewInactiveIcon
             }
           },
           {
