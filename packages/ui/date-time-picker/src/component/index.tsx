@@ -100,7 +100,7 @@ export const AlDatTimePicker = (originalProps: AlDateTimePickerProps) => {
     [renderColumns, getColumnRange, filter]
   )
 
-  const safeValue = useMemo(() => {
+  const constrainedValue = useMemo(() => {
     const validValue = toValid(compatibleValue)
 
     if (validValue.join(',') !== compatibleValue.join(',')) {
@@ -115,12 +115,12 @@ export const AlDatTimePicker = (originalProps: AlDateTimePickerProps) => {
 
   const onColumnValueChange = useCallback(
     (_column: AlDateTimePickerColumn, columnIndex: number, v: number) => {
-      const newValue = [...safeValue]
+      const newValue = [...constrainedValue]
       newValue[columnIndex] = v
 
       onChangeWrapper(toValid(newValue))
     },
-    [safeValue, onChangeWrapper, toValid]
+    [constrainedValue, onChangeWrapper, toValid]
   )
 
   const pickers = useMemo(() => {
@@ -131,18 +131,18 @@ export const AlDatTimePicker = (originalProps: AlDateTimePickerProps) => {
           column,
           getColumnRange(column),
           columnIndex,
-          safeValue,
+          constrainedValue,
           filter
         ).map<AlPickerOption>((rowValue) => ({
           id: rowValue.toString(),
           content: formatter(column, columnIndex, {
             rowValue,
-            currentSelectedValue: safeValue
+            currentSelectedValue: constrainedValue
           })
         }))
       }
     })
-  }, [safeValue, renderColumns, formatter, getColumnRange, filter])
+  }, [constrainedValue, renderColumns, formatter, getColumnRange, filter])
 
   return (
     <View className={root.className}>
@@ -150,7 +150,7 @@ export const AlDatTimePicker = (originalProps: AlDateTimePickerProps) => {
         <View className={root.hierarchies('column').className} key={picker.column}>
           <AlPicker
             options={picker.options}
-            value={safeValue[columnIndex].toString()}
+            value={constrainedValue[columnIndex].toString()}
             onChange={(v) => {
               onColumnValueChange(picker.column, columnIndex, Number(v))
             }}
