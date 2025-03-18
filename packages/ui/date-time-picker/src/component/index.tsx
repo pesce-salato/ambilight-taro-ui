@@ -90,23 +90,37 @@ export const AlDatTimePicker = (originalProps: AlDateTimePickerProps) => {
         if (!validColumnValues.includes(checkValue)) {
           // 寻找最近的值
           result[columnIndex] =
-            validColumnValues.reverse().find((v) => checkValue - v >= 0) || validColumnValues[0]
+            [...validColumnValues].reverse().find((v) => checkValue - v >= 0) ||
+            validColumnValues[0]
         }
       }
 
-      return result
+      return result.slice(0, renderColumns.length)
     },
     [renderColumns, getColumnRange, filter]
   )
 
+  const safeValue = useMemo(() => {
+    const validValue = toValid(compatibleValue)
+
+    if (validValue.join(',') !== compatibleValue.join(',')) {
+      console.warn(
+        `@ambilight-taro/date-time-picker: 自动转换非法值 ${JSON.stringify(compatibleValue)} -> ${JSON.stringify(validValue)}`
+      )
+      onChangeWrapper(validValue)
+    }
+
+    return validValue
+  }, [toValid, compatibleValue, onChangeWrapper])
+
   const onColumnValueChange = useCallback(
     (_column: AlDateTimePickerColumn, columnIndex: number, v: number) => {
-      const newValue = [...compatibleValue]
+      const newValue = [...safeValue]
       newValue[columnIndex] = v
 
       onChangeWrapper(toValid(newValue))
     },
-    [compatibleValue, onChangeWrapper, toValid]
+    [safeValue, onChangeWrapper, toValid]
   )
 
   const pickers = useMemo(() => {
@@ -117,18 +131,18 @@ export const AlDatTimePicker = (originalProps: AlDateTimePickerProps) => {
           column,
           getColumnRange(column),
           columnIndex,
-          compatibleValue,
+          safeValue,
           filter
         ).map<AlPickerOption>((rowValue) => ({
           id: rowValue.toString(),
           content: formatter(column, columnIndex, {
             rowValue,
-            currentSelectedValue: compatibleValue
+            currentSelectedValue: safeValue
           })
         }))
       }
     })
-  }, [compatibleValue, renderColumns, formatter, getColumnRange, filter])
+  }, [safeValue, renderColumns, formatter, getColumnRange, filter])
 
   return (
     <View className={root.className}>
@@ -136,7 +150,7 @@ export const AlDatTimePicker = (originalProps: AlDateTimePickerProps) => {
         <View className={root.hierarchies('column').className} key={picker.column}>
           <AlPicker
             options={picker.options}
-            value={compatibleValue[columnIndex].toString()}
+            value={safeValue[columnIndex].toString()}
             onChange={(v) => {
               onColumnValueChange(picker.column, columnIndex, Number(v))
             }}
