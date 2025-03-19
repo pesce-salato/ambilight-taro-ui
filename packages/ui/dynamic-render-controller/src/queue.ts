@@ -1,4 +1,4 @@
-import { Cache, formatMessage, uuid as getUuid } from '@ambilight-taro/core'
+import { Cache, uuid as getUuid } from '@ambilight-taro/core'
 import { Namespace } from './namespace'
 
 export interface RenderDetail {
@@ -94,7 +94,9 @@ export const changeControllerId = (uuid: string, id: string) => {
       }
     })
   ) {
-    console.error(formatMessage(`已经存在 id=${id} 的 AlDynamicController 控制器，设置失败`))
+    console.error(
+      `@ambilight-taro/dynamic-render-controller: 已经存在 id=${id} 的 AlDynamicController 控制器，设置失败`
+    )
   } else {
     const controller = getControllerByUuid(uuid)
     controller.id = id
