@@ -17,11 +17,10 @@
 
   &__item {
     border-radius: border-radius('md');
-    padding: 0 6px;
+    padding: 8px 6px;
     background: color-palette('black', 50);
     display: flex;
     align-items: center;
-    height: 36px;
     margin: 8px 0;
     font-size: font-size('comment');
 
@@ -31,7 +30,12 @@
 
     &__label {
       color: semantic-color('font-primary');
-      line-height: 28px;
+    }
+
+    &__desc{
+      font-size: font-size('assist');
+      color: semantic-color('font-secondary');
+      margin-top: 2px;
     }
 
     &__content {
