@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import { View } from '@tarojs/components'
 import { useShadowState } from '@ambilight-taro/use-shadow-state'
-import { uuid, classnames, query, formatMessage } from '@ambilight-taro/core'
+import { uuid, classnames, query } from '@ambilight-taro/core'
 import { AlNavBarPopProps, AlNavBarPopReference } from '../../type'
 import { AlNavBarBasic } from '../basic'
 import { popRoot, root } from '../../utils/bem'
@@ -48,7 +48,9 @@ export const AlNavBarPop = forwardRef(
         // eslint-disable-next-line unicorn/no-await-expression-member
         setNavBarRect((await query(rectGagerId))[0])
       } catch (error) {
-        throw new Error(formatMessage(`无法查询到 nav bar rect 信息，${error.toString()}`))
+        throw new Error(
+          `@ambilight-taro/nav-bar: 无法查询到 nav bar rect 信息，${error.toString()}`
+        )
       }
     }, [rectGagerId, setNavBarRect])
 
@@ -112,7 +114,7 @@ export const AlNavBarPop = forwardRef(
           if (realtimeNavBarRect) {
             setIsPopped(trigger(rect, realtimeNavBarRect))
           } else {
-            throw new Error(formatMessage('nav bar rect 信息还未初始化或重查询完成'))
+            throw new Error('@ambilight-taro/nav-bar: rect 信息还未初始化或重查询完成')
           }
         },
         queryObserveElement: queryNavBar
