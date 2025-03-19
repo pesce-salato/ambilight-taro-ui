@@ -38,6 +38,10 @@ export const Config: {
     title: '表单',
     components: [
       {
+        title: 'date-time-picker',
+        path: '/pages/date-time-picker/index'
+      },
+      {
         title: 'picker',
         path: '/pages/picker/index'
       }
