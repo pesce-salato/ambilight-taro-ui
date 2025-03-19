@@ -1,4 +1,4 @@
-import { Cache, formatMessage } from '@ambilight-taro/core'
+import { Cache } from '@ambilight-taro/core'
 import Taro from '@tarojs/taro'
 import Dayjs from 'dayjs'
 import { bem } from '../../component/bem'
@@ -100,7 +100,7 @@ export const getHolidayDetail = async (
   try {
     detailMap = await getHolidayOfYear(date.year, holidayJson)
   } catch (error) {
-    console.error(formatMessage(error.toString()))
+    console.error(`@ambilight-taro/calendar: 获取日期节假日细节失败，${error.toString()}`)
   }
 
   return detailMap?.get(
