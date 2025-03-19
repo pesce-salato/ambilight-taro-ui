@@ -27,7 +27,9 @@ export type AlDateTimePickerFormatter = (
    * 列下标
    */
   columnIndex: number,
-
+  /**
+   * 上下文细节
+   */
   detail: {
     /**
      * 正在处理的行对应值
@@ -49,7 +51,9 @@ export type AlDateTimePickerFilter = (
    * 列下标
    */
   columnIndex: number,
-
+  /**
+   * 上下文细节
+   */
   detail: {
     /**
      * 正在处理的行对应值
@@ -65,7 +69,7 @@ export type AlDateTimePickerFilter = (
 
 export interface AlDateTimePickerRange {
   /**
-   * 日期范围，限定年、月、日范围
+   * 日期范围，限定年、月、日范围（timestamp）
    * @default [五年前, 五年后]
    */
   date?: [number, number]
