@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/default
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { classnames, formatMessage, query, uuid } from '@ambilight-taro/core'
+import { classnames, query, uuid } from '@ambilight-taro/core'
 import { AlBasicView } from '@ambilight-taro/basic-view'
 import { useCompatibleUncontrolledValue } from '@ambilight-taro/use-compatible-uncontrolled-value'
 import { NodesRef } from '@tarojs/taro'
@@ -34,7 +34,7 @@ export const AlPicker = (props: AlPickerProps) => {
       setRootRect(rects.find((item) => item.id === rootId))
       setOptionRect(rects.find((item) => item.id === optionHeightGagerId))
     } catch (error) {
-      throw new Error(formatMessage(`查询组件本身以及行高信息失败，${error.toString()}`))
+      throw new Error(`@ambilight-taro/picker: 查询组件本身以及行高信息失败，${error.toString()}`)
     }
   }, [rootId, optionHeightGagerId])
 
