@@ -1,6 +1,6 @@
 {
   "name": "@ambilight-taro/use-bottom-safe-padding",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -33,6 +33,6 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
-    "@ambilight-taro/core": "^0.0.1"
+    "@ambilight-taro/core": "^1.0.0"
   }
 }
