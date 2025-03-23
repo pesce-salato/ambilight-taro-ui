@@ -6,7 +6,8 @@ export const Config: {
     title: '基础',
     components: [
       {
-        title: 'icon'
+        title: 'icon',
+        path: '/pages/icon/index'
       },
       {
         title: 'dynamic-render-controller',

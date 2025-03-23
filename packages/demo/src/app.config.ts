@@ -13,7 +13,8 @@ export default defineAppConfig({
     'pages/popup/index',
     'pages/tab-bar/index',
     'pages/dynamic-render-controller/index',
-    'pages/portal/index'
+    'pages/portal/index',
+    'pages/icon/index'
   ],
   window: {
     backgroundTextStyle: 'light',
