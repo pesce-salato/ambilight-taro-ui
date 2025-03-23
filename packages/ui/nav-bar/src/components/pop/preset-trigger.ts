@@ -10,5 +10,5 @@ const bottomIntersectBottom: AlNavBarPopTrigger = (element, navBar) => {
 
 export const AlNavBarPopPresetTrigger = Object.freeze({
   topIntersectBottom,
-  bottomIntersectBottom,
+  bottomIntersectBottom
 })

@@ -11,24 +11,25 @@ import './index.scss'
 export const AlNavBarBasic = (props: AlNavBarBasicProps) => {
   const { className, style, children, safePaddingForMenuButton, id } = props
 
-  const safePaddingForMenuButtonDistance = useMemo(() => {
-    let rect = { left: 0, right: 0 }
+  const menuButtonDetail = useMemo(() => {
+    let rect = { left: 0, right: 0, top: 0, height: 0 }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ([ENV_TYPE.TT, ENV_TYPE.WEAPP].includes(getEnv() as any)) {
       rect = getMenuButtonBoundingClientRect()
     } else {
-      console.warn(
-        'Taro.getMenuButtonBoundingClientRect dose not support in current env',
-      )
+      console.warn('Taro.getMenuButtonBoundingClientRect dose not support in current env')
       return
     }
 
     const systemWidth = sizeOf(AlSettings.System.size.width)
 
     return {
-      right: `calc(2 * ${systemWidth} - ${rect.left}px - ${rect.right}px)`,
-      left: `calc(${systemWidth} - ${rect.right}px)`,
+      rect,
+      distance: {
+        right: `calc(2 * ${systemWidth} - ${rect.left}px - ${rect.right}px)`,
+        left: `calc(${systemWidth} - ${rect.right}px)`
+      }
     }
   }, [])
 
@@ -40,9 +41,9 @@ export const AlNavBarBasic = (props: AlNavBarBasicProps) => {
 
       result = `padding-top: ${statusHeight}px;` + result
 
-      if (safePaddingForMenuButton && safePaddingForMenuButtonDistance) {
+      if (safePaddingForMenuButton && menuButtonDetail?.distance) {
         result =
-          `padding-right: ${safePaddingForMenuButtonDistance.right};padding-left: ${safePaddingForMenuButtonDistance.left};` +
+          `padding-right: ${menuButtonDetail.distance.right};padding-left: ${menuButtonDetail.distance.left};` +
           result
       }
 
@@ -51,28 +52,30 @@ export const AlNavBarBasic = (props: AlNavBarBasicProps) => {
 
     return {
       paddingTop: `${statusHeight}px`,
-      ...(safePaddingForMenuButton && safePaddingForMenuButtonDistance
+      ...(safePaddingForMenuButton && menuButtonDetail?.distance
         ? {
-            paddingRight: safePaddingForMenuButtonDistance.right,
-            paddingLeft: safePaddingForMenuButtonDistance.left,
+            paddingRight: menuButtonDetail.distance.right,
+            paddingLeft: menuButtonDetail.distance.left
           }
         : {}),
-      ...style,
+      ...style
     }
-  }, [
-    style,
-    statusHeight,
-    safePaddingForMenuButton,
-    safePaddingForMenuButtonDistance,
-  ])
+  }, [style, statusHeight, safePaddingForMenuButton, menuButtonDetail])
 
+  const contentHeight = useMemo(() => {
+    if (statusHeight && menuButtonDetail?.rect) {
+      return `${(menuButtonDetail.rect.top - statusHeight) * 2 + menuButtonDetail.rect.height}px`
+    }
+
+    return
+  }, [statusHeight, menuButtonDetail])
+
+  console.error(contentHeight)
   return (
-    <AlBasicView
-      className={classnames(className, root.className)}
-      style={rootStyle}
-      id={id}
-    >
-      <View className={root.hierarchies('content').className}>{children}</View>
+    <AlBasicView className={classnames(className, root.className)} style={rootStyle} id={id}>
+      <View className={root.hierarchies('content').className} style={{ height: contentHeight }}>
+        {children}
+      </View>
     </AlBasicView>
   )
 }

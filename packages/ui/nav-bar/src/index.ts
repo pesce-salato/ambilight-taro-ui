@@ -6,5 +6,5 @@ export * from './type'
 
 export const AlNavBar = Object.freeze({
   Basic: AlNavBarBasic,
-  Pop: AlNavBarPop,
+  Pop: AlNavBarPop
 })

@@ -4,5 +4,4 @@ import { useMemo } from 'react'
 /**
  * get mobile status bar height
  */
-export const useStatusHeight = () =>
-  useMemo(() => getWindowInfo().statusBarHeight || 0, [])
+export const useStatusHeight = () => useMemo(() => getWindowInfo().statusBarHeight || 0, [])
