@@ -10,11 +10,7 @@ export const AlCloseCircleIcon = (props: ViewProps) => {
   return (
     <View
       {...others}
-      className={classnames(
-        basic.className,
-        basic.status('close-circle').className,
-        className,
-      )}
+      className={classnames(basic.className, basic.status('close-circle').className, className)}
     />
   )
 }
