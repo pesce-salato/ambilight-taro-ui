@@ -17,7 +17,15 @@ import { toDateStringValue } from '../../utils'
 import './index.scss'
 
 export interface AlCalendarPresetCnBuilderOptions {
+  /**
+   * 是否禁用阴历
+   * @default false
+   */
   isLunarDisabled?: boolean
+  /**
+   * 是否禁用节假日
+   * @default false
+   */
   isHolidayDisabled?: boolean
 }
 

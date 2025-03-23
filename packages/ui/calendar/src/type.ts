@@ -54,40 +54,52 @@ export type AlCalendarDayRender = (
 
 export interface AlCalendarProps extends AlBaseFcProps {
   /**
+   * 类型
    * @default 'single'
    */
   type?: EnumValueUnion<AlCalendarType>
-
-  dayRender?: AlCalendarDayRender
-
   /**
+   * 自定义 日期渲染器
+   */
+  dayRender?: AlCalendarDayRender
+  /**
+   * 最小日期
+   * @format YYYY-MM-DD
    * @default 三个月前
    */
   min?: string
   /**
+   * 最大日期
+   * @format YYYY-MM-DD
    * @default 三个月后
    */
   max?: string
-
   /**
+   * 选择值
    * @format YYYY-MM-DD
    */
   value?: string[]
   /**
+   * 默认值
    * @format YYYY-MM-DD
    */
   defaultValue?: string[]
-
+  /**
+   * 值改变事件
+   */
   onChange?: (v: string[]) => void
-
   /**
    * 每周的第一列
    * @default 'mon' 周一
    */
   weekRowFirstDay?: EnumValueUnion<AlCalendarWeekRowFirstDay>
-
+  /**
+   * 自定义 周每日标题渲染器
+   */
   dayOfWeekTitleRender?: AlCalendarDayOfWeekTitleRender
-
+  /**
+   * 自定义 月标题渲染器
+   */
   monthTitleRender?: AlCalendarMonthTitleRender
 }
 
