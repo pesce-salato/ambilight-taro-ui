@@ -48,11 +48,17 @@ export const Config: {
     ]
   },
   {
-    title: '交互&反馈',
+    title: '数据录入&展示',
     components: [
       {
-        title: 'modal'
-      },
+        title: 'calendar',
+        path: '/pages/calendar/index'
+      }
+    ]
+  },
+  {
+    title: '交互&反馈',
+    components: [
       {
         title: 'popup',
         path: '/pages/popup/index'

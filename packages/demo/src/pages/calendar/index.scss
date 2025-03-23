@@ -2,8 +2,30 @@
 
 
 .page-calendar {
-  &__container {
-    margin: size(256) 0;
-    height: size(520);
+  color: semantic-color('font-primary');
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__demo {
+    height: 360px;
+    border-top: 1PX dashed semantic-color('divider');
+  }
+
+  &__month-title {
+    border-top: 1PX dashed semantic-color('divider');
+    height: 100%;
+    width: 100%;
+    background: semantic-color('bg');
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    color: semantic-color('brand');
   }
 }

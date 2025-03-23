@@ -1,5 +1,5 @@
 export default definePageConfig({
-  navigationBarTitleText: '时间日期选择器',
+  navigationBarTitleText: '日历组件',
   navigationStyle: 'custom',
   disableScroll: true
 })
