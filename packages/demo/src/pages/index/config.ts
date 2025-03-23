@@ -27,7 +27,8 @@ export const Config: {
         path: '/pages/carousel/index'
       },
       {
-        title: 'nav-bar'
+        title: 'nav-bar',
+        path: '/pages/nav-bar/index'
       },
       {
         title: 'tab-bar',
