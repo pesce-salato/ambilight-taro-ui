@@ -70,7 +70,6 @@ export const AlNavBarBasic = (props: AlNavBarBasicProps) => {
     return
   }, [statusHeight, menuButtonDetail])
 
-  console.error(contentHeight)
   return (
     <AlBasicView className={classnames(className, root.className)} style={rootStyle} id={id}>
       <View className={root.hierarchies('content').className} style={{ height: contentHeight }}>
