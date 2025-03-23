@@ -1,22 +1,24 @@
+import React from 'react'
 import { AlBaseFcProps } from '@ambilight-taro/core'
 import { NodesRef } from '@tarojs/taro'
-import React from 'react'
 
 export interface AlNavBarBasicProps extends AlBaseFcProps {
   children?: React.ReactNode
   /**
    * 是否自动根据胶囊位置，自动为内容区域添加安全边距
-   * @requires Taro.getMenuButtonBoundingClientRect() support https://docs.taro.zone/docs/apis/ui/menu/getMenuButtonBoundingClientRect
-   * @default true
+   * @requires Taro.getMenuButtonBoundingClientRect support https://docs.taro.zone/docs/apis/ui/menu/getMenuButtonBoundingClientRect
+   * @default false
    */
   safePaddingForMenuButton?: boolean
-
+  /**
+   * 组件根节点 Id
+   */
   id?: string
 }
 
 export type AlNavBarPopTrigger = (
   elementRect: NodesRef.BoundingClientRectCallbackResult,
-  navBarRect: NodesRef.BoundingClientRectCallbackResult,
+  navBarRect: NodesRef.BoundingClientRectCallbackResult
 ) => boolean
 
 export interface AlNavBarPopProps extends AlBaseFcProps {
