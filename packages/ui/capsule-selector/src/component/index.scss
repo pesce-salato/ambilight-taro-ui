@@ -1,43 +1,35 @@
 @import 'pkg:@ambilight-taro/core';
 
 $root: with-prefix('capsule-selector');
-$root-padding-css-var-name: '--#{$root}-padding';
-$root-height-css-var-name: '--#{$root}-height';
 
-$root-padding: var(#{$root-padding-css-var-name}, size(6));
-$root-height: var(#{$root-height-css-var-name}, size(64));
+$font-size-map: (
+  'md': font-size('comment'),
+  'sm': font-size('assist')
+);
+
+$root-padding-map: (
+  'md': 6,
+  'sm': 4
+);
+
+$root-height-map: (
+  'md': 64,
+  'sm': 48
+);
+
+$shadow-size-map: (
+  'md': 4,
+  'sm': 2
+);
 
 .#{$root} {
-  padding: $root-padding;
-  height: $root-height;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: row;
   position: relative;
   z-index: z-index('base');
-  border-radius: calc($root-height / 2);
   overflow: hidden;
-
-  &--size-md {
-    #{$root-padding-css-var-name}: size(6);
-    #{$root-height-css-var-name}: size(64);
-    font-size: font-size('comment');
-
-    .#{$root}__indicator {
-      box-shadow: 0 0 size(4) semantic-color('shadow');
-    }
-  }
-
-  &--size-sm {
-    #{$root-padding-css-var-name}: size(4);
-    #{$root-height-css-var-name}: size(48);
-    font-size: font-size('assist');
-
-    .#{$root}__indicator {
-      box-shadow: 0 0 size(2) semantic-color('shadow');
-    }
-  }
 
   $option: #{&}__option;
 
@@ -59,10 +51,6 @@ $root-height: var(#{$root-height-css-var-name}, size(64));
     }
   }
 
-  #{$option},&__indicator-wrapper,&__separator-wrapper {
-    height: calc($root-height - 2 * $root-padding);
-  }
-
   #{$option} {
     flex: 1;
     min-width: 0;
@@ -76,14 +64,13 @@ $root-height: var(#{$root-height-css-var-name}, size(64));
     }
   }
 
-  &__indicator-wrapper,&__separator-wrapper {
-    width: calc(100% - 2 * $root-padding);
-    left: $root-padding;
-    top: $root-padding;
+  &__indicator-wrapper,
+  &__separator-wrapper {
     position: absolute;
     z-index: z-index('bg');
     pointer-events: none;
   }
+
 
   &__separator {
     width: size(2);
@@ -106,9 +93,39 @@ $root-height: var(#{$root-height-css-var-name}, size(64));
   }
 
   &__indicator {
-    width: var(--al-capsule-selector-indicator-width, 0);
     background: semantic-color('bg');
     height: 100%;
-    border-radius: calc($root-height / 2 - $root-padding);
+    width: var(--al-capsule-selector-indicator-width, 0);
   }
+
+  @each $size in ['md', 'sm'] {
+    &--size-#{$size} {
+      $root-padding: _get-safe-map-value($root-padding-map, $size);
+      $root-height: _get-safe-map-value($root-height-map, $size);
+
+      padding: size($root-padding);
+      height: size($root-height);
+      font-size: _get-safe-map-value($font-size-map, $size);
+      border-radius: size($root-height / 2);
+
+      .#{$root} {
+        &__indicator {
+          box-shadow: 0 0 size(_get-safe-map-value($shadow-size-map, $size)) semantic-color('shadow');
+          border-radius: size($root-height / 2 - $root-padding);
+        }
+
+        #{$option},&__indicator-wrapper,&__separator-wrapper {
+          height: size($root-height - 2 * $root-padding);
+        }
+
+        &__indicator-wrapper,
+        &__separator-wrapper {
+          width: calc(100% - size(2 * $root-padding));
+          left: size($root-padding);
+          top: size($root-padding);
+        }
+      }
+    }
+  }
+
 }
