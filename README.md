@@ -20,6 +20,11 @@
 >
 > Cuckoo 2024.02.01 碎碎念
 
+## Demo
+
+### Wechat
+
+<img src="https://cdn.salted-fish.org/ambilight-taro/demo/qr-wechat.png" width="200" height="200" />
 
 
 ## Commands
