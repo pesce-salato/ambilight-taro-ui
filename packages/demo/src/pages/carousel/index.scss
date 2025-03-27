@@ -1,0 +1,45 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-carousel {
+  color: semantic-color('font-primary');
+  min-height: 100vh;
+
+  &__container {
+    margin: size(64) size(8);
+    height: size(256);
+  }
+
+  &__carousel {
+    @include mix-font-family('monospace');
+
+    color: semantic-color('font-primary-reverse');
+    border-radius: border-radius('lg');
+    font-size: 38px;
+    background: color-palette('black', 500);
+  }
+
+  &__item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--0 {
+      color: color-palette('purple', 500);
+    }
+
+    &--1 {
+      color: color-palette('pink', 500);
+    }
+
+    &--2 {
+      color: color-palette('blue', 500);
+    }
+
+    &--3 {
+      color: color-palette('orange', 500);
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('nav-bar-pop');
+
+.#{$root} {
+  position: fixed;
+  z-index: z-index('interact');
+  height: fit-content;
+  width: 100%;
+
+  #{with-prefix('nav-bar')} {
+    position: relative;
+  }
+
+  &__content {
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: opacity animation-time('quick') ease-in,transform animation-time('quick') timing-function();
+  }
+
+  &__gager {
+    position: absolute;
+    pointer-events: none;
+    z-index: z-index('bg');
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  &--visible {
+    .#{$root}__content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

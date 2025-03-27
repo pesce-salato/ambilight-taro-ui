@@ -1,0 +1,191 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('popup');
+$mask: '#{$root}__mask';
+$content: '#{$root}__content';
+
+$content-border-radius: border-radius('lg');
+$position-transform-diff: 100%;
+
+.#{$root} {
+  position: fixed;
+  width: 0;
+  height: 0;
+  left: 0;
+  top: 0;
+  z-index: z-index('interact');
+  pointer-events: none;
+
+  @keyframes #{$root}-mask-appear {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: opacity('mask');
+    }
+  }
+
+  @keyframes #{$root}-mask-hide {
+    0% {
+      opacity: opacity('mask');
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .#{$mask} {
+    background: semantic-color('mask');
+    position: fixed;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    z-index: z-index('bg');
+  }
+
+  &--use-animation {
+    .#{$mask} {
+      animation: #{$root}-mask-hide animation-time() ease-out forwards;
+    }
+
+    &.#{$root}--visible {
+      .#{$mask} {
+        animation: #{$root}-mask-appear animation-time() ease-out forwards;
+      }
+    }
+  }
+
+  &--visible {
+    pointer-events: auto;
+  }
+
+  .#{$content} {
+    position: fixed;
+    opacity: 0;
+    height: fit-content;
+  }
+
+  &--top,
+  &--bottom {
+    .#{$content} {
+      width: 100%;
+      height: fit-content;
+    }
+  }
+
+  &--left,
+  &--right {
+    .#{$content} {
+      height: 100%;
+      width: fit-content;
+    }
+  }
+
+  @mixin mix-animation($position, $hide, $appear, $hide-opacity: 1) {
+    @keyframes #{$root}-#{$position}-appear {
+      0% {
+        opacity: $hide-opacity;
+        transform: $hide;
+      }
+
+      100% {
+        opacity: 1;
+        transform: $appear;
+      }
+    }
+
+    @keyframes #{$root}-#{$position}-hide {
+      0% {
+        opacity: 1;
+        transform: $appear;
+      }
+
+      100% {
+        opacity: $hide-opacity;
+        transform: $hide;
+      }
+    }
+
+    .#{$content} {
+      animation: #{$root}-#{$position}-hide animation-time() timing-function() forwards;
+    }
+
+    &.#{$root}--visible .#{$content} {
+      animation: #{$root}-#{$position}-appear animation-time() timing-function() forwards;
+    }
+  }
+
+  &--center {
+    &.#{$root}--use-animation {
+      $from: translateX(-50%) translateY(calc(-50%)) scale(0.5);
+      $to: translateX(-50%) translateY(-50%) scale(1);
+
+      @include mix-animation('center', $from, $to, 0);
+    }
+
+    .#{$content} {
+      top: 50%;
+      left: 50%;
+    }
+  }
+
+  &--bottom {
+    &.#{$root}--use-animation {
+      $from: translateY($position-transform-diff);
+      $to: translateY(0);
+
+      @include mix-animation('bottom', $from, $to);
+    }
+
+    .#{$content} {
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  &--top {
+    &.#{$root}--use-animation {
+      $from: translateY(-$position-transform-diff);
+      $to: translateY(0);
+
+      @include mix-animation('top', $from, $to);
+    }
+
+    .#{$content} {
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &--left {
+    &.#{$root}--use-animation {
+      $from: translateX(-$position-transform-diff);
+      $to: translateX(0);
+
+      @include mix-animation('left', $from, $to);
+    }
+
+    .#{$content} {
+      left: 0;
+      top: 0;
+    }
+  }
+
+  &--right {
+    &.#{$root}--use-animation {
+      $from: translateX($position-transform-diff);
+      $to: translateX(0);
+
+      @include mix-animation('right', $from, $to);
+    }
+
+    .#{$content} {
+      right: 0;
+      top: 0;
+    }
+  }
+}

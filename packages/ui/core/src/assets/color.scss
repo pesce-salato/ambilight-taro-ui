@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use 'sass:list';
+
 @import './name.scss';
 @import './helper.scss';
 @import './color-palette.scss';
@@ -23,4 +26,27 @@ $_colors-map: (
   $match-color: _get-safe-map-value($match-gradation-map, '#{$gradation}');
 
   @return var(#{_get-property-css-var-name('color', '#{$color}-#{$gradation}')}, #{$match-color});
+}
+
+$_semantic_color_map: (
+  'brand': color-palette('purple', '500'),
+  'success': color-palette('green', '500'),
+  'error': color-palette('pink', '500'),
+  'shadow': color-palette('black', '200'),
+  'font-primary': color-palette('gray', '700'),
+  'font-primary-reverse': color-palette('extreme', 'white'),
+  'font-secondary': color-palette('gray', '500'),
+  'font-assist': color-palette('gray', '400'),
+  'mask': color-palette('black', '500'),
+  'divider': color-palette('black', '200'),
+  'bg-brand': color-palette('purple', '100'),
+  'bg': color-palette('extreme', 'white'),
+  'bg-with-opacity': color-palette('white', '700'),
+  'bg-middle': color-palette('black', '100'),
+  'bg-reverse': color-palette('gray', '600'),
+  'bg-reverse-with-opacity': color-palette('black', '700'),
+);
+
+@function semantic-color($key) {
+  @return var(#{_get-property-css-var-name('semantic-color', '#{$key}')}, #{_get-safe-map-value($_semantic_color_map, $key)});
 }

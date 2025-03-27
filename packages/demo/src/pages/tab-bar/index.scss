@@ -1,0 +1,72 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-tab-bar {
+  color: semantic-color('font-primary');
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+
+  &__content {
+    flex: 1;
+  }
+
+  &__tab-bar {
+    position: relative;
+
+    .al-v1-tab-bar__item {
+      font-size: size(48);
+    }
+
+    .al-v1-tab-bar__item:nth-child(2) {
+      font-size: size(60);
+    }
+
+    .al-v1-tab-bar__item:last-child .al-v1-tab-bar__icon-anchor {
+      transform: translateY(-6px);
+    }
+  }
+
+  &__text-icon {
+
+    font-weight: bold;
+    padding-top: size(8);
+    font-family: al-slogan, 'Courier New', Courier, monospace;
+
+    &--active {
+      color: semantic-color('brand');
+    }
+
+    &--inactive {
+      color: semantic-color('font-secondary');
+    }
+  }
+
+  &__custom-node {
+    font-size: 12px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 12px);
+    margin-left: 6px;
+    border-top: 1px solid transparent;
+    margin-top: -1px;
+
+    &--active {
+      border-top: 1px solid semantic-color('brand');
+
+      .page-tab-bar__custom-content {
+        background: semantic-color('bg-brand');
+        color: semantic-color('brand');
+      }
+    }
+  }
+
+  &__custom-content {
+    background: semantic-color('divider');
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+}

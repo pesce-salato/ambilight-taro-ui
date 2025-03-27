@@ -1,0 +1,37 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('progress');
+$height: 8;
+
+.#{$root} {
+
+  &--linear {
+    width: 100%;
+    height: size($height);
+    border-radius: size($height / 2);
+    overflow: hidden;
+    position: relative;
+    z-index: z-index('base');
+    background: semantic-color('bg-brand');
+  }
+
+
+  &--linear & {
+    &__bar {
+      height: 100%;
+      width: 100%;
+      border-radius: inherit;
+      background: semantic-color('brand');
+      position: absolute;
+      top: 0;
+      left: -100%;
+      transition: none;
+    }
+  }
+
+  &--linear#{&}--animate & {
+    &__bar {
+      transition: transform 0s ease-in-out;
+    }
+  }
+}

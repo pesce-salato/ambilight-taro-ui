@@ -1,0 +1,25 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-toast {
+  color: semantic-color('font-primary');
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__placeholder {
+    height: 520px;
+    background: color-palette('black', 50);
+    border-radius: border-radius('md');
+    margin: 0 8px;
+    font-size: font-size('comment');
+    justify-content: center;
+    display: flex;
+    padding-top: 48px;
+  }
+}

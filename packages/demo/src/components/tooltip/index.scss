@@ -1,0 +1,10 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+.tooltip {
+  background: color-palette('black', 50);
+  border-radius: border-radius('md');
+  font-size: font-size('comment');
+  color: semantic-color('font-primary');
+  padding: 8px 6px;
+  margin: 8px;
+}

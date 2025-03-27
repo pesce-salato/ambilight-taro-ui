@@ -28,30 +28,39 @@
   @return $result;
 }
 
-@mixin mix-map-atomic-class($map, $property, $css-var-getter, $paths: []) {
-  @each $key in map.keys($map){
-    $value: map.get($map, $key);
-    $current-paths: list.append($paths, $key);
+@mixin mix-overflow-ellipsis($line-clamp: 1) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
-    @if type-of($value) == 'map' {
-      @include mix-map-atomic-class(
-          $value,
-          $property,
-          $css-var-getter,
-          $current-paths
-      )
-    }
+  /* autoprefixer: ignore next */
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  white-space: normal !important;
 
-    @else {
-      $class-name: $property;
+  @if ($line-clamp >= 1) {
+    -webkit-line-clamp: $line-clamp;
+  }
 
-      @each $path in $current-paths {
-        $class-name: '#{$class-name}-#{$path}',
-      }
-
-      .#{_get-property-atomic-class-name($class-name)} {
-        #{$property}: meta.call(meta.get-function($css-var-getter), $current-paths...)
-      }
-    }
+  @else {
+    @error 'Use line-clamp is not valid,it should be >= 1';
   }
 }
+
+@mixin mix-hide-scrollbar{
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+    display: none;
+  }
+}
+
+@function safe-area-inset-bottom-vars() {
+  @return (constant(safe-area-inset-bottom),env(safe-area-inset-bottom));
+}
+
+@function safe-area-inset-top-vars() {
+  @return (constant(safe-area-inset-top),env(safe-area-inset-top));
+}
+

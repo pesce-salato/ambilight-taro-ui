@@ -1,0 +1,150 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('tab-bar');
+$item: #{$root}__item;
+$titleWrapper: #{$root}__title-wrapper;
+$iconWrapper: #{$root}__icon-wrapper;
+
+.#{$root} {
+  @each $var in safe-area-inset-bottom-vars() {
+    padding-bottom: $var;
+  }
+
+  background-color: semantic-color('bg');
+  border-top: size(1) solid semantic-color('divider');
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  z-index: z-index('interact');
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+  }
+
+  .#{$titleWrapper}
+  {
+    @include mix-font('assist');
+
+    color: semantic-color('font-secondary');
+    margin-top: size(8);
+  }
+
+  &__icon-anchor {
+    width: size(48);
+    height: size(48);
+    position: relative;
+    margin-top: size(8);
+  }
+
+  .#{$iconWrapper} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    &--active {
+      opacity: 0;
+    }
+
+    &--inactive {
+      opacity: 1;
+    }
+  }
+
+  .#{$item} {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+    &--active {
+      .#{$titleWrapper} {
+        color: semantic-color('brand');
+      }
+
+      .#{$iconWrapper} {
+        &--active {
+          opacity: 1;
+        }
+
+        &--inactive {
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  &--pop,
+  &--scale {
+    .#{$item}--active {
+      .#{$iconWrapper} {
+        transition: opacity animation-time() linear;
+      }
+
+      .#{$titleWrapper} {
+        transition: color animation-time() timing-function();
+      }
+    }
+  }
+
+  &--pop {
+    .#{$item}--active {
+      $keyframes-name: '#{$root}-pop-keyframes';
+
+      @keyframes #{$keyframes-name} {
+        0% {
+          transform: translateY(0) scale(1, 1);
+        }
+
+        40% {
+          transform: translateY(#{size(10)}) scale(1.151, 0.852);
+        }
+
+        70% {
+          transform: translateY(#{size(-4)}) scale(0.851, 1.152);
+        }
+
+        100% {
+          transform: translateY(0) scale(1, 1);
+        }
+      }
+
+      .#{$iconWrapper} {
+        animation: #{$keyframes-name} animation-time() timing-function() forwards;
+      }
+    }
+  }
+
+  &--scale {
+    .#{$item}--active {
+      $keyframes-name: '#{$root}-scale-keyframes';
+
+      @keyframes #{$keyframes-name} {
+        0% {
+          transform: scale(1, 1);
+        }
+
+        40% {
+          transform: scale(0.86, 0.86);
+        }
+
+        100% {
+          transform: scale(1, 1);
+        }
+      }
+
+      .#{$iconWrapper} {
+        animation: #{$keyframes-name} animation-time() timing-function() forwards;
+      }
+    }
+  }
+}

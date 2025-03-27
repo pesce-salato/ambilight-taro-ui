@@ -1,0 +1,20 @@
+@import '@ambilight-taro/core/lib/assets/index.scss';
+
+
+.page-dynamic-render-controller {
+  color: semantic-color('font-primary');
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__money {
+    font-size: font-size('comment');
+    background: semantic-color('bg-brand');
+    color: semantic-color('brand');
+    height: 36px;
+    display: flex;
+    align-items: center;
+    border-radius: border-radius('md');
+    padding: 0 6px;
+  }
+}

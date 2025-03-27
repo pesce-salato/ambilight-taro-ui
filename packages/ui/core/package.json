@@ -1,6 +1,6 @@
 {
   "name": "@ambilight-taro/core",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -9,11 +9,8 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:theme": "sass --style=compressed ./src/assets/theme.scss ./lib/theme.css",
-    "build:watch:theme": "sass --watch ./src/assets/theme.scss ./lib/theme.css",
-    "build:js": "rollup -c",
-    "build:js:watch": "rollup -cw",
-    "build": "npm run build:js && npm run build:theme"
+    "build": "rollup -c",
+    "build:watch": "rollup -cw"
   },
   "repository": {
     "type": "git",

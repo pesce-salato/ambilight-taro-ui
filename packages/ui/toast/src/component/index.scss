@@ -1,0 +1,123 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('toast');
+$anchor: '#{$root}__anchor';
+
+.#{$root} {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: z-index('interact');
+
+  $appear-animation-name: #{$root}-appear-keyframe;
+  $appear-diff: 64;
+
+  @keyframes #{$appear-animation-name}-from-bottom {
+    0% {
+      transform: translateX(-50%) translateY(#{size($appear-diff)});
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes #{$appear-animation-name}-from-center {
+    0% {
+      transform: translateX(-50%) translateY(#{size($appear-diff)});
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes #{$appear-animation-name}-from-top {
+    0% {
+      transform: translateX(-50%) translateY(#{size(-$appear-diff)});
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .#{$anchor} {
+    position: absolute;
+    left: 50%;
+    width: fit-content;
+  }
+
+  &__content {
+    width: fit-content;
+    padding: 0 size(32);
+    min-width: size(80);
+    box-sizing: border-box;
+    height: size(80);
+    border-radius: size(40);
+    box-shadow: 0 size(4) size(16) 0 semantic-color('shadow');
+    display: flex;
+    align-items: center;
+    background: semantic-color('bg-reverse');
+  }
+
+  &--bottom {
+    .#{$anchor} {
+      animation: #{$appear-animation-name}-from-bottom animation-time() timing-function() forwards;
+
+      @each $var in safe-area-inset-bottom-vars() {
+        bottom: calc(#{size(128)} + #{$var});
+      }
+    }
+  }
+
+  &--top {
+    .#{$anchor} {
+      animation: #{$appear-animation-name}-from-top animation-time() timing-function() forwards;
+
+      @each $var in safe-area-inset-top-vars() {
+        top: calc(#{size(64)} + #{$var});
+      }
+    }
+  }
+
+  &--center {
+    .#{$anchor} {
+      animation: #{$appear-animation-name}-from-center animation-time() timing-function() forwards;
+
+      top: 50%;
+    }
+  }
+
+  &__label {
+    @include mix-overflow-ellipsis(1);
+
+    max-width: size(480);
+    color: semantic-color('font-primary-reverse');
+    font-size: font-size('comment');
+  }
+
+  &__icon {
+    width: size(40);
+    height: size(40);
+    margin-right: size(14);
+
+    .#{with-prefix('icon')} {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &--blocking {
+    pointer-events: auto;
+  }
+}

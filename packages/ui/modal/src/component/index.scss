@@ -1,0 +1,29 @@
+@import 'pkg:@ambilight-taro/core';
+
+$root: with-prefix('modal');
+
+.#{$root} {
+  .#{with-prefix('popup')}__content {
+    background: semantic-color('bg');
+    border-radius: border-radius('lg');
+  }
+
+  &__close-button {
+    width: size(48);
+    height: size(48);
+    position: absolute;
+    top: size(24);
+    right: size(24);
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: size(96);
+    color: semantic-color('font-primary');
+    font-weight: bold;
+    font-size: font-size('super-headline');
+  }
+}
+

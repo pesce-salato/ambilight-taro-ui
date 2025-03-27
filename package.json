@@ -7,11 +7,13 @@
   "workspaces": [
     "./packages/build/*",
     "./packages/ui/*",
+    "./packages/hook/*",
     "./packages/demo"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create": "node ./scripts/create/index.js"
+    "create": "node ./scripts/create/index.js",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -24,15 +26,17 @@
   },
   "homepage": "https://github.com/pesce-salato/ambilight-taro-ui#readme",
   "devDependencies": {
-    "@tarojs/test-utils-react": "^0.1.1",
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
     "@types/jest": "^29.3.1",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
-    "@typescript-eslint/parser": "^6.10.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "chalk": "^5.3.0",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-taro": "3.6.19",
+    "eslint-import-resolver-typescript": "^3.8.3",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
@@ -40,6 +44,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-unicorn": "^49.0.0",
+    "husky": "^9.1.7",
     "inquirer": "^9.2.12",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.5.0",
